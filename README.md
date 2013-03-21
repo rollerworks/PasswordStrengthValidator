@@ -1,10 +1,19 @@
 RollerworksPasswordStrengthBundle
 =================================
 
-This bundle provides a password-strength validator for Symfony 2.
+This bundle provides a validator for ensuring strong passwords in Symfony2 applications.
+
+Passwords are validated using strength-levels (weak, medium, strong etc).
+
+If you want to use a more detailed configuration (pattern requirement), you can use the PasswordStrengthBundle
+provided by [John Bafford](https://github.com/jbafford/PasswordStrengthBundle).
+
+    You can use this bundle and the one provided by John Bafford side by side without any conflict.
+
+    Its however not recommended to use both the pattern-requirement and strength-level constraint
+    at the same property/method, as both provide similar functionality.
 
 ## (WIP)
-    Currently only length and strength level checking are supported.
     Checking the password against a weak/forbidden password database is planned.
 
 ## Installation
@@ -146,6 +155,8 @@ Congratulations! You're ready!
 
 ## Basic Usage
 
+### Strength validation
+
 You can use the ```Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrength```
 constraint with the following options.
 
@@ -168,3 +179,19 @@ The strengths are marked up as follow.
 *  3: Medium (at least one lower and capital and number)
 *  4: Strong (at least one lower and capital and number) (recommended for most usage)
 *  5: Very Strong (recommended for admin or finance related service)
+
+If you are using annotations for validation, include the constraints namespace:
+
+```php
+use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints as RollerworksPassword;
+```
+
+and then add the PasswordStrength validator to the relevant field:
+
+```php
+
+/**
+ * @RollerworksPassword\PasswordStrength(minLength=7, minStrength=3)
+ */
+protected $password;
+```
