@@ -5,8 +5,8 @@ This bundle provides a validator for ensuring strong passwords in Symfony2 appli
 
 Passwords are validated using strength-levels (weak, medium, strong etc).
 
-If you want to use a more detailed configuration (pattern requirement), you can use the PasswordStrengthBundle
-provided by [John Bafford](https://github.com/jbafford/PasswordStrengthBundle).
+If you want to use a more detailed configuration (pattern requirement),
+you can use the [PasswordStrengthBundle](https://github.com/jbafford/PasswordStrengthBundle) provided by John Bafford.
 
     You can use this bundle and the one provided by John Bafford side by side without any conflict.
 
