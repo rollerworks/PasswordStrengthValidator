@@ -14,6 +14,9 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
+/**
+ * {@inheritDoc}
+ */
 class Configuration implements ConfigurationInterface
 {
     /**
@@ -23,6 +26,33 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('rollerworks_password_strength');
+
+        $rootNode
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('blacklist')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('default_provider')->defaultValue('noop')->end()
+                        ->arrayNode('providers')
+                            ->children()
+                                ->arrayNode('sqlite')
+                                    ->children()
+                                        ->scalarNode('file')->defaultNull()->cannotBeEmpty()->end()
+                                        ->scalarNode('table_name')->defaultValue('blacklist_passwords')->cannotBeEmpty()->end()
+                                        ->scalarNode('field_name')->defaultValue('word')->cannotBeEmpty()->end()
+                                    ->end()
+                                ->end()
+                                ->arrayNode('chain')
+                                    ->children()
+                                        ->arrayNode('providers')->prototype('string')->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
 
         return $treeBuilder;
     }
