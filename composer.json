@@ -1,0 +1,22 @@
+{
+    "name":        "rollerworks/password-strength-bundle",
+    "description": "Password-strength validator for Symfony 2",
+    "keywords":    ["password","validator","symfony","bundle"],
+    "type":        "symfony-bundle",
+    "license":     "MIT",
+    "authors": [
+        {
+            "name":  "Sebastiaan Stok",
+            "email": "s.stok@rollercapes.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle": ">=2.1.0,<2.3-dev",
+        "symfony/validator":        ">=2.1.0,<2.3-dev"
+    },
+    "autoload": {
+        "psr-0": { "Rollerworks\\Bundle\\PasswordStrengthBundle": "" }
+    },
+    "target-dir": "Rollerworks/Bundle/PasswordStrengthBundle"
+}

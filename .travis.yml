@@ -1,0 +1,8 @@
+language: php
+
+before_script:
+  - COMPOSER_ROOT_VERSION=dev-master composer --dev install
+
+php:
+  - 5.3
+  - 5.4
