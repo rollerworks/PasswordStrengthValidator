@@ -1,0 +1,54 @@
+<?php
+
+/*
+ * This file is part of the RollerworksPasswordStrengthBundle.
+ *
+ * (c) Sebastiaan Stok <s.stok@rollerscapes.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Rollerworks\Bundle\PasswordStrengthBundle\Blacklist;
+
+/**
+ * Immutable Blacklist Provider Interface.
+ *
+ * Allows changing the blacklists state.
+ * This applies to a DB for example.
+ *
+ * @author Sebastiaan Stok <s.stok@rollerscapes.net>
+ */
+interface ImmutableBlacklistProviderInterface extends BlacklistProviderInterface
+{
+    /**
+     * Adds a word to the blacklist.
+     *
+     * @param string $password
+     *
+     * @return static
+     */
+    public function write($password);
+
+    /**
+     * Deletes a word from the blacklist.
+     *
+     * @param string $password
+     *
+     * @return static
+     */
+    public function delete($password);
+
+    /**
+     * Completely removes the blacklisted passwords.
+     */
+    public function purge();
+
+    /**
+     * Closes the list operation.
+     *
+     * This depends on the implementation.
+     * Use for closing either stream resource or database connection.
+     */
+    public function close();
+}
