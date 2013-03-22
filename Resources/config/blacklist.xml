@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="rollerworks_password_strength.blacklist.provider.noop.class">Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\NoopProvider</parameter>
+        <parameter key="rollerworks_password_strength.blacklist.provider.array.class">Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider</parameter>
         <parameter key="rollerworks_password_strength.blacklist.provider.sqlite.class">Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider</parameter>
         <parameter key="rollerworks_password_strength.blacklist.provider.chain.class">Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ChainProvider</parameter>
         <parameter key="rollerworks_password_strength.blacklist.validator.class">Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\BlacklistValidator</parameter>
@@ -13,6 +14,9 @@
 
     <services>
         <service id="rollerworks_password_strength.blacklist.provider.noop" class="%rollerworks_password_strength.blacklist.provider.noop.class%" public="false" />
+        <service id="rollerworks_password_strength.blacklist.provider.array" class="%rollerworks_password_strength.blacklist.provider.array.class%" public="false">
+            <argument>%rollerworks_password_strength.blacklist.array.list%</argument>
+        </service>
 
         <service id="rollerworks_password_strength.blacklist.provider.sqlite" class="%rollerworks_password_strength.blacklist.provider.sqlite.class%" public="false">
             <argument>%rollerworks_password_strength.blacklist.sqlite.file%</argument>
