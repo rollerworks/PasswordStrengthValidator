@@ -17,13 +17,13 @@ First you need to configure a blacklist provider.
 You can choose from:
 
 * rollerworks_password_strength.blacklist.provider.noop: Default implementation, always returns false.
-* [rollerworks_password_strength.blacklist.provider.array](#Array): In memory-array blacklist, not recommended for big lists.
-* [rollerworks_password_strength.blacklist.provider.sqlite](#Sqlite): SQLite3 database file, updatable using the rollerworks-password:blacklist:update console command
-* [rollerworks_password_strength.blacklist.provider.chain](#Chain): Allows using multiple
+* [rollerworks_password_strength.blacklist.provider.array](#array): In memory-array blacklist, not recommended for big lists.
+* [rollerworks_password_strength.blacklist.provider.sqlite](#sqlite): SQLite3 database file, updatable using the rollerworks-password:blacklist:update console command
+* [rollerworks_password_strength.blacklist.provider.chain](#chain): Allows using multiple
 
 Or create your own service.
 
-    Your blacklist provider must implement the ```Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\BlacklistProviderInterface```.
+    Your blacklist provider must implement the Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\BlacklistProviderInterface.
 
 Add the following to your config file:
 
@@ -87,9 +87,8 @@ rollerworks_password_strength:
             chain:
                 providers:
                     # Add a list of services to search in
-                    -
-                    # - rollerworks_password_strength.blacklist.provider.array
-                    # - rollerworks_password_strength.blacklist.provider.sqlite
+                    - rollerworks_password_strength.blacklist.provider.array
+                    - rollerworks_password_strength.blacklist.provider.sqlite
 
 ```
 
@@ -106,14 +105,14 @@ and then add the PasswordStrength validator to the relevant field:
 ```php
 
 /**
- * @RollerworksPassword\PasswordStrength(minLength=7, minStrength=3)
+ * @RollerworksPassword\BlackList()
  */
 protected $password;
 ```
 
 ## Updating the blacklist database (SQLite only)
 
-You can use the following app/console commands to a manage blacklist-database.
+You can use the following app/console commands to manage your blacklist-database.
 
 To add a new passwords to the blacklist:
 
@@ -146,5 +145,5 @@ $ app/console rollerworks-password:blacklist:purge
 To get started you can use the bad/leaked passwords databases provider by
 [Skull Security](http://www.skullsecurity.org/wiki/index.php/Passwords).
 
-    Its recommended to use at least the 500-worst-passwords database.
-    Especially when not enforcing strong passwords using the [PasswordStrengthValidator](strength-validation.md).
+Its recommended to use at least the 500-worst-passwords database.
+Especially when not enforcing strong passwords using the [PasswordStrengthValidator](strength-validation.md).
