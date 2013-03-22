@@ -47,6 +47,10 @@ class BlacklistValidator extends ConstraintValidator
             throw new UnexpectedTypeException($password, 'string');
         }
 
+        if (null === $password) {
+            return;
+        }
+
         if (true === $this->provider->isBlacklisted((string) $password)) {
             $this->context->addViolation($constraint->message, array(), $password);
         }
