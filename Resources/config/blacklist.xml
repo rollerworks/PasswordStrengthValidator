@@ -19,9 +19,7 @@
         </service>
 
         <service id="rollerworks_password_strength.blacklist.provider.sqlite" class="%rollerworks_password_strength.blacklist.provider.sqlite.class%" public="false">
-            <argument>%rollerworks_password_strength.blacklist.sqlite.file%</argument>
-            <argument>%rollerworks_password_strength.blacklist.sqlite.table%</argument>
-            <argument>%rollerworks_password_strength.blacklist.sqlite.field%</argument>
+            <argument>%rollerworks_password_strength.blacklist.sqlite.dsn%</argument>
         </service>
 
         <service id="rollerworks_password_strength.blacklist.provider.chain" class="%rollerworks_password_strength.blacklist.provider.chain.class%" public="false" />
