@@ -33,7 +33,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('blacklist')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('default_provider')->defaultValue('noop')->end()
+                        ->scalarNode('default_provider')->defaultValue('rollerworks_password_strength.blacklist.provider.noop')->end()
                         ->arrayNode('providers')
                             ->children()
                                 ->arrayNode('sqlite')
