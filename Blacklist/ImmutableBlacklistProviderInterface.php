@@ -38,12 +38,19 @@ interface ImmutableBlacklistProviderInterface extends BlacklistProviderInterface
     public function delete($password);
 
     /**
-     * Completely removes the blacklisted passwords.
+     * Returns an array or Traversable object with all the blacklisted passwords.
+     *
+     * @return array|\Traversable
+     */
+    public function all();
+
+    /**
+     * Deletes all the blacklisted passwords.
      */
     public function purge();
 
     /**
-     * Closes the list operation.
+     * Closes the list mutation-operation.
      *
      * This depends on the implementation.
      * Use for closing either stream resource or database connection.

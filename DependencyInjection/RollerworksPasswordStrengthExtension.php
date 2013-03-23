@@ -33,7 +33,8 @@ class RollerworksPasswordStrengthExtension extends Extension
         $container->setAlias('rollerworks_password_strength.blacklist_provider', $config['blacklist']['default_provider']);
 
         if (isset($config['blacklist']['providers']['sqlite'])) {
-           $container->setParameter('rollerworks_password_strength.blacklist.sqlite.dsn', $config['blacklist']['providers']['sqlite']['dsn']);
+            $container->setParameter('rollerworks_password_strength.blacklist.sqlite.dsn', $config['blacklist']['providers']['sqlite']['dsn']);
+            $container->getDefinition('rollerworks_password_strength.blacklist.provider.sqlite')->setPublic(true);
         }
 
         if (isset($config['blacklist']['providers']['chain'])) {

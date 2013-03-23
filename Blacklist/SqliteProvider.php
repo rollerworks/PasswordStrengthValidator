@@ -22,6 +22,20 @@ class SqliteProvider extends PdoProvider
     /**
      * {@inheritdoc}
      */
+    public function all()
+    {
+        $db = $this->initDb();
+
+        if ($db instanceof \SQLite3) {
+            return $this->fetch($db, 'SELECT passwd FROM rollerworks_passdbl');
+        }
+
+        return $this->exec($db, 'SELECT passwd FROM rollerworks_passdbl');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function close($db)
     {
         if ($db instanceof \SQLite3) {

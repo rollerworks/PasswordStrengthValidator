@@ -46,6 +46,10 @@ abstract class PdoProvider implements ImmutableBlacklistProviderInterface
             throw new \InvalidArgumentException('Only scalar values are accepted.');
         }
 
+        if ('' == $password) {
+            return -1;
+        }
+
         $db = $this->initDb();
         $args = array(
             ':password' => $password,
@@ -101,6 +105,16 @@ abstract class PdoProvider implements ImmutableBlacklistProviderInterface
     /**
      * {@inheritdoc}
      */
+    public function all()
+    {
+        $db = $this->initDb();
+
+        return $this->exec($db, 'SELECT passwd FROM rollerworks_passdbl');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function purge()
     {
         $db = $this->initDb();
@@ -150,6 +164,13 @@ abstract class PdoProvider implements ImmutableBlacklistProviderInterface
         return $return;
     }
 
+    /**
+     * @param object $db
+     * @param string $query
+     * @param array  $args
+     *
+     * @throws \RuntimeException
+     */
     protected function exec($db, $query, array $args = array())
     {
         $stmt = $this->prepareStatement($db, $query);
@@ -165,10 +186,11 @@ abstract class PdoProvider implements ImmutableBlacklistProviderInterface
     }
 
     /**
-     * @param $db
-     * @param $query
+     * @param object $db
+     * @param string $query
      *
-     * @return bool
+     * @return boolean|\PDOStatement|\SQLite3Stmt
+     *
      * @throws \RuntimeException
      */
     protected function prepareStatement($db, $query)
