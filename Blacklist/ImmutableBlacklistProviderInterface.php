@@ -26,16 +26,14 @@ interface ImmutableBlacklistProviderInterface extends BlacklistProviderInterface
      *
      * @param string $password
      *
-     * @return static
+     * @return boolean|integer Returns true on success, false on error and -1 when already existent
      */
-    public function write($password);
+    public function add($password);
 
     /**
      * Deletes a word from the blacklist.
      *
      * @param string $password
-     *
-     * @return static
      */
     public function delete($password);
 
@@ -50,5 +48,5 @@ interface ImmutableBlacklistProviderInterface extends BlacklistProviderInterface
      * This depends on the implementation.
      * Use for closing either stream resource or database connection.
      */
-    public function close();
+    public function close($db);
 }

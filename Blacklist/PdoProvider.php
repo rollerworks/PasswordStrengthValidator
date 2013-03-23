@@ -16,7 +16,7 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Blacklist;
  *
  * @author Sebastiaan Stok <s.stok@rollerscapes.net>
  */
-class PdoProvider implements ImmutableBlacklistProviderInterface
+abstract class PdoProvider implements ImmutableBlacklistProviderInterface
 {
     protected $dsn;
     protected $username;
@@ -40,8 +40,12 @@ class PdoProvider implements ImmutableBlacklistProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function write($password)
+    public function add($password)
     {
+        if (!is_scalar($password)) {
+            throw new \InvalidArgumentException('Only scalar values are accepted.');
+        }
+
         $db = $this->initDb();
         $args = array(
             ':password' => $password,
@@ -49,15 +53,47 @@ class PdoProvider implements ImmutableBlacklistProviderInterface
         );
 
         try {
-            if (!$this->isBlacklisted($password)) {
-                $this->exec($db, 'INSERT INTO rollerworks_passwd_blacklist (passwd, created_at) VALUES (:password, :created_at)', $args);
+            if ($this->isBlacklisted($password)) {
+                $status = -1;
+            } else {
+                $this->exec($db, 'INSERT INTO rollerworks_passdbl (passwd, created_at) VALUES (:password, :created_at)', $args);
+                $status = true;
             }
+        } catch (\Exception $e) {
+            $status = false;
+        }
+
+        if (!$status) {
+            $this->close($db);
+        }
+
+        return $status;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete($password)
+    {
+        if (!is_scalar($password)) {
+            throw new \InvalidArgumentException('Only scalar values are accepted.');
+        }
+
+        $db = $this->initDb();
+        $args = array(
+            ':password' => $password,
+        );
+
+        try {
+            $this->exec($db, 'DELETE FROM rollerworks_passdbl WHERE passwd = :password', $args);
             $status = true;
         } catch (\Exception $e) {
             $status = false;
         }
 
-        $this->close($db);
+        if (!$status) {
+            $this->close($db);
+        }
 
         return $status;
     }
@@ -68,7 +104,7 @@ class PdoProvider implements ImmutableBlacklistProviderInterface
     public function purge()
     {
         $db = $this->initDb();
-        $this->exec($db, 'DELETE FROM rollerworks_passwd_blacklist');
+        $this->exec($db, 'DELETE FROM rollerworks_passdbl');
         $this->close($db);
     }
 
@@ -77,9 +113,12 @@ class PdoProvider implements ImmutableBlacklistProviderInterface
      */
     public function isBlacklisted($password)
     {
+        if (!is_scalar($password)) {
+            throw new \InvalidArgumentException('Only scalar values are accepted.');
+        }
+
         $db = $this->initDb();
-        $tokenExists = $this->fetch($db, 'SELECT 1 FROM rollerworks_passwd_blacklist WHERE passwd = :password LIMIT 1', array(':password' => $password));
-        $this->close($db);
+        $tokenExists = $this->fetch($db, 'SELECT 1 FROM rollerworks_passdbl WHERE passwd = :password LIMIT 1', array(':password' => $password));
 
         return !empty($tokenExists);
     }
@@ -90,6 +129,26 @@ class PdoProvider implements ImmutableBlacklistProviderInterface
      * @throws \RuntimeException When the requested database driver is not installed
      */
     abstract protected function initDb();
+
+    /**
+     * @param object $db
+     * @param string $query
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    protected function fetch($db, $query, array $args = array())
+    {
+        $stmt = $this->prepareStatement($db, $query);
+
+        foreach ($args as $arg => $val) {
+            $stmt->bindValue($arg, $val, is_int($val) ? \PDO::PARAM_INT : \PDO::PARAM_STR);
+        }
+        $stmt->execute();
+        $return = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $return;
+    }
 
     protected function exec($db, $query, array $args = array())
     {
@@ -105,6 +164,13 @@ class PdoProvider implements ImmutableBlacklistProviderInterface
         }
     }
 
+    /**
+     * @param $db
+     * @param $query
+     *
+     * @return bool
+     * @throws \RuntimeException
+     */
     protected function prepareStatement($db, $query)
     {
         try {

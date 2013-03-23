@@ -114,7 +114,7 @@ protected $password;
 
 You can use the following app/console commands to manage your blacklist-database.
 
-To add a new passwords to the blacklist:
+To add new passwords to the blacklist:
 
 ```batch
 $ app/console rollerworks-password:blacklist:update password password2 "this pass word has spaces"

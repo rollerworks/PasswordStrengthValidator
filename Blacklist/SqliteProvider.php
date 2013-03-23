@@ -26,6 +26,7 @@ class SqliteProvider extends PdoProvider
     {
         if ($db instanceof \SQLite3) {
             $db->close();
+            $this->db = null;
         }
     }
 
@@ -51,8 +52,8 @@ class SqliteProvider extends PdoProvider
             }
 
             $db->exec('PRAGMA temp_store=MEMORY; PRAGMA journal_mode=MEMORY;');
-            $db->exec('CREATE TABLE IF NOT EXISTS rollerworks_passwd_blacklist (passwd STRING, created_at INTEGER)');
-            $db->exec('CREATE UNIQUE INDEX IF NOT EXISTS passwd_idx ON rollerworks_passwd_blacklist (passwd)');
+            $db->exec('CREATE TABLE IF NOT EXISTS rollerworks_passdbl (passwd STRING, created_at INTEGER)');
+            $db->exec('CREATE UNIQUE INDEX IF NOT EXISTS passwd_idx ON rollerworks_passdbl (passwd)');
 
             $this->db = $db;
         }
