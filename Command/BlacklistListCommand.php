@@ -14,7 +14,6 @@ class BlacklistListCommand extends BlacklistCommand
     {
         $this
             ->setName('rollerworks-password:blacklist:list')->setDescription('lists all blacklisted passwords from the database')
-            //->addOption('file', null, null, 'Text file to export to, every line is considered one word')
         ;
     }
 

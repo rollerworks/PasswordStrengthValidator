@@ -140,6 +140,14 @@ To remove the database completely (warning this will remove all the blacklisted 
 $ app/console rollerworks-password:blacklist:purge
 ```
 
+To export the database, this will display all the blacklisted passwords (per line).
+
+You can then forward the result to text file.
+
+```batch
+$ app/console rollerworks-password:blacklist:list > /tmp/exported-blacklist.txt
+```
+
 ## Existing blacklists
 
 To get started you can use the bad/leaked passwords databases provider by
