@@ -152,11 +152,11 @@ Congratulations! You're ready!
 
 ## Basic Usage
 
-### [Strength validation](./Resources/doc/strength-validation.md)
+### [Strength validation](https://github.com/rollerworks/PasswordStrengthBundle/blob/master/Resources/doc/Resources/doc/strength-validation.md)
 
 Validates the passwords strength-level (weak, medium, strong etc).
 
-### [Password blacklisting](./Resources/doc/Resources/doc/blacklist.md)
+### [Password blacklisting](https://github.com/rollerworks/PasswordStrengthBundle/blob/master/Resources/doc/Resources/doc/blacklist.md)
 
 There are times you want forbid (blacklist) a password from usage.
 
