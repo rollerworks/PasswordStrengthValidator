@@ -156,7 +156,7 @@ Congratulations! You're ready!
 
 Validates the passwords strength-level (weak, medium, strong etc).
 
-### [Password blacklisting](Resources/doc/blacklist.md)
+### [Password blacklisting](Resources/doc/Resources/doc/blacklist.md)
 
 There are times you want forbid (blacklist) a password from usage.
 
