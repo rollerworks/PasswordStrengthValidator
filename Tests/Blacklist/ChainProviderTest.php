@@ -2,8 +2,8 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Blacklist;
 
-use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ChainProvider;
 use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider;
+use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ChainProvider;
 
 class ChainProviderTest extends \PHPUnit_Framework_TestCase
 {

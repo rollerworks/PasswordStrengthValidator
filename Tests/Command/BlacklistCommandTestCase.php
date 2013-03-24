@@ -2,10 +2,8 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Command;
 
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\DependencyInjection\Container;
 use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider;
+use Symfony\Component\DependencyInjection\Container;
 
 abstract class BlacklistCommandTestCase extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +22,7 @@ abstract class BlacklistCommandTestCase extends \PHPUnit_Framework_TestCase
             @unlink(self::$dbFile);
         }
 
-        $sqliteProvider = new SqliteProvider('sqlite:'.self::$dbFile);
+        $sqliteProvider = new SqliteProvider('sqlite:' . self::$dbFile);
 
         self::$container = new Container();
         self::$container->set('rollerworks_password_strength.blacklist.provider.sqlite', $sqliteProvider);
