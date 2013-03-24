@@ -15,7 +15,7 @@
     <services>
         <service id="rollerworks_password_strength.blacklist.provider.noop" class="%rollerworks_password_strength.blacklist.provider.noop.class%" public="false" />
         <service id="rollerworks_password_strength.blacklist.provider.array" class="%rollerworks_password_strength.blacklist.provider.array.class%" public="false">
-            <argument>%rollerworks_password_strength.blacklist.array.list%</argument>
+            <argument type="collection" />
         </service>
 
         <service id="rollerworks_password_strength.blacklist.provider.sqlite" class="%rollerworks_password_strength.blacklist.provider.sqlite.class%" public="false">
