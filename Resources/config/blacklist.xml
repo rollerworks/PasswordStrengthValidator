@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="rollerworks_password_strength.blacklist.provider.noop.class">Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\NoopProvider</parameter>
+        <parameter key="rollerworks_password_strength.blacklist.provider.array.class">Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider</parameter>
+        <parameter key="rollerworks_password_strength.blacklist.provider.sqlite.class">Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider</parameter>
+        <parameter key="rollerworks_password_strength.blacklist.provider.chain.class">Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ChainProvider</parameter>
+        <parameter key="rollerworks_password_strength.blacklist.validator.class">Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\BlacklistValidator</parameter>
+    </parameters>
+
+    <services>
+        <service id="rollerworks_password_strength.blacklist.provider.noop" class="%rollerworks_password_strength.blacklist.provider.noop.class%" public="false" />
+        <service id="rollerworks_password_strength.blacklist.provider.array" class="%rollerworks_password_strength.blacklist.provider.array.class%" public="false">
+            <argument type="collection" />
+        </service>
+
+        <service id="rollerworks_password_strength.blacklist.provider.sqlite" class="%rollerworks_password_strength.blacklist.provider.sqlite.class%" public="false">
+            <argument>%rollerworks_password_strength.blacklist.sqlite.dsn%</argument>
+        </service>
+
+        <service id="rollerworks_password_strength.blacklist.provider.chain" class="%rollerworks_password_strength.blacklist.provider.chain.class%" public="false" />
+
+        <service id="rollerworks_password_strength.blacklist.validator" class="%rollerworks_password_strength.blacklist.validator.class%">
+            <argument>%rollerworks_password_strength.blacklist_provider%</argument>
+        </service>
+
+    </services>
+</container>
