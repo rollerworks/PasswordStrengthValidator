@@ -30,6 +30,9 @@ class RollerworksPasswordStrengthExtension extends Extension
         $configuration = new Configuration();
         $config        = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('rollerworks_password_strength.blacklist_provider', $config['blacklist']['default_provider']);
+        $container->setParameter('rollerworks_password_strength.blacklist.sqlite.dsn', '');
+
         $container->setAlias('rollerworks_password_strength.blacklist_provider', $config['blacklist']['default_provider']);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
