@@ -2,14 +2,37 @@ before_commands:
     - composer install --dev
 
 tools:
-    php_cs_fixer: true
-    php_cpd: true
+    php_cs_fixer:
+        enabled: true
+        filter:
+            paths: ["src/", "tests/"]
+
+    php_cpd:
+        enabled: true
+        excluded_dirs: ["vendor/", "tests/", "docs/"]
+
+    php_loc:
+        enabled: true
+        excluded_dirs: ["vendor/", "tests/", "docs/"]
+
     php_code_coverage: true
+        filter:
+            paths: ["src/*", "tests/*"]
+
     php_code_sniffer:
+        enabled: true
         config:
             standard: PSR2
-    php_mess_detector: true
+        filter:
+            excluded_paths: ["*/Tests/*","*/Resources/doc/*","*/vendor/*"]
+
+    php_mess_detector:
+        enabled: true
+        filter:
+            paths: ["src/*", "tests/*"]
+
     php_analyzer:
         filter:
             excluded_paths: ["*/Tests/*","*/Resources/doc/*","*/vendor/*"]
+
     sensiolabs_security_checker: true

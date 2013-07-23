@@ -9,27 +9,21 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="./Tests/bootstrap.php"
+         bootstrap="./tests/bootstrap.php"
         >
     <testsuites>
         <testsuite name="RollerworksPasswordStrengthBundle Test Suite">
-            <directory>./Tests/</directory>
+            <directory>./tests/Rollerworks/Bundle/PasswordStrengthBundle/Tests/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>./</directory>
-            <exclude>
-                <directory>./Resources</directory>
-                <directory>./vendor</directory>
-                <directory>./Tests/</directory>
-            </exclude>
+            <directory>./src</directory>
         </whitelist>
     </filter>
 
     <php>
         <ini name="mbstring.internal_encoding" value="UTF-8"/>
     </php>
-
 </phpunit>
