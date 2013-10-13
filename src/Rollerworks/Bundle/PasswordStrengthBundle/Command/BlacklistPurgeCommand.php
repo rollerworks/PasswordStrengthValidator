@@ -5,7 +5,6 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider;
 
 class BlacklistPurgeCommand extends BlacklistCommand
 {
