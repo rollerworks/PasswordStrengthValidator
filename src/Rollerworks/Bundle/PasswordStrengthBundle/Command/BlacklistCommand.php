@@ -3,8 +3,6 @@
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 abstract class BlacklistCommand extends ContainerAwareCommand
 {

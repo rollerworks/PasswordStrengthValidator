@@ -1,26 +1,4 @@
-# Numerous always-ignore extensions
-*.diff
-*.err
-*.orig
-*.log
-*.rej
-*.swo
-*.swp
-*.vi
-*~
-
-# OS or Editor folders
-.DS_Store
-Thumbs.db
-.tmproj
-*.esproj
-nbproject
-*.sublime-project
-*.sublime-workspace
 phpunit.xml
-
-# Composer
 composer.lock
 composer.phar
-autoload.php
 /vendor/
