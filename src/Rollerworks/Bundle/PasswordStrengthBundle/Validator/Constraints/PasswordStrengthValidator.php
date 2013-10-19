@@ -43,6 +43,10 @@ class PasswordStrengthValidator extends ConstraintValidator
      */
     public function validate($password, Constraint $constraint)
     {
+        if (null === $password || '' === $password) {
+            return;
+        }
+
         if (null !== $password && !is_scalar($password) && !(is_object($password) && method_exists($password, '__toString'))) {
             throw new UnexpectedTypeException($password, 'string');
         }
