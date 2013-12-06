@@ -45,6 +45,8 @@ class SqliteProvider extends PdoProvider
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @throws \RuntimeException When neither of SQLite3 or PDO_SQLite extension is enabled
      */
     protected function initDb()
@@ -75,6 +77,9 @@ class SqliteProvider extends PdoProvider
         return $this->db;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function exec($db, $query, array $args = array())
     {
         if ($db instanceof \SQLite3) {
@@ -93,6 +98,9 @@ class SqliteProvider extends PdoProvider
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function fetch($db, $query, array $args = array())
     {
         $return = array();
