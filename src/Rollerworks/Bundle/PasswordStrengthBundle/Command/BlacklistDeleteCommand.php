@@ -70,22 +70,18 @@ class BlacklistDeleteCommand extends BlacklistCommand
      */
     protected function readFromFile(SqliteProvider $service, $filename)
     {
-        ini_set('auto_detect_line_endings', true);
-
-        if (!($file = fopen($filename, 'r'))) {
-            return 0;
-        }
-
+        $file = new \SplFileObject($filename, 'r');
         $count = 0;
 
-        while (!feof($file)) {
-            $password = trim(fgets($file), "\n\r");
+        foreach ($file as $password) {
+            $password = trim($password, "\n\r");
             if ($service->isBlacklisted($password) && true === $service->delete($password)) {
                 $count++;
             }
         }
 
-        @fclose($file);
+        // close file object
+        $file = null;
 
         return $count;
     }
