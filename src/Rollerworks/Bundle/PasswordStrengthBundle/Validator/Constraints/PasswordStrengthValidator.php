@@ -33,8 +33,6 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  *
  * @author Sebastiaan Stok <s.stok@rollerscapes.net>
  * @author Shouvik Chatterjee <mailme@shouvik.net>
- *
- * @todo Check for long passwords consisting of only repeated characters like 1234567910
  */
 class PasswordStrengthValidator extends ConstraintValidator
 {
