@@ -56,86 +56,9 @@ $bundles = array(
 );
 ```
 
-### Step 1 (alternative): Using ``deps`` file (Symfony 2.0.x)
+### Step2: Enable the bundle
 
-First, checkout a copy of the code. Just add the following to the ``deps``
-file of your Symfony Standard Distribution:
-
-```ini
-[RollerworksPasswordStrengthBundle]
-    git=https://github.com/rollerworks/PasswordStrengthBundle.git
-    target=/bundles/Rollerworks/Bundle/PasswordStrengthBundle
-```
-
-**NOTE**: You can add `version` tag in the snippet above with the latest stable
-branch, for example ``version=origin/1.0``.
-
-Then register the bundle with your kernel:
-
-```php
-<?php
-
-// in AppKernel::registerBundles()
-$bundles = array(
-    // ...
-    new Rollerworks\Bundle\PasswordStrengthBundle\RollerworksPasswordStrengthBundle(),
-    // ...
-);
-```
-
-Make sure that you also register the namespace with the autoloader:
-
-```php
-<?php
-
-// app/autoload.php
-$loader->registerNamespaces(array(
-    // ...
-    'Rollerworks'              => __DIR__.'/../vendor/bundles',
-    // ...
-));
-```
-
-Now use the ``vendors`` script to clone the newly added repositories
-into your project:
-
-```bash
-$ php bin/vendors install
-```
-
-### Step 1 (alternative): Using submodules (Symfony 2.0.x)
-
-If you're managing your vendor libraries with submodules, first create the
-`vendor/bundles/Rollerworks/Bundle` directory:
-
-``` bash
-$ mkdir -pv vendor/bundles/Rollerworks/Bundle
-```
-
-Next, add the necessary submodule:
-
-``` bash
-$ git submodule add git://github.com/rollerworks/PasswordStrengthBundle.git vendor/bundles/Rollerworks/Bundle/PasswordStrengthBundle
-```
-
-### Step2: Configure the autoloader
-
-Add the following entry to your autoloader:
-
-``` php
-<?php
-// app/autoload.php
-
-$loader->registerNamespaces(array(
-    // ...
-    'Rollerworks'              => __DIR__.'/../vendor/bundles',
-    // ...
-));
-```
-
-### Step3: Enable the bundle
-
-Finally, enable the bundle in the kernel:
+Enable the bundle in the kernel:
 
 ``` php
 <?php
