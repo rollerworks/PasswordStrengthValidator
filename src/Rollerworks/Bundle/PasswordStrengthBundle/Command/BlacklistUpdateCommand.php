@@ -57,26 +57,22 @@ class BlacklistUpdateCommand extends BlacklistCommand
      * @param SqliteProvider $service
      * @param string         $filename
      *
-     * @return int
+     * @return integer
      */
     protected function importFromFile(SqliteProvider $service, $filename)
     {
-        ini_set('auto_detect_line_endings', true);
-
-        if (!($file = fopen($filename, 'r'))) {
-            return 0;
-        }
-
+        $file = new \SplFileObject($filename, 'r');
         $count = 0;
 
-        while (!feof($file)) {
-            $password = trim(fgets($file), "\n\r");
+        foreach ($file as $password) {
+            $password = trim($password, "\n\r");
             if (true === $service->add($password)) {
                 $count++;
             }
         }
 
-        @fclose($file);
+        // close file object
+        $file = null;
 
         return $count;
     }
