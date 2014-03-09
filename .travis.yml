@@ -8,6 +8,8 @@ env:
     - SYMFONY_VERSION="2.5.*"
 
 before_script:
+  - COMPOSER_ROOT_VERSION=dev-master
+  - composer self-update
   - composer require symfony/symfony:${SYMFONY_VERSION} --no-update
   - composer install --dev
 
