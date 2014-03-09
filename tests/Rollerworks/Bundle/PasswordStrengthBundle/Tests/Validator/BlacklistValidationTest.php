@@ -15,7 +15,7 @@ use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\Blacklist;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\BlacklistValidator;
 use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider;
 
-class BlackListValidationTest extends \PHPUnit_Framework_TestCase
+class BlacklistValidationTest extends \PHPUnit_Framework_TestCase
 {
     protected $walker;
 
