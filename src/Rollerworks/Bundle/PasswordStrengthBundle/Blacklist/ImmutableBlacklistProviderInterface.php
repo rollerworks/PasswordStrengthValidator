@@ -18,6 +18,9 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Blacklist;
  * This applies to a DB for example.
  *
  * @author Sebastiaan Stok <s.stok@rollerscapes.net>
+ *
+ * @deprecated This class is deprecated and will be removed in version 2.0
+ *  use the UpdatableBlacklistProviderInterface instead.
  */
 interface ImmutableBlacklistProviderInterface extends BlacklistProviderInterface
 {
