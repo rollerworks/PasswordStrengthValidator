@@ -1,12 +1,12 @@
 <?php
 
-/*
+/**
  * This file is part of the RollerworksPasswordStrengthBundle package.
  *
- * (c) Sebastiaan Stok <s.stok@rollerscapes.net>
+ * (c) 2012-2014 Sebastiaan Stok <s.stok@rollerscapes.net>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 use Composer\Autoload\ClassLoader;
