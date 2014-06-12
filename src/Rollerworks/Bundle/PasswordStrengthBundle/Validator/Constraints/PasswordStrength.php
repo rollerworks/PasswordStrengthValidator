@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class PasswordStrength extends Constraint
 {
-    public $message = 'password_to_weak';
+    public $message = 'password_too_weak';
     public $minLength = 6;
     public $minStrength;
 
