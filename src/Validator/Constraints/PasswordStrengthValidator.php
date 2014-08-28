@@ -37,7 +37,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class PasswordStrengthValidator extends ConstraintValidator
 {
     /**
-     * {@inheritDoc}
+     * @param string                      $password
+     * @param PasswordStrength|Constraint $constraint
      */
     public function validate($password, Constraint $constraint)
     {
