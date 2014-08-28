@@ -1,11 +1,10 @@
 language: php
 
 env:
-    - SYMFONY_VERSION="2.1.*"
-    - SYMFONY_VERSION="2.2.*"
-    - SYMFONY_VERSION="2.3.*"
-    - SYMFONY_VERSION="2.4.*"
+    - SYMFONY_VERSION="2.3.*,>2.3.18"
+    - SYMFONY_VERSION="2.4.*,>2.4.8"
     - SYMFONY_VERSION="2.5.*"
+    - SYMFONY_VERSION="2.6.*"
 
 before_script:
   - COMPOSER_ROOT_VERSION=dev-master
