@@ -49,6 +49,14 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
         $this->validator->validate(null, new PasswordStrength(6));
     }
 
+    public function testEmptyIsValid()
+    {
+        $this->context->expects($this->never())
+            ->method('addViolation');
+
+        $this->validator->validate('', new PasswordStrength(6));
+    }
+
     public function testEmptyStringIsValid()
     {
         $this->context->expects($this->never())

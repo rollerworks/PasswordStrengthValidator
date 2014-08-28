@@ -22,8 +22,8 @@ class PasswordRequirementsValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if (null === $value) {
-            return ;
+        if (null === $value || '' === $value) {
+            return;
         }
 
         if ($constraint->minLength > 0 && (strlen($value) < $constraint->minLength)) {
