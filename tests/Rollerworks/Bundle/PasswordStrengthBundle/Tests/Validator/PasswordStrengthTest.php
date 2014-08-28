@@ -115,11 +115,11 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
      */
     public function testWeakPasswords($value)
     {
-        $constraint = new PasswordStrength(3);
+        $constraint = new PasswordStrength(array('minStrength' => 3, 'minLength' => 7));
 
         $this->validator->validate($value, $constraint);
 
-        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
+        $this->assertViolation('password_too_weak', array('{{ length }}' => 7));
     }
 
     /**
