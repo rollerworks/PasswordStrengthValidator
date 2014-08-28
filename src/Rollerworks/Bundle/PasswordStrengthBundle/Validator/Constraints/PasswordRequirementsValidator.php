@@ -23,7 +23,7 @@ class PasswordRequirementsValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         if (null === $value) {
-            $value = '';
+            return ;
         }
 
         if ($constraint->minLength > 0 && (strlen($value) < $constraint->minLength)) {
@@ -35,7 +35,7 @@ class PasswordRequirementsValidator extends ConstraintValidator
         }
 
         if ($constraint->requireCaseDiff && !preg_match('/(\p{Ll}+.*\p{Lu})|(\p{Lu}+.*\p{Ll})/', $value)) {
-            $this->context->addViolation($constraint->requireCaseDiffMessage);
+            $this->context->addViolation($constraint->requireCaseDiffMessage, array(), $value);
         }
 
         if ($constraint->requireNumbers && !preg_match('/\pN/', $value)) {
