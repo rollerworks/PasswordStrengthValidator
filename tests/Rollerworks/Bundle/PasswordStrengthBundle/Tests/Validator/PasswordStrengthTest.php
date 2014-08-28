@@ -44,7 +44,8 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
     public function testNullIsValid()
     {
         $this->context->expects($this->never())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $this->validator->validate(null, new PasswordStrength(6));
     }
@@ -52,7 +53,8 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
     public function testEmptyIsValid()
     {
         $this->context->expects($this->never())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $this->validator->validate('', new PasswordStrength(6));
     }
@@ -60,7 +62,8 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
     public function testEmptyStringIsValid()
     {
         $this->context->expects($this->never())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $this->validator->validate('', new PasswordStrength(6));
     }
@@ -128,7 +131,8 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
     public function testVeryWeakPasswords($value)
     {
         $this->context->expects($this->once())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $constraint = new PasswordStrength(2);
         $this->validator->validate($value, $constraint);
@@ -140,7 +144,8 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
     public function testWeakPasswords($value)
     {
         $this->context->expects($this->once())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $constraint = new PasswordStrength(3);
         $this->validator->validate($value, $constraint);
@@ -152,7 +157,8 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
     public function testMediumPasswords($value)
     {
         $this->context->expects($this->once())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $constraint = new PasswordStrength(4);
         $this->validator->validate($value, $constraint);
@@ -164,7 +170,8 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
     public function testStrongPasswords($value)
     {
         $this->context->expects($this->once())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $constraint = new PasswordStrength(5);
         $this->validator->validate($value, $constraint);
@@ -176,7 +183,8 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
     public function testVeryStrongPasswords($value)
     {
         $this->context->expects($this->never())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $constraint = new PasswordStrength(5);
         $this->validator->validate($value, $constraint);
@@ -188,7 +196,8 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
     public function testVeryWeakPasswordsValid($value)
     {
         $this->context->expects($this->once())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $constraint = new PasswordStrength(1);
         $this->validator->validate($value, $constraint);
@@ -200,7 +209,8 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
     public function testWeakPasswordsValid($value)
     {
         $this->context->expects($this->once())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $constraint = new PasswordStrength(array(2));
         $this->validator->validate($value, $constraint);
@@ -212,7 +222,8 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
     public function testMediumPasswordValid($value)
     {
         $this->context->expects($this->once())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $constraint = new PasswordStrength(array(3));
         $this->validator->validate($value, $constraint);
@@ -224,7 +235,8 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
     public function testStrongPasswordsValid($value)
     {
         $this->context->expects($this->once())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $constraint = new PasswordStrength(array(4));
         $this->validator->validate($value, $constraint);

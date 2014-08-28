@@ -6,13 +6,15 @@ env:
     - SYMFONY_VERSION="2.5.*"
     - SYMFONY_VERSION="2.6.*"
 
-before_script:
-  - COMPOSER_ROOT_VERSION=dev-master
-  - composer self-update
-  - composer require symfony/symfony:${SYMFONY_VERSION} --no-update
-  - composer install --dev
+before_install:
+    - COMPOSER_ROOT_VERSION=dev-master
+    - composer self-update
+    - composer require symfony/symfony:${SYMFONY_VERSION} --no-update
+
+install:
+    - composer install
 
 php:
-  - 5.3
-  - 5.4
-  - 5.5
+    - 5.3
+    - 5.4
+    - 5.5
