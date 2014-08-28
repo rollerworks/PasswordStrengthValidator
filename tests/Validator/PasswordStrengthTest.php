@@ -14,6 +14,7 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Validator;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrength;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrengthValidator;
 use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
+use Symfony\Component\Validator\Validation;
 
 class PasswordStrengthTest extends AbstractConstraintValidatorTest
 {
