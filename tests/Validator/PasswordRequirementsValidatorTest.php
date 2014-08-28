@@ -35,6 +35,13 @@ class PasswordRequirementsValidatorTest extends AbstractConstraintValidatorTest
         $this->assertNoViolation();
     }
 
+    public function testEmptyIsValid()
+    {
+        $this->validator->validate('', new PasswordRequirements());
+
+        $this->assertNoViolation();
+    }
+
     /**
      * @dataProvider provideValidConstraints
      *

@@ -13,59 +13,33 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Validator;
 
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrength;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrengthValidator;
+use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
+use Symfony\Component\Validator\Validation;
 
-class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
+class PasswordStrengthTest extends AbstractConstraintValidatorTest
 {
-    protected $walker;
-
-    /**
-     * @var \Symfony\Component\Validator\ExecutionContext|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $context;
-
-    /**
-     * @var PasswordStrengthValidator|
-     */
-    protected $validator;
-
-    protected function setUp()
+    protected function getApiVersion()
     {
-        $this->context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
-        $this->validator = new PasswordStrengthValidator();
-        $this->validator->initialize($this->context);
+        return Validation::API_VERSION_2_4;
     }
 
-    protected function tearDown()
+    protected function createValidator()
     {
-        $this->validator = null;
-        $this->context = null;
+        return new PasswordStrengthValidator();
     }
 
     public function testNullIsValid()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation')
-        ;
-
         $this->validator->validate(null, new PasswordStrength(6));
+
+        $this->assertNoViolation();
     }
 
     public function testEmptyIsValid()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation')
-        ;
-
         $this->validator->validate('', new PasswordStrength(6));
-    }
 
-    public function testEmptyStringIsValid()
-    {
-        $this->context->expects($this->never())
-            ->method('addViolation')
-        ;
-
-        $this->validator->validate('', new PasswordStrength(6));
+        $this->assertNoViolation();
     }
 
     /**
@@ -130,12 +104,11 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
      */
     public function testVeryWeakPasswords($value)
     {
-        $this->context->expects($this->once())
-            ->method('addViolation')
-        ;
-
         $constraint = new PasswordStrength(2);
+
         $this->validator->validate($value, $constraint);
+
+        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
     }
 
     /**
@@ -143,12 +116,11 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
      */
     public function testWeakPasswords($value)
     {
-        $this->context->expects($this->once())
-            ->method('addViolation')
-        ;
+        $constraint = new PasswordStrength(array('minStrength' => 3, 'minLength' => 7));
 
-        $constraint = new PasswordStrength(3);
         $this->validator->validate($value, $constraint);
+
+        $this->assertViolation('password_too_weak', array('{{ length }}' => 7));
     }
 
     /**
@@ -156,12 +128,11 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
      */
     public function testMediumPasswords($value)
     {
-        $this->context->expects($this->once())
-            ->method('addViolation')
-        ;
-
         $constraint = new PasswordStrength(4);
+
         $this->validator->validate($value, $constraint);
+
+        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
     }
 
     /**
@@ -169,12 +140,11 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
      */
     public function testStrongPasswords($value)
     {
-        $this->context->expects($this->once())
-            ->method('addViolation')
-        ;
-
         $constraint = new PasswordStrength(5);
+
         $this->validator->validate($value, $constraint);
+
+        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
     }
 
     /**
@@ -182,64 +152,59 @@ class PasswordStrengthTest extends \PHPUnit_Framework_TestCase
      */
     public function testVeryStrongPasswords($value)
     {
-        $this->context->expects($this->never())
-            ->method('addViolation')
-        ;
-
         $constraint = new PasswordStrength(5);
+
         $this->validator->validate($value, $constraint);
+
+        $this->assertNoViolation();
     }
 
     /**
      * @dataProvider getVeryWeakPasswords
      */
-    public function testVeryWeakPasswordsValid($value)
+    public function testVeryWeakPasswordWillNotPass($value)
     {
-        $this->context->expects($this->once())
-            ->method('addViolation')
-        ;
-
         $constraint = new PasswordStrength(1);
+
         $this->validator->validate($value, $constraint);
+
+        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
     }
 
     /**
      * @dataProvider getWeakPasswords
      */
-    public function testWeakPasswordsValid($value)
+    public function testWeakPasswordsWillNotPass($value)
     {
-        $this->context->expects($this->once())
-            ->method('addViolation')
-        ;
-
         $constraint = new PasswordStrength(array(2));
+
         $this->validator->validate($value, $constraint);
+
+        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
     }
 
     /**
      * @dataProvider getMediumPasswords
      */
-    public function testMediumPasswordValid($value)
+    public function testMediumPasswordWillNotPass($value)
     {
-        $this->context->expects($this->once())
-            ->method('addViolation')
-        ;
-
         $constraint = new PasswordStrength(array(3));
+
         $this->validator->validate($value, $constraint);
+
+        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
     }
 
     /**
      * @dataProvider getStrongPasswords
      */
-    public function testStrongPasswordsValid($value)
+    public function testStrongPasswordWillNotPass($value)
     {
-        $this->context->expects($this->once())
-            ->method('addViolation')
-        ;
-
         $constraint = new PasswordStrength(array(4));
+
         $this->validator->validate($value, $constraint);
+
+        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
     }
 
     public function testConstraintGetDefaultOption()

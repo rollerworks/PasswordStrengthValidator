@@ -38,6 +38,6 @@ class BlacklistListCommandTest extends BlacklistCommandTestCase
 
         $commandTester->execute(array('command' => $command->getName()));
 
-        $this->assertRegExp("/^test[\r\n]{1,2}foobar[\r\n]{1,2}kaboom[\r\n]{1,2}$/s", $commandTester->getDisplay());
+        $this->assertRegExp("/^test[\n]{1,2}foobar[\r\n]{1,2}kaboom[\n]{1,2}$/s", $commandTester->getDisplay(true));
     }
 }
