@@ -13,7 +13,7 @@
         >
     <testsuites>
         <testsuite name="RollerworksPasswordStrengthBundle Test Suite">
-            <directory>./tests/Rollerworks/Bundle/PasswordStrengthBundle/Tests/</directory>
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
 

@@ -61,7 +61,7 @@ class ChainProviderTest extends \PHPUnit_Framework_TestCase
     {
         $provider = new ChainProvider();
 
-        $this->setExpectedException('\RuntimeException', 'Unable to add ChainProvider to its self.');
+        $this->setExpectedException('\RuntimeException', 'Unable to add ChainProvider to itself.');
         $provider->addProvider($provider);
     }
 }
