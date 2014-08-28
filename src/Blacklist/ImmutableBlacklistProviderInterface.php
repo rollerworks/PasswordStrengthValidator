@@ -14,7 +14,7 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Blacklist;
 /**
  * Immutable Blacklist Provider Interface.
  *
- * Allows changing the blacklists state.
+ * Allows changing the blacklist state.
  * This applies to a DB for example.
  *
  * @author Sebastiaan Stok <s.stok@rollerscapes.net>
@@ -57,6 +57,8 @@ interface ImmutableBlacklistProviderInterface extends BlacklistProviderInterface
      *
      * This depends on the implementation.
      * Use for closing either stream resource or database connection.
+     *
+     * @param mixed $db
      */
     public function close($db);
 }

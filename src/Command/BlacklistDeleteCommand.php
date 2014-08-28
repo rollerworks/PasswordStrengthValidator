@@ -16,16 +16,24 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider;
 
-class BlacklistUpdateCommand extends BlacklistCommand
+class BlacklistDeleteCommand extends BlacklistCommand
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function configure()
     {
         $this
-            ->setName('rollerworks-password:blacklist:update')->setDescription('add new passwords to your blacklist database')
-            ->addArgument('passwords', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'space separated list of words to blacklist')
-            ->addOption('file', null, null, 'Text file to import, every line is considered one word');
+            ->setName('rollerworks-password:blacklist:delete')
+            ->setDescription('removes passwords from your blacklist database')
+            ->addArgument('passwords', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'space separated list of words to remove')
+            ->addOption('file', null, null, 'Text file to read for deletion, every line is considered one word')
+        ;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (!$input->getArgument('passwords') && !$input->getOption('file')) {
@@ -54,12 +62,12 @@ class BlacklistUpdateCommand extends BlacklistCommand
                 return;
             }
 
-            $count = $this->importFromFile($service, $file);
+            $count = $this->readFromFile($service, $file);
         } else {
-            $count = $this->importFromArray($service, (array) $input->getArgument('passwords'));
+            $count = $this->readFromArray($service, (array) $input->getArgument('passwords'));
         }
 
-        $output->writeln(sprintf('<info>Successfully added %d password(s) to your blacklist database.</info>', $count));
+        $output->writeln(sprintf('<info>Successfully removed %d password(s) from your blacklist database.</info>', $count));
     }
 
     /**
@@ -68,14 +76,14 @@ class BlacklistUpdateCommand extends BlacklistCommand
      *
      * @return integer
      */
-    protected function importFromFile(SqliteProvider $service, $filename)
+    protected function readFromFile(SqliteProvider $service, $filename)
     {
         $file = new \SplFileObject($filename, 'r');
         $count = 0;
 
         foreach ($file as $password) {
             $password = trim($password, "\n\r");
-            if (true === $service->add($password)) {
+            if ($service->isBlacklisted($password) && true === $service->delete($password)) {
                 $count++;
             }
         }
@@ -92,11 +100,11 @@ class BlacklistUpdateCommand extends BlacklistCommand
      *
      * @return integer
      */
-    protected function importFromArray(SqliteProvider $service, array $passwords)
+    protected function readFromArray(SqliteProvider $service, array $passwords)
     {
         $count = 0;
         foreach ($passwords as $password) {
-            if (true === $service->add($password)) {
+            if ($service->isBlacklisted($password) && true === $service->delete($password)) {
                 $count++;
             }
         }

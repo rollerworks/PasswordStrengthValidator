@@ -17,13 +17,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class BlacklistPurgeCommand extends BlacklistCommand
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function configure()
     {
         $this
-            ->setName('rollerworks-password:blacklist:purge')->setDescription('removes all passwords from your blacklist database')
-            ->addOption('no-ask', null, InputOption::VALUE_NONE, 'Don\'t ask for confirmation');
+            ->setName('rollerworks-password:blacklist:purge')
+            ->setDescription('removes all passwords from your blacklist database')
+            ->addOption('no-ask', null, InputOption::VALUE_NONE, 'Don\'t ask for confirmation')
+        ;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var \Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider $service */

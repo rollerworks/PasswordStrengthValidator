@@ -16,13 +16,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class BlacklistListCommand extends BlacklistCommand
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function configure()
     {
         $this
-            ->setName('rollerworks-password:blacklist:list')->setDescription('lists all blacklisted passwords from the database')
+            ->setName('rollerworks-password:blacklist:list')
+            ->setDescription('lists all blacklisted passwords from the database')
         ;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var \Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider $service */

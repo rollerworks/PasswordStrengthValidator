@@ -23,13 +23,13 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
-        "psr-0": {
-            "Rollerworks\\Bundle\\PasswordStrengthBundle": "src/"
+        "psr-4": {
+            "Rollerworks\\Bundle\\PasswordStrengthBundle\\": "src/"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "1.1-dev"
         }
     }
 }

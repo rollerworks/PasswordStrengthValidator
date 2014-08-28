@@ -181,7 +181,7 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
 
         $success = $stmt->execute();
         if (!$success) {
-            throw new \RuntimeException(sprintf('Error executing query "%s"', $query));
+            throw new \RuntimeException(sprintf('Error executing query "%s".', $query));
         }
     }
 
@@ -202,7 +202,7 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
         }
 
         if (false === $stmt) {
-            throw new \RuntimeException('The database cannot successfully prepare the statement');
+            throw new \RuntimeException('The database cannot successfully prepare the statement.');
         }
 
         return $stmt;
