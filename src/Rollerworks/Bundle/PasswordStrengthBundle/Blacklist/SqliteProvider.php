@@ -90,7 +90,7 @@ class SqliteProvider extends PdoProvider
 
             $res = $stmt->execute();
             if (false === $res) {
-                throw new \RuntimeException(sprintf('Error executing SQLite query "%s"', $query));
+                throw new \RuntimeException(sprintf('Error executing SQLite query "%s".', $query));
             }
             $res->finalize();
         } else {

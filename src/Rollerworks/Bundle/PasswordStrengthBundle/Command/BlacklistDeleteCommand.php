@@ -18,14 +18,22 @@ use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider;
 
 class BlacklistDeleteCommand extends BlacklistCommand
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function configure()
     {
         $this
-            ->setName('rollerworks-password:blacklist:delete')->setDescription('removes passwords from your blacklist database')
+            ->setName('rollerworks-password:blacklist:delete')
+            ->setDescription('removes passwords from your blacklist database')
             ->addArgument('passwords', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'space separated list of words to remove')
-            ->addOption('file', null, null, 'Text file to read for deletion, every line is considered one word');
+            ->addOption('file', null, null, 'Text file to read for deletion, every line is considered one word')
+        ;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (!$input->getArgument('passwords') && !$input->getOption('file')) {

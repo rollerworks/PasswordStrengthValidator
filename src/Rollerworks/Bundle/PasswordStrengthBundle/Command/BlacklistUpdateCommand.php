@@ -18,14 +18,22 @@ use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider;
 
 class BlacklistUpdateCommand extends BlacklistCommand
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function configure()
     {
         $this
-            ->setName('rollerworks-password:blacklist:update')->setDescription('add new passwords to your blacklist database')
+            ->setName('rollerworks-password:blacklist:update')
+            ->setDescription('add new passwords to your blacklist database')
             ->addArgument('passwords', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'space separated list of words to blacklist')
-            ->addOption('file', null, null, 'Text file to import, every line is considered one word');
+            ->addOption('file', null, null, 'Text file to import, every line is considered one word')
+        ;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (!$input->getArgument('passwords') && !$input->getOption('file')) {

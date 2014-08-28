@@ -47,7 +47,8 @@ class BlacklistValidationTest extends \PHPUnit_Framework_TestCase
     public function testNullIsValid()
     {
         $this->context->expects($this->never())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $this->validator->validate(null, new Blacklist());
     }
@@ -55,7 +56,8 @@ class BlacklistValidationTest extends \PHPUnit_Framework_TestCase
     public function testEmptyStringIsValid()
     {
         $this->context->expects($this->never())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $this->validator->validate('', new Blacklist());
     }
@@ -71,7 +73,8 @@ class BlacklistValidationTest extends \PHPUnit_Framework_TestCase
     public function testNotBlackListed()
     {
         $this->context->expects($this->never())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $constraint = new Blacklist();
         $this->validator->validate('weak', $constraint);
@@ -81,7 +84,8 @@ class BlacklistValidationTest extends \PHPUnit_Framework_TestCase
     public function testBlackListed()
     {
         $this->context->expects($this->once())
-            ->method('addViolation');
+            ->method('addViolation')
+        ;
 
         $constraint = new Blacklist();
         $this->validator->validate('test', $constraint);
