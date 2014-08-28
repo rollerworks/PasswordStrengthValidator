@@ -20,5 +20,5 @@ if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
 /**
 * @var $loader ClassLoader
 */
-$loader = require_once __DIR__ . '/../vendor/autoload.php';
+$loader = require __DIR__ . '/../vendor/autoload.php';
 $loader->add('Rollerworks\\Bundle\\PasswordStrengthBundle\\Tests', __DIR__);

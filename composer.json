@@ -16,7 +16,12 @@
         "symfony/console": "~2.1",
         "symfony/validator": "~2.1"
     },
+    "require-dev": {
+        "symfony/validator": "~2.3@dev",
+        "phpunit/phpunit": "~4.1"
+    },
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-0": {
             "Rollerworks\\Bundle\\PasswordStrengthBundle": "src/"
