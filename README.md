@@ -3,15 +3,12 @@ RollerworksPasswordStrengthBundle
 
 This bundle provides a validator for ensuring strong passwords in Symfony2 applications.
 
-Passwords are validated using strength-levels (weak, medium, strong etc).
+Passwords can be validated using either strength-levels (weak, medium, strong etc)
+or by configuring explicit requirements (needs letters, numbers etc)
 
-If you want to use a more detailed configuration (pattern requirement),
-you can use the [PasswordStrengthBundle](https://github.com/jbafford/PasswordStrengthBundle) provided by John Bafford.
-
-    You can use this bundle and the one provided by John Bafford side by side without any conflict.
-
-    Its however not recommended to use both the pattern-requirement and strength-level constraint
-    at the same property/method, as both provide similar functionality.
+> This bundle provides the same level of functionality as the
+> [PasswordStrengthBundle](https://github.com/jbafford/PasswordStrengthBundle) created by John Bafford.
+> And is considered a replacement of the original bundle.
 
 ## Installation
 
@@ -26,13 +23,10 @@ To install RollerworksPasswordStrengthBundle with Composer just add the followin
     // ...
     require: {
         // ...
-        "rollerworks/password-strength-bundle": "master-dev"
+        "rollerworks/password-strength-bundle": "~1.0"
     }
 }
 ```
-
-**NOTE**: Please replace `master-dev` in the snippet above with the latest stable
-branch, for example ``1.0.*``.
 
 Then, you can install the new dependencies by running Composer's ``update``
 command from the directory where your ``composer.json`` file is located:
@@ -60,7 +54,7 @@ $bundles = array(
 
 Enable the bundle in the kernel:
 
-``` php
+```php
 <?php
 
 // in AppKernel::registerBundles()
@@ -78,6 +72,10 @@ Congratulations! You're ready!
 ### [Strength validation](docs/strength-validation.md)
 
 Validates the passwords strength-level (weak, medium, strong etc).
+
+### [Requirements validation](docs/requirements-validation.md)
+
+Validates the passwords using explicitly configured requirements (letters, caseDiff, numbers, requireSpecialCharacter).
 
 ### [Password blacklisting](docs/blacklist.md)
 
