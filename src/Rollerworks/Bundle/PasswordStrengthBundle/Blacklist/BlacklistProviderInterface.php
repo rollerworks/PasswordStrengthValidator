@@ -23,7 +23,7 @@ interface BlacklistProviderInterface
      *
      * @param string $password
      *
-     * @return boolean
+     * @return bool
      */
     public function isBlacklisted($password);
 }

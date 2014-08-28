@@ -47,7 +47,7 @@ class ChainProvider implements BlacklistProviderInterface
     public function addProvider(BlacklistProviderInterface $provider)
     {
         if ($provider === $this) {
-            throw new \RuntimeException('Unable to add ChainProvider to its self.');
+            throw new \RuntimeException('Unable to add ChainProvider to itself.');
         }
 
         $this->providers[] = $provider;
@@ -66,11 +66,9 @@ class ChainProvider implements BlacklistProviderInterface
     }
 
     /**
-     * Runs trough all the providers till one returns true.
+     * Runs trough all the providers until one returns true.
      *
-     * @param string $password
-     *
-     * @return boolean
+     * {@inheritDoc}
      */
     public function isBlacklisted($password)
     {
