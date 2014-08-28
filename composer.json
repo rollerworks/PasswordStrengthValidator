@@ -20,6 +20,8 @@
         "symfony/validator": "~2.3@dev",
         "phpunit/phpunit": "~4.1"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Rollerworks\\Bundle\\PasswordStrengthBundle\\": "src/"
