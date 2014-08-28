@@ -1,7 +1,7 @@
 Strength validation
 ===================
 
-You can use the ```Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrength```
+You can use the `Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrength`
 constraint with the following options.
 
 * message: The validation message (default: password_to_weak)
@@ -11,10 +11,10 @@ constraint with the following options.
 The strength is computed from various measures including
 length and usage of (special) characters.
 
-    Note: A strength is measured by the presence of a character and total length.
-    One can have a 'medium' password consisting of only a-z and A-Z, but with a length higher then 12 characters.
+**Note:** A strength is measured by the presence of a character and total length.
+One can have a 'medium' password consisting of only a-z and A-Z, but with a length higher than 12 characters.
 
-    If the password consists of only numbers or a-z/A-Z the final strength is decreased.
+If the password consists of only numbers or a-z/A-Z the final strength decreases.
 
 The strengths are marked up as follow.
 
@@ -30,10 +30,9 @@ If you are using annotations for validation, include the constraints namespace:
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints as RollerworksPassword;
 ```
 
-and then add the PasswordStrength validator to the relevant field:
+and then add the PasswordStrength constraint to the relevant field:
 
 ```php
-
 /**
  * @RollerworksPassword\PasswordStrength(minLength=7, minStrength=3)
  */
