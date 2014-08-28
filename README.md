@@ -75,7 +75,7 @@ Validates the passwords strength-level (weak, medium, strong etc).
 
 ### [Requirements validation](docs/requirements-validation.md)
 
-Validates the passwords using explicitly requirements (letters, caseDiff, numbers, requireSpecialCharacter).
+Validates the passwords using explicitly configured requirements (letters, caseDiff, numbers, requireSpecialCharacter).
 
 ### [Password blacklisting](docs/blacklist.md)
 

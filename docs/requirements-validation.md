@@ -5,7 +5,7 @@ You can use the `Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints
 constraint with the following options.
 
 **Note:** Validation is performed with respect to international encodings,
-so international character `９` will treated as 9 in ASCII.
+so the international character `９` will be treated as 9 in ASCII.
 
 * minLength: Minimum length of the password, should be at least 6 (or 8 for better security)
 * requireLetters: Require that the password should at least contain one letter (default `true`).
