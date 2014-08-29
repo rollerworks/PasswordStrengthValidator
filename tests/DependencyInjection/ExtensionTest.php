@@ -30,6 +30,9 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
 
         $constraint = new BlacklistConstraint();
         $this->assertTrue($container->has($constraint->validatedBy()));
+
+        // This needs a proper test-case
+        $container->get('rollerworks_password_strength.blacklist.validator');
     }
 
     public function testLoadWithSqliteConfiguration()
