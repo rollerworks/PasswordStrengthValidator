@@ -113,7 +113,7 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
     protected function createContainer()
     {
         $container = new ContainerBuilder(new ParameterBag(array(
-            'kernel.cache_dir' => __DIR__ . '/.cache' ,
+            'kernel.cache_dir' => __DIR__.'/.cache',
             'kernel.charset'   => 'UTF-8',
             'kernel.debug'     => false,
         )));

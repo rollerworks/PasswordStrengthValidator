@@ -37,13 +37,13 @@ abstract class BlacklistCommonCommand extends BlacklistCommand
             $file = realpath($input->getOption('file'));
 
             if (!file_exists($file)) {
-                $output->writeln('<error>Unable to read passwords list. No such file: ' . $input->getOption('file') . '</error>');
+                $output->writeln('<error>Unable to read passwords list. No such file: '.$input->getOption('file').'</error>');
 
                 return;
             }
 
             if (!is_readable($file)) {
-                $output->writeln('<error>Unable to read passwords list. Access denied: ' . $input->getOption('file') . '</error>');
+                $output->writeln('<error>Unable to read passwords list. Access denied: '.$input->getOption('file').'</error>');
 
                 return;
             }

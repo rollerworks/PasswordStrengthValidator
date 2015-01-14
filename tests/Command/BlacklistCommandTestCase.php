@@ -31,7 +31,7 @@ abstract class BlacklistCommandTestCase extends \PHPUnit_Framework_TestCase
             @unlink(self::$dbFile);
         }
 
-        $sqliteProvider = new SqliteProvider('sqlite:' . self::$dbFile);
+        $sqliteProvider = new SqliteProvider('sqlite:'.self::$dbFile);
 
         self::$container = new Container();
         self::$container->set('rollerworks_password_strength.blacklist.provider.sqlite', $sqliteProvider);

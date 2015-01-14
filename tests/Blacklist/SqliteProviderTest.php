@@ -36,7 +36,7 @@ class SqliteProviderTest extends \PHPUnit_Framework_TestCase
             @unlink(self::$dbFile);
         }
 
-        self::$provider = new SqliteProvider('sqlite:' . self::$dbFile);
+        self::$provider = new SqliteProvider('sqlite:'.self::$dbFile);
     }
 
     public static function tearDownAfterClass()
