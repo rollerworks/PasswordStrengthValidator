@@ -28,7 +28,7 @@ class RollerworksPasswordStrengthExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $config        = $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('rollerworks_password_strength.blacklist_provider', $config['blacklist']['default_provider']);
         $container->setParameter('rollerworks_password_strength.blacklist.sqlite.dsn', '');
