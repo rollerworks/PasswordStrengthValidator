@@ -113,7 +113,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
 
         $commandTester = new CommandTester($command);
 
-        $commandTester->execute(array('command' => $command->getName(), '--file' => __DIR__ . '/../fixtures/passwords-list1.txt'));
+        $commandTester->execute(array('command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt'));
         $this->assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
 
         $this->assertFalse($this->getProvider()->isBlacklisted('test'));
@@ -136,14 +136,14 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
 
         $commandTester = new CommandTester($command);
 
-        $commandTester->execute(array('command' => $command->getName(), '--file' => __DIR__ . '/../fixtures/passwords-list1.txt'));
+        $commandTester->execute(array('command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt'));
         $this->assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
 
         $this->assertFalse($this->getProvider()->isBlacklisted('test'));
         $this->assertFalse($this->getProvider()->isBlacklisted('foobar'));
         $this->assertTrue($this->getProvider()->isBlacklisted('kaboom'));
 
-        $commandTester->execute(array('command' => $command->getName(), '--file' => __DIR__ . '/../fixtures/passwords-list1.txt'));
+        $commandTester->execute(array('command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt'));
         $this->assertRegExp('/Successfully removed 0 password\(s\) from your blacklist database/', $commandTester->getDisplay());
     }
 
@@ -207,7 +207,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(
-            array('command' => $command->getName(), '--file' => __DIR__ . '/../fixtures/passwords-list2.txt')
+            array('command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list2.txt')
         );
 
         $this->assertRegExp('/Passwords list seems empty, are you sure this is the correct file\?/', $commandTester->getDisplay());

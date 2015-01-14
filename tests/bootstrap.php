@@ -13,11 +13,11 @@ use Composer\Autoload\ClassLoader;
 
 error_reporting(E_ALL | E_STRICT);
 
-if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
+if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
     throw new \RuntimeException('Did not find vendor/autoload.php. Please Install vendors using command: composer.phar install --dev');
 }
 
 /**
 * @var $loader ClassLoader
 */
-$loader = require __DIR__ . '/../vendor/autoload.php';
+$loader = require __DIR__.'/../vendor/autoload.php';
