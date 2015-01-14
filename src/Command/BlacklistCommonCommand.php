@@ -59,7 +59,7 @@ abstract class BlacklistCommonCommand extends BlacklistCommand
             $count = $this->doFromArray($service, (array) $input->getArgument('passwords'));
         }
 
-        $output->writeln(sprintf(self::MESSAGE, $count));
+        $output->writeln(sprintf(static::MESSAGE, $count));
     }
 
     /**
