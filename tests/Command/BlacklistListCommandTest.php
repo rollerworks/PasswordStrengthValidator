@@ -26,18 +26,27 @@ class BlacklistListCommandTest extends BlacklistCommandTestCase
 
         $command = $application->find('rollerworks-password:blacklist:list');
 
-        $this->getProvider()->add('test');
-        $this->getProvider()->add('foobar');
-        $this->getProvider()->add('kaboom');
+        $blackListedWords = array('test', 'foobar', 'kaboom');
 
-        $this->assertTrue($this->getProvider()->isBlacklisted('test'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('foobar'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('kaboom'));
+        foreach ($blackListedWords as $word) {
+            $this->getProvider()->add($word);
+        }
+
+        foreach ($blackListedWords as $word) {
+            $this->assertTrue($this->getProvider()->isBlacklisted($word));
+            $this->getProvider()->add($word);
+        }
 
         $commandTester = new CommandTester($command);
 
         $commandTester->execute(array('command' => $command->getName()));
 
-        $this->assertRegExp("/^test[\n]{1,2}foobar[\r\n]{1,2}kaboom[\n]{1,2}$/s", $commandTester->getDisplay(true));
+        $display = $commandTester->getDisplay(true);
+
+        // Words may be displayed in any order, so check each of them
+        foreach ($blackListedWords as $word) {
+            $this->assertRegExp("/([\n]|^){$word}[\n]/s", $display);
+            $this->getProvider()->add($word);
+        }
     }
 }
