@@ -14,41 +14,14 @@ or by configuring explicit requirements (needs letters, numbers etc)
 
 ### Step 1: Using Composer (recommended)
 
-To install RollerworksPasswordStrengthBundle with Composer just add the following to your
-`composer.json` file:
-
-```js
-// composer.json
-{
-    // ...
-    require: {
-        // ...
-        "rollerworks/password-strength-bundle": "~1.0"
-    }
-}
-```
-
-Then, you can install the new dependencies by running Composer's ``update``
-command from the directory where your ``composer.json`` file is located:
+To install RollerworksPasswordStrengthBundle with Composer just run:
 
 ```bash
-$ php composer.phar update rollerworks/password-strength-bundle
+$ php composer.phar require rollerworks/password-strength-bundle ~1.1.3
 ```
 
 Now, Composer will automatically download all required files, and install them
-for you. All that is left to do is to update your ``AppKernel.php`` file, and
-register the new bundle:
-
-```php
-<?php
-
-// in AppKernel::registerBundles()
-$bundles = array(
-    // ...
-    new Rollerworks\Bundle\PasswordStrengthBundle\RollerworksPasswordStrengthBundle(),
-    // ...
-);
-```
+for you.
 
 ### Step2: Enable the bundle
 

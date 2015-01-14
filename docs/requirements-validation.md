@@ -7,11 +7,11 @@ constraint with the following options.
 **Note:** Validation is performed with respect to international encodings,
 so the international character `９` will be treated as 9 in ASCII.
 
-* minLength: Minimum length of the password, should be at least 6 (or 8 for better security)
+* minLength: Minimum length of the password, should be at least 6 (or 8 for better security).
 * requireLetters: Require that the password should at least contain one letter (default `true`).
 * requireCaseDiff: Require that the password should at least contain one lowercase and one uppercase letter (default `false`).
 * requireNumbers: Require that the password should at least contain one number (default `false`).
-* requireSpecialCharacter: Require that the password should at least contain one none lateral or numerical character like `@` (default `false`).
+* requireSpecialCharacter: Require that the password should at least contain one non lateral or numerical character like `@` (default `false`).
 
 You can customize the validation error messages with the following:
 
