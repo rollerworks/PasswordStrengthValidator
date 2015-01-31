@@ -20,7 +20,7 @@ class PasswordRequirementsValidatorTest extends AbstractConstraintValidatorTest
 {
     protected function getApiVersion()
     {
-        return Validation::API_VERSION_2_4;
+        return Validation::API_VERSION_2_5;
     }
 
     protected function createValidator()
@@ -71,14 +71,19 @@ class PasswordRequirementsValidatorTest extends AbstractConstraintValidatorTest
         $this->validator->validate($value, $constraint);
 
         foreach ($violations as $i => $violation) {
-            $violations[$i] = $this->createViolation(
-                $violation[0], isset($violation[1]) ? $violation[1] : array(),
-                'property.path',
-                $value
-            );
+            if ($i == 0) {
+                $constraintViolationAssertion = $this->buildViolation($violation[0])
+                    ->setParameters(isset($violation[1]) ? $violation[1] : array())
+                    ->setInvalidValue($value);
+            } else {
+                $constraintViolationAssertion = $constraintViolationAssertion->buildNextViolation($violation[0])
+                    ->setParameters(isset($violation[1]) ? $violation[1] : array())
+                    ->setInvalidValue($value);
+            }
+            if ($i == count($violations) - 1) {
+                $constraintViolationAssertion->assertRaised();
+            }
         }
-
-        $this->assertViolations($violations);
     }
 
     public function provideValidConstraints()
