@@ -17,7 +17,7 @@ or by configuring explicit requirements (needs letters, numbers etc)
 To install RollerworksPasswordStrengthBundle with Composer just run:
 
 ```bash
-$ php composer.phar require rollerworks/password-strength-bundle ~1.1.3
+$ php composer.phar require rollerworks/password-strength-bundle
 ```
 
 Now, Composer will automatically download all required files, and install them
