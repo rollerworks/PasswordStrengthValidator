@@ -20,7 +20,7 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
 {
     protected function getApiVersion()
     {
-        return Validation::API_VERSION_2_4;
+        return Validation::API_VERSION_2_5;
     }
 
     protected function createValidator()
@@ -108,7 +108,9 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
 
         $this->validator->validate($value, $constraint);
 
-        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
+        $this->buildViolation('password_too_weak')
+            ->setParameters(array('{{ length }}' => 6))
+            ->assertRaised();
     }
 
     /**
@@ -120,7 +122,9 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
 
         $this->validator->validate($value, $constraint);
 
-        $this->assertViolation('password_too_weak', array('{{ length }}' => 7));
+        $this->buildViolation('password_too_weak')
+            ->setParameters(array('{{ length }}' => 7))
+            ->assertRaised();
     }
 
     /**
@@ -132,7 +136,9 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
 
         $this->validator->validate($value, $constraint);
 
-        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
+        $this->buildViolation('password_too_weak')
+            ->setParameters(array('{{ length }}' => 6))
+            ->assertRaised();
     }
 
     /**
@@ -144,7 +150,9 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
 
         $this->validator->validate($value, $constraint);
 
-        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
+        $this->buildViolation('password_too_weak')
+            ->setParameters(array('{{ length }}' => 6))
+            ->assertRaised();
     }
 
     /**
@@ -168,7 +176,9 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
 
         $this->validator->validate($value, $constraint);
 
-        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
+        $this->buildViolation('password_too_weak')
+            ->setParameters(array('{{ length }}' => 6))
+            ->assertRaised();
     }
 
     /**
@@ -180,7 +190,9 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
 
         $this->validator->validate($value, $constraint);
 
-        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
+        $this->buildViolation('password_too_weak')
+            ->setParameters(array('{{ length }}' => 6))
+            ->assertRaised();
     }
 
     /**
@@ -192,7 +204,9 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
 
         $this->validator->validate($value, $constraint);
 
-        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
+        $this->buildViolation('password_too_weak')
+            ->setParameters(array('{{ length }}' => 6))
+            ->assertRaised();
     }
 
     /**
@@ -204,7 +218,9 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
 
         $this->validator->validate($value, $constraint);
 
-        $this->assertViolation('password_too_weak', array('{{ length }}' => 6));
+        $this->buildViolation('password_too_weak')
+            ->setParameters(array('{{ length }}' => 6))
+            ->assertRaised();
     }
 
     public function testConstraintGetDefaultOption()

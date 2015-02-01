@@ -1,6 +1,6 @@
 {
     "name": "rollerworks/password-strength-bundle",
-    "description": "Password-strength validator for Symfony 2",
+    "description": "Password-strength validator bundle for Symfony",
     "keywords": ["password", "validator", "symfony", "bundle"],
     "type": "symfony-bundle",
     "license": "MIT",
@@ -12,20 +12,21 @@
         {
             "name": "Luis Cordova",
             "email": "cordoval@gmail.com"
+        },
+        {
+            "name": "Community contributions",
+            "homepage": "https://github.com/rollerworks/PasswordStrengthBundle/contributors"
         }
     ],
     "require": {
         "php": ">=5.3.3",
-        "symfony/framework-bundle": "~2.1",
-        "symfony/console": "~2.1",
-        "symfony/validator": "~2.1"
+        "symfony/framework-bundle": "^2.3.3",
+        "symfony/console": "^2.3.3",
+        "symfony/validator": "^2.3.3"
     },
     "require-dev": {
-        "symfony/validator": "~2.3@dev",
-        "phpunit/phpunit": "~4.1"
+        "phpunit/phpunit": "~4.4"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Rollerworks\\Bundle\\PasswordStrengthBundle\\": "src/"

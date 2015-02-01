@@ -13,6 +13,7 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 /**
@@ -56,7 +57,13 @@ class PasswordStrengthValidator extends ConstraintValidator
         $passLength = strlen($password);
 
         if ($passLength < $constraint->minLength) {
-            $this->context->addViolation($constraint->message, array('{{ length }}' => $constraint->minLength));
+            if ($this->context instanceof ExecutionContextInterface) {
+                $this->context->buildViolation($constraint->message)
+                    ->setParameters(array('{{ length }}' => $constraint->minLength))
+                    ->addViolation();
+            } else {
+                $this->context->addViolation($constraint->message, array('{{ length }}' => $constraint->minLength));
+            }
 
             return;
         }
@@ -96,7 +103,13 @@ class PasswordStrengthValidator extends ConstraintValidator
         }
 
         if ($passwordStrength < $constraint->minStrength) {
-            $this->context->addViolation($constraint->message, array('{{ length }}' => $constraint->minLength));
+            if ($this->context instanceof ExecutionContextInterface) {
+                $this->context->buildViolation($constraint->message)
+                    ->setParameters(array('{{ length }}' => $constraint->minLength))
+                    ->addViolation();
+            } else {
+                $this->context->addViolation($constraint->message, array('{{ length }}' => $constraint->minLength));
+            }
         }
     }
 }

@@ -14,52 +14,35 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Validator;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\Blacklist;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\BlacklistValidator;
 use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider;
+use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
+use Symfony\Component\Validator\Validation;
 
-class BlacklistValidationTest extends \PHPUnit_Framework_TestCase
+class BlacklistValidationTest extends AbstractConstraintValidatorTest
 {
-    protected $walker;
+    protected function getApiVersion()
+    {
+        return Validation::API_VERSION_2_5;
+    }
 
-    /**
-     * @var \Symfony\Component\Validator\ExecutionContext|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $context;
-
-    /**
-     * @var BlacklistValidator
-     */
-    protected $validator;
-
-    protected function setUp()
+    protected function createValidator()
     {
         $provider = new ArrayProvider(array('test', 'foobar'));
 
-        $this->context = $this->getMock('Symfony\Component\Validator\ExecutionContext', array(), array(), '', false);
-        $this->validator = new BlacklistValidator($provider);
-        $this->validator->initialize($this->context);
-    }
-
-    protected function tearDown()
-    {
-        $this->validator = null;
-        $this->context = null;
+        return new BlacklistValidator($provider);
     }
 
     public function testNullIsValid()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation')
-        ;
-
         $this->validator->validate(null, new Blacklist());
+
+        $this->assertNoViolation();
     }
 
     public function testEmptyStringIsValid()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation')
-        ;
-
         $this->validator->validate('', new Blacklist());
+
+        $this->assertNoViolation();
     }
 
     /**
@@ -72,22 +55,22 @@ class BlacklistValidationTest extends \PHPUnit_Framework_TestCase
 
     public function testNotBlackListed()
     {
-        $this->context->expects($this->never())
-            ->method('addViolation')
-        ;
-
         $constraint = new Blacklist();
         $this->validator->validate('weak', $constraint);
         $this->validator->validate('tests', $constraint);
+
+        $this->assertNoViolation();
     }
 
     public function testBlackListed()
     {
-        $this->context->expects($this->once())
-            ->method('addViolation')
-        ;
-
-        $constraint = new Blacklist();
+        $constraint = new Blacklist(array(
+            'message' => 'myMessage',
+        ));
         $this->validator->validate('test', $constraint);
+
+        $this->buildViolation('myMessage')
+            ->setInvalidValue('test')
+            ->assertRaised();
     }
 }
