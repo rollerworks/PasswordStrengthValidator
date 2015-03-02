@@ -53,11 +53,10 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
     public static function getVeryWeakPasswords()
     {
         return array(
-            array('weak'),
-            array('foo'),
+            array('weaker'),
             array('123456'),
             array('foobar'),
-            array('foobar'),
+            array('!.!.!.'),
         );
     }
 
@@ -78,6 +77,8 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
         return array(
             array('Foobar!'),
             array('foo-b0r!'),
+            array('fjsfjdljfsjsjjls1'),
+            array('785737592375294b'),
         );
     }
 
@@ -172,7 +173,7 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
      */
     public function testVeryWeakPasswordWillNotPass($value)
     {
-        $constraint = new PasswordStrength(1);
+        $constraint = new PasswordStrength(2);
 
         $this->validator->validate($value, $constraint);
 
@@ -186,7 +187,7 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
      */
     public function testWeakPasswordsWillNotPass($value)
     {
-        $constraint = new PasswordStrength(array(2));
+        $constraint = new PasswordStrength(3);
 
         $this->validator->validate($value, $constraint);
 
@@ -200,7 +201,7 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
      */
     public function testMediumPasswordWillNotPass($value)
     {
-        $constraint = new PasswordStrength(array(3));
+        $constraint = new PasswordStrength(4);
 
         $this->validator->validate($value, $constraint);
 
@@ -214,7 +215,7 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
      */
     public function testStrongPasswordWillNotPass($value)
     {
-        $constraint = new PasswordStrength(array(4));
+        $constraint = new PasswordStrength(5);
 
         $this->validator->validate($value, $constraint);
 
