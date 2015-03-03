@@ -20,7 +20,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  * Password strength Validation.
  *
  * Validates if the password strength is equal or higher
- * to the required minimum.
+ * to the required minimum and the password length is equal
+ * or longer than the minimum length.
  *
  * The strength is computed from various measures including
  * length and usage of characters.
@@ -68,24 +69,18 @@ class PasswordStrengthValidator extends ConstraintValidator
             return;
         }
 
-        $alpha = $digit = $specialChar = false;
-
-        if ($passLength > $constraint->minLength) {
+        if (preg_match('/[a-zA-Z]/', $password)) {
             $passwordStrength++;
-        }
-
-        if (preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password)) {
-            $alpha = true;
-            $passwordStrength++;
+            if (preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password)) {
+                $passwordStrength++;
+            }
         }
 
         if (preg_match('/\d+/', $password)) {
-            $digit = true;
             $passwordStrength++;
         }
 
         if (preg_match('/[^a-zA-Z0-9]/', $password)) {
-            $specialChar = true;
             $passwordStrength++;
         }
 
@@ -94,13 +89,6 @@ class PasswordStrengthValidator extends ConstraintValidator
         }
 
         // No decrease strength on weak combinations
-
-        // Only digits no alpha or special char
-        if ($digit && !$alpha && !$specialChar) {
-            $passwordStrength--;
-        } elseif ($alpha && !$digit) {
-            $passwordStrength--;
-        }
 
         if ($passwordStrength < $constraint->minStrength) {
             if ($this->context instanceof ExecutionContextInterface) {

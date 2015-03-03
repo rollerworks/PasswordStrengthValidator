@@ -14,6 +14,16 @@ length and usage of (special) characters.
 **Note:** A strength is measured by the presence of a character and total length.
 One can have a 'medium' password consisting of only a-z and A-Z, but with a length higher than 12 characters.
 
+The strength is calculated using the following rules:
+
+* Does the password contain an alpha character?
+* Does the password contain both lowercase and uppercase alpha characters?
+* Does the password contain a digit?
+* Does the password contain a special character?
+* Does the password have a length of at least 13 characters.
+
+Each of these rules will add 1 point to the password strength. The minimum strength is 1 and the maximum strength is 5.
+
 If the password consists of only numbers or a-z/A-Z the final strength decreases.
 
 The strengths are listed as follows:
