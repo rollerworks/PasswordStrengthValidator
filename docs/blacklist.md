@@ -102,7 +102,7 @@ and then add the PasswordStrength validator to the relevant field:
 ```php
 
 /**
- * @RollerworksPassword\BlackList()
+ * @RollerworksPassword\Blacklist()
  */
 protected $password;
 ```
