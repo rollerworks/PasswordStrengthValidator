@@ -21,7 +21,7 @@ class Blacklist extends Constraint
     public $message = 'password_blacklisted';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function validatedBy()
     {

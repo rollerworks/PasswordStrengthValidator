@@ -20,7 +20,7 @@ abstract class BlacklistCommonCommand extends BlacklistCommand
     const MESSAGE = 'change me';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -66,7 +66,7 @@ abstract class BlacklistCommonCommand extends BlacklistCommand
      * @param SqliteProvider $service
      * @param string         $filename
      *
-     * @return integer
+     * @return int
      */
     protected function doFromFile(SqliteProvider $service, $filename)
     {
@@ -76,7 +76,7 @@ abstract class BlacklistCommonCommand extends BlacklistCommand
         foreach ($file as $password) {
             $password = trim($password, "\n\r");
             if ($this->attemptAction($service, $password)) {
-                $count++;
+                ++$count;
             }
         }
 
@@ -90,14 +90,14 @@ abstract class BlacklistCommonCommand extends BlacklistCommand
      * @param SqliteProvider $service
      * @param array          $passwords
      *
-     * @return integer
+     * @return int
      */
     protected function doFromArray(SqliteProvider $service, array $passwords)
     {
         $count = 0;
         foreach ($passwords as $password) {
             if ($this->attemptAction($service, $password)) {
-                $count++;
+                ++$count;
             }
         }
 

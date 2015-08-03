@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class BlacklistListCommand extends BlacklistCommand
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -28,7 +28,7 @@ class BlacklistListCommand extends BlacklistCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

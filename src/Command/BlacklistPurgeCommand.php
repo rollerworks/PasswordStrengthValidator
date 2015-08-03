@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class BlacklistPurgeCommand extends BlacklistCommand
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -30,7 +30,7 @@ class BlacklistPurgeCommand extends BlacklistCommand
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

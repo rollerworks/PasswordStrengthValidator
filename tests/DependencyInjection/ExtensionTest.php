@@ -11,10 +11,10 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Rollerworks\Bundle\PasswordStrengthBundle\DependencyInjection\RollerworksPasswordStrengthExtension;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\Blacklist as BlacklistConstraint;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class ExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,9 +43,9 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
             'blacklist' => array(
                 'default_provider' => 'rollerworks_password_strength.blacklist.provider.sqlite',
                 'providers' => array(
-                    'sqlite' => array('dsn' => 'sqlite:something')
-                )
-            )
+                    'sqlite' => array('dsn' => 'sqlite:something'),
+                ),
+            ),
         ));
 
         $this->compileContainer($container);
@@ -62,9 +62,9 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
             'blacklist' => array(
                 'default_provider' => 'rollerworks_password_strength.blacklist.provider.array',
                 'providers' => array(
-                    'array' => array('foo', 'foobar', 'kaboom')
-                )
-            )
+                    'array' => array('foo', 'foobar', 'kaboom'),
+                ),
+            ),
         ));
 
         $this->compileContainer($container);
@@ -89,8 +89,8 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
                 'providers' => array(
                     'array' => array('foo', 'foobar', 'kaboom'),
                     'chain' => array('providers' => array('rollerworks_password_strength.blacklist.provider.array', 'acme.password_blacklist.array')),
-                )
-            )
+                ),
+            ),
         ));
 
         $container->set('acme.password_blacklist.array', new \Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider(array('amy', 'doctor', 'rory')));
@@ -114,8 +114,8 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $container = new ContainerBuilder(new ParameterBag(array(
             'kernel.cache_dir' => __DIR__.'/.cache',
-            'kernel.charset'   => 'UTF-8',
-            'kernel.debug'     => false,
+            'kernel.charset' => 'UTF-8',
+            'kernel.debug' => false,
         )));
 
         $container->set('service_container', $container);

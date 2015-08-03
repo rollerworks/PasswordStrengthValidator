@@ -17,7 +17,5 @@ if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
     throw new \RuntimeException('Did not find vendor/autoload.php. Please Install vendors using command: composer.phar install --dev');
 }
 
-/**
-* @var $loader ClassLoader
-*/
+/** @var $loader ClassLoader */
 $loader = require __DIR__.'/../vendor/autoload.php';

@@ -29,7 +29,7 @@ interface ImmutableBlacklistProviderInterface extends BlacklistProviderInterface
      *
      * @param string $password
      *
-     * @return boolean|integer Returns true on success, false on error and -1 when already existent
+     * @return bool|int Returns true on success, false on error and -1 when already existent
      */
     public function add($password);
 

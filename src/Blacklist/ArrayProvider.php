@@ -31,7 +31,7 @@ class ArrayProvider implements BlacklistProviderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isBlacklisted($password)
     {
