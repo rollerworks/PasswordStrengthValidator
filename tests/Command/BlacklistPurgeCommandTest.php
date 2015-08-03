@@ -11,9 +11,9 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Command;
 
+use Rollerworks\Bundle\PasswordStrengthBundle\Command\BlacklistPurgeCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Rollerworks\Bundle\PasswordStrengthBundle\Command\BlacklistPurgeCommand;
 
 class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
 {
@@ -107,7 +107,7 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
     protected function getInputStream($input)
     {
         $stream = fopen('php://memory', 'r+', false);
-        fputs($stream, $input);
+        fwrite($stream, $input);
         rewind($stream);
 
         return $stream;

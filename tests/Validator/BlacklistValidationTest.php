@@ -11,9 +11,9 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Validator;
 
+use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\Blacklist;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\BlacklistValidator;
-use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider;
 use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 use Symfony\Component\Validator\Validation;
 

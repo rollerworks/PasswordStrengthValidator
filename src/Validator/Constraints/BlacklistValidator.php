@@ -11,11 +11,11 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints;
 
+use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\BlacklistProviderInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
-use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\BlacklistProviderInterface;
 
 /**
  * Password Blacklist Validation.
@@ -40,7 +40,7 @@ class BlacklistValidator extends ConstraintValidator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function validate($password, Constraint $constraint)
     {

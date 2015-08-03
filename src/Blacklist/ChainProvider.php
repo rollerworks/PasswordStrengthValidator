@@ -68,7 +68,7 @@ class ChainProvider implements BlacklistProviderInterface
     /**
      * Runs trough all the providers until one returns true.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isBlacklisted($password)
     {

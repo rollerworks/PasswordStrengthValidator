@@ -21,7 +21,7 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Blacklist;
 class NoopProvider implements BlacklistProviderInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function isBlacklisted($password)
     {

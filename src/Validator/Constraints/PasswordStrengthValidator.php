@@ -70,22 +70,22 @@ class PasswordStrengthValidator extends ConstraintValidator
         }
 
         if (preg_match('/[a-zA-Z]/', $password)) {
-            $passwordStrength++;
+            ++$passwordStrength;
             if (preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password)) {
-                $passwordStrength++;
+                ++$passwordStrength;
             }
         }
 
         if (preg_match('/\d+/', $password)) {
-            $passwordStrength++;
+            ++$passwordStrength;
         }
 
         if (preg_match('/[^a-zA-Z0-9]/', $password)) {
-            $passwordStrength++;
+            ++$passwordStrength;
         }
 
         if ($passLength > 12) {
-            $passwordStrength++;
+            ++$passwordStrength;
         }
 
         // No decrease strength on weak combinations

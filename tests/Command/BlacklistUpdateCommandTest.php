@@ -11,9 +11,9 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Command;
 
+use Rollerworks\Bundle\PasswordStrengthBundle\Command\BlacklistUpdateCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Rollerworks\Bundle\PasswordStrengthBundle\Command\BlacklistUpdateCommand;
 
 class BlacklistUpdateCommandTest extends BlacklistCommandTestCase
 {

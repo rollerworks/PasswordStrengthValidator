@@ -138,7 +138,7 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
     }
 
     /**
-     * Initializes the database
+     * Initializes the database.
      *
      * @throws \RuntimeException When the requested database driver is not installed
      */
@@ -189,9 +189,9 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
      * @param object $db
      * @param string $query
      *
-     * @return boolean|\PDOStatement|\SQLite3Stmt
-     *
      * @throws \RuntimeException
+     *
+     * @return bool|\PDOStatement|\SQLite3Stmt
      */
     protected function prepareStatement($db, $query)
     {

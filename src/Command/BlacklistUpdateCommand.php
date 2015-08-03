@@ -11,16 +11,16 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Command;
 
+use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider;
 
 class BlacklistUpdateCommand extends BlacklistCommonCommand
 {
     const MESSAGE = '<info>Successfully added %d password(s) to your blacklist database.</info>';
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function configure()
     {
