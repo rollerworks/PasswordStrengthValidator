@@ -42,6 +42,12 @@ Congratulations! You're ready!
 
 ## Basic Usage
 
+**Caution:**
+
+> The password validators do not enforce that the field must have a value!
+> To make a field "required" use the [NotBlank constraint](http://symfony.com/doc/current/reference/constraints/NotBlank.html)
+> in combination with the password validator(s).
+
 ### [Strength validation](docs/strength-validation.md)
 
 Validates the passwords strength-level (weak, medium, strong etc).
@@ -62,6 +68,7 @@ With the default installation the following providers can be used.
 * Noop: Default provider, does nothing.
 * Array: Simple in memory blacklist provider (not recommended for big lists)
 * Sqlite: Provides the blacklist using a SQLite3 database file.
+* Pdo: Provides the blacklist using the PDO extension.
 
 But building your own is also possible.
 __Documentation on this is currently missing,
