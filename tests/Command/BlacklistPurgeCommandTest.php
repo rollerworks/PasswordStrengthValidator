@@ -13,6 +13,8 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Command;
 
 use Rollerworks\Bundle\PasswordStrengthBundle\Command\BlacklistPurgeCommand;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
@@ -36,8 +38,10 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
 
         $commandTester = new CommandTester($command);
 
-        $dialog = $command->getHelperSet()->get('dialog');
-        $dialog->setInputStream($this->getInputStream("n\nno\n"));
+        // Symfony <2.5 BC
+        /** @var QuestionHelper|DialogHelper $questionHelper */
+        $questionHelper = $command->getHelperSet()->has('question') ? $command->getHelperSet()->get('question') : $command->getHelperSet()->get('dialog');
+        $questionHelper->setInputStream($this->getInputStream("n\nno\n"));
 
         $commandTester->execute(array('command' => $command->getName()), array('interactive' => true));
 
@@ -67,8 +71,10 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
 
         $commandTester = new CommandTester($command);
 
-        $dialog = $command->getHelperSet()->get('dialog');
-        $dialog->setInputStream($this->getInputStream("y\nyes\n"));
+        // Symfony <2.5 BC
+        /** @var QuestionHelper|DialogHelper $questionHelper */
+        $questionHelper = $command->getHelperSet()->has('question') ? $command->getHelperSet()->get('question') : $command->getHelperSet()->get('dialog');
+        $questionHelper->setInputStream($this->getInputStream("y\nyes\n"));
 
         $commandTester->execute(array('command' => $command->getName()));
 
