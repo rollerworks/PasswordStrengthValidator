@@ -36,6 +36,7 @@ class RollerworksPasswordStrengthExtension extends Extension
         $container->setAlias('rollerworks_password_strength.blacklist_provider', $config['blacklist']['default_provider']);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('strength_validator.xml');
         $loader->load('blacklist.xml');
 
         if (isset($config['blacklist']['providers']['sqlite'])) {

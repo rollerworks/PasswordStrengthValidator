@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Your password must be at least {{length}} characters long.</source>
+                <target>Wachtwoord moet minstens {{length}} tekens lang zijn.</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Your password must include at least one letter.</source>
+                <target>Wachtwoord moet ten minste één letter bevatten.</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Your password must include both upper and lower case letters.</source>
+                <target>Wachtwoord moet ten minste één hoofdletter en kleine letter bevatten.</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Your password must include at least one number.</source>
+                <target>Wachtwoord moet ten minste één nummer bevatten.</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Your password must contain at least one special character.</source>
+                <target>Wachtwoord moet ten minste één speciaal teken of leesteken bevatten.</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>password_too_weak</source>
+                <target>Wachtwoord moet minstens aan sterkte niveau "{{ min_strength }}" voldoen, huidig niveau is “{{ current_strength }}” probeer het volgende: {{ strength_tips }}.</target>
+            </trans-unit>
+
+            <!-- Strength levels -->
+            <trans-unit id="7">
+                <source>rollerworks_password.strength_level.very_weak</source>
+                <target>Erg zwak</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>rollerworks_password.strength_level.weak</source>
+                <target>Zwak</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>rollerworks_password.strength_level.medium</source>
+                <target>Gemiddeld</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>rollerworks_password.strength_level.strong</source>
+                <target>Sterk</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>rollerworks_password.strength_level.very_strong</source>
+                <target>Zeer sterk</target>
+            </trans-unit>
+
+            <!-- Tip translations -->
+            <trans-unit id="12">
+                <source>rollerworks_password.tip.letters</source>
+                <target>voeg (hoofd/kleine) letters toe</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>rollerworks_password.tip.numbers</source>
+                <target>voeg nummers toe</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>rollerworks_password.tip.lowercase_letters</source>
+                <target>voeg hoofdletters toe</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>rollerworks_password.tip.uppercase_letters</source>
+                <target>voeg kleine letters toe</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>rollerworks_password.tip.special_chars</source>
+                <target>voeg speciaal tekens of leestekens toe</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>rollerworks_password.tip.length</source>
+                <target>gebruik meer tekens</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

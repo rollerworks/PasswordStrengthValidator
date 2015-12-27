@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Your password must be at least {{length}} characters long.</source>
+                <target>Password must be at least {{length}} characters long.</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Your password must include at least one letter.</source>
+                <target>Password must include at least one letter.</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Your password must include both upper and lower case letters.</source>
+                <target>Password must include both upper and lower case letters.</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Your password must include at least one number.</source>
+                <target>Password must include at least one number.</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Your password must contain at least one special character.</source>
+                <target>Password must contain at least one special character.</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>password_too_weak</source>
+                <target>Password needs to be at least at strength level "{{ min_strength }}", current level is "{{ current_strength }}", try the following {{ strength_tips }}.</target>
+            </trans-unit>
+
+            <!-- Strength levels -->
+            <trans-unit id="7">
+                <source>rollerworks_password.strength_level.very_weak</source>
+                <target>Very Weak</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>rollerworks_password.strength_level.weak</source>
+                <target>Weak</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>rollerworks_password.strength_level.medium</source>
+                <target>Medium</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>rollerworks_password.strength_level.strong</source>
+                <target>Strong</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>rollerworks_password.strength_level.very_strong</source>
+                <target>Very strong</target>
+            </trans-unit>
+
+            <!-- Tip translations -->
+            <trans-unit id="12">
+                <source>rollerworks_password.tip.letters</source>
+                <target>add (upper/lowercase) letters</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>rollerworks_password.tip.numbers</source>
+                <target>add numbers</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>rollerworks_password.tip.lowercase_letters</source>
+                <target>add uppercase letters</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>rollerworks_password.tip.uppercase_letters</source>
+                <target>add uppercase letters</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>rollerworks_password.tip.special_chars</source>
+                <target>add special characters</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>rollerworks_password.tip.length</source>
+                <target>add more characters</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
