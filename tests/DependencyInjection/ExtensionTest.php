@@ -13,8 +13,10 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\DependencyInjection;
 
 use Rollerworks\Bundle\PasswordStrengthBundle\DependencyInjection\RollerworksPasswordStrengthExtension;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\Blacklist as BlacklistConstraint;
+use Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\AddConstraintValidatorsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\Validator\Tests\Fixtures\Reference;
 
 class ExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -105,6 +107,30 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($provider->isBlacklisted('kaboom'));
         $this->assertTrue($provider->isBlacklisted('doctor'));
         $this->assertFalse($provider->isBlacklisted('leeRoy'));
+    }
+
+    public function testPasswordStrengthValidatorService()
+    {
+        $container = $this->createContainer();
+        $container->registerExtension(new RollerworksPasswordStrengthExtension());
+        $container->loadFromExtension('rollerworks_password_strength');
+
+        $container->addCompilerPass(new AddConstraintValidatorsPass());
+        $container->register(
+            'validator.validator_factory',
+            'Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory'
+        )->setArguments(array(new Reference('service_container'), array()));
+
+        $this->compileContainer($container);
+
+        $validatorFactory = $container->getDefinition('validator.validator_factory');
+        $factoryArguments = $validatorFactory->getArguments();
+
+        $this->assertArrayHasKey('rollerworks_password_strength', $factoryArguments[1]);
+        $this->assertEquals(
+            'rollerworks_password_strength.validator.password_strength',
+            $factoryArguments[1]['rollerworks_password_strength']
+        );
     }
 
     /**

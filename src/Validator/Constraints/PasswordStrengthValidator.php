@@ -11,6 +11,9 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints;
 
+use Symfony\Component\Translation\Loader\XliffFileLoader;
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -38,6 +41,35 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class PasswordStrengthValidator extends ConstraintValidator
 {
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * @var array
+     */
+    private static $levelToLabel = array(
+        1 => 'very_weak',
+        2 => 'weak',
+        3 => 'medium',
+        4 => 'strong',
+        5 => 'very_strong',
+    );
+
+    public function __construct(TranslatorInterface $translator = null)
+    {
+        // If translator is missing create a new translator.
+        // With the 'en' locale and 'validators' domain.
+        if (null === $translator) {
+            $translator = new Translator('en');
+            $translator->addLoader('xlf', new XliffFileLoader());
+            $translator->addResource('xlf', dirname(dirname(__DIR__)).'/Resources/translations/validators.en.xlf', 'en', 'validators');
+        }
+
+        $this->translator = $translator;
+    }
+
     /**
      * @param string                      $password
      * @param PasswordStrength|Constraint $constraint
@@ -69,35 +101,65 @@ class PasswordStrengthValidator extends ConstraintValidator
             return;
         }
 
+        $tips = array();
+
         if (preg_match('/[a-zA-Z]/', $password)) {
             ++$passwordStrength;
-            if (preg_match('/[a-z]/', $password) && preg_match('/[A-Z]/', $password)) {
+
+            if (!preg_match('/[a-z]/', $password)) {
+                $tips[] = 'lowercase_letters';
+            } elseif (preg_match('/[A-Z]/', $password)) {
                 ++$passwordStrength;
+            } else {
+                $tips[] = 'uppercase_letters';
             }
+        } else {
+            $tips[] = 'letters';
         }
 
         if (preg_match('/\d+/', $password)) {
             ++$passwordStrength;
+        } else {
+            $tips[] = 'numbers';
         }
 
         if (preg_match('/[^a-zA-Z0-9]/', $password)) {
             ++$passwordStrength;
+        } else {
+            $tips[] = 'special_chars';
         }
 
         if ($passLength > 12) {
             ++$passwordStrength;
+        } else {
+            $tips[] = 'length';
         }
 
         // No decrease strength on weak combinations
 
         if ($passwordStrength < $constraint->minStrength) {
+            $parameters = array(
+                '{{ length }}' => $constraint->minLength,
+                '{{ min_strength }}' => $this->translator->trans('rollerworks_password.strength_level.'.self::$levelToLabel[$constraint->minStrength], array(), 'validators'),
+                '{{ current_strength }}' => $this->translator->trans('rollerworks_password.strength_level.'.self::$levelToLabel[$passwordStrength], array(), 'validators'),
+                '{{ strength_tips }}' => implode(', ', array_map(array($this, 'translateTips'), $tips)),
+            );
+
             if ($this->context instanceof ExecutionContextInterface) {
                 $this->context->buildViolation($constraint->message)
-                    ->setParameters(array('{{ length }}' => $constraint->minLength))
+                    ->setParameters($parameters)
                     ->addViolation();
             } else {
-                $this->context->addViolation($constraint->message, array('{{ length }}' => $constraint->minLength));
+                $this->context->addViolation($constraint->message, $parameters);
             }
         }
+    }
+
+    /**
+     * @internal
+     */
+    public function translateTips($tip)
+    {
+        return $this->translator->trans('rollerworks_password.tip.'.$tip, array(), 'validators');
     }
 }

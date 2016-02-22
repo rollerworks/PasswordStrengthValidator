@@ -34,4 +34,9 @@ class PasswordStrength extends Constraint
     {
         return array('minStrength');
     }
+
+    public function validatedBy()
+    {
+        return 'rollerworks_password_strength';
+    }
 }
