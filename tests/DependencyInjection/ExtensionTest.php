@@ -11,37 +11,32 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\DependencyInjection;
 
+use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Rollerworks\Bundle\PasswordStrengthBundle\DependencyInjection\RollerworksPasswordStrengthExtension;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\Blacklist as BlacklistConstraint;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\AddConstraintValidatorsPass;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\Validator\Tests\Fixtures\Reference;
 
-class ExtensionTest extends \PHPUnit_Framework_TestCase
+class ExtensionTest extends AbstractExtensionTestCase
 {
     public function testLoadDefaultConfiguration()
     {
-        $container = $this->createContainer();
-        $container->registerExtension(new RollerworksPasswordStrengthExtension());
-        $container->loadFromExtension('rollerworks_password_strength', array());
-        $this->compileContainer($container);
+        $this->load();
+        $this->compile();
 
-        $this->assertTrue($container->has('rollerworks_password_strength.blacklist_provider'));
-        $this->assertEquals('Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\NoopProvider', get_class($container->get('rollerworks_password_strength.blacklist_provider')));
+        $this->assertContainerBuilderHasService('rollerworks_password_strength.blacklist.validator');
+        $this->assertContainerBuilderHasService(
+            'rollerworks_password_strength.blacklist_provider',
+            'Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\NoopProvider'
+        );
 
         $constraint = new BlacklistConstraint();
-        $this->assertTrue($container->has($constraint->validatedBy()));
-
-        // This needs a proper test-case
-        $container->get('rollerworks_password_strength.blacklist.validator');
+        $this->assertContainerBuilderHasService($constraint->validatedBy());
     }
 
     public function testLoadWithSqliteConfiguration()
     {
-        $container = $this->createContainer();
-        $container->registerExtension(new RollerworksPasswordStrengthExtension());
-        $container->loadFromExtension('rollerworks_password_strength', array(
+        $this->load(array(
             'blacklist' => array(
                 'default_provider' => 'rollerworks_password_strength.blacklist.provider.sqlite',
                 'providers' => array(
@@ -50,17 +45,18 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
             ),
         ));
 
-        $this->compileContainer($container);
+        $this->compile();
 
-        $this->assertTrue($container->has('rollerworks_password_strength.blacklist_provider'));
-        $this->assertEquals('Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider', get_class($container->get('rollerworks_password_strength.blacklist_provider')));
+        $this->assertContainerBuilderHasService('rollerworks_password_strength.blacklist.validator');
+        $this->assertContainerBuilderHasService(
+            'rollerworks_password_strength.blacklist_provider',
+            'Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider'
+        );
     }
 
     public function testLoadWithArrayConfiguration()
     {
-        $container = $this->createContainer();
-        $container->registerExtension(new RollerworksPasswordStrengthExtension());
-        $container->loadFromExtension('rollerworks_password_strength', array(
+        $this->load(array(
             'blacklist' => array(
                 'default_provider' => 'rollerworks_password_strength.blacklist.provider.array',
                 'providers' => array(
@@ -69,12 +65,16 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
             ),
         ));
 
-        $this->compileContainer($container);
+        $this->compile();
 
-        $this->assertTrue($container->has('rollerworks_password_strength.blacklist_provider'));
-        $this->assertEquals('Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider', get_class($container->get('rollerworks_password_strength.blacklist_provider')));
+        $this->assertContainerBuilderHasService('rollerworks_password_strength.blacklist.validator');
+        $this->assertContainerBuilderHasService(
+            'rollerworks_password_strength.blacklist_provider',
+            'Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider'
+        );
 
-        $provider = $container->get('rollerworks_password_strength.blacklist_provider');
+        $provider = $this->container->get('rollerworks_password_strength.blacklist_provider');
+
         $this->assertTrue($provider->isBlacklisted('foo'));
         $this->assertTrue($provider->isBlacklisted('foobar'));
         $this->assertTrue($provider->isBlacklisted('kaboom'));
@@ -83,25 +83,35 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadWithChainConfiguration()
     {
-        $container = $this->createContainer();
-        $container->registerExtension(new RollerworksPasswordStrengthExtension());
-        $container->loadFromExtension('rollerworks_password_strength', array(
+        $this->load(array(
             'blacklist' => array(
                 'default_provider' => 'rollerworks_password_strength.blacklist.provider.chain',
                 'providers' => array(
                     'array' => array('foo', 'foobar', 'kaboom'),
-                    'chain' => array('providers' => array('rollerworks_password_strength.blacklist.provider.array', 'acme.password_blacklist.array')),
+                    'chain' => array(
+                        'providers' => array(
+                            'rollerworks_password_strength.blacklist.provider.array',
+                            'acme.password_blacklist.array',
+                        ),
+                    ),
                 ),
             ),
         ));
 
-        $container->set('acme.password_blacklist.array', new \Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider(array('amy', 'doctor', 'rory')));
-        $this->compileContainer($container);
+        $this->container->set(
+            'acme.password_blacklist.array',
+            new \Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider(array('amy', 'doctor', 'rory'))
+        );
 
-        $this->assertTrue($container->has('rollerworks_password_strength.blacklist_provider'));
-        $this->assertEquals('Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ChainProvider', get_class($container->get('rollerworks_password_strength.blacklist_provider')));
+        $this->compile();
 
-        $provider = $container->get('rollerworks_password_strength.blacklist_provider');
+        $this->assertContainerBuilderHasService('rollerworks_password_strength.blacklist.validator');
+        $this->assertContainerBuilderHasService(
+            'rollerworks_password_strength.blacklist_provider',
+            'Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ChainProvider'
+        );
+
+        $provider = $this->container->get('rollerworks_password_strength.blacklist_provider');
         $this->assertTrue($provider->isBlacklisted('foo'));
         $this->assertTrue($provider->isBlacklisted('foobar'));
         $this->assertTrue($provider->isBlacklisted('kaboom'));
@@ -109,51 +119,32 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($provider->isBlacklisted('leeRoy'));
     }
 
-    public function testPasswordStrengthValidatorService()
+    public function testPasswordValidatorsAreRegistered()
     {
-        $container = $this->createContainer();
-        $container->registerExtension(new RollerworksPasswordStrengthExtension());
-        $container->loadFromExtension('rollerworks_password_strength');
-
-        $container->addCompilerPass(new AddConstraintValidatorsPass());
-        $container->register(
+        $this->container->addCompilerPass(new AddConstraintValidatorsPass());
+        $this->container->register(
             'validator.validator_factory',
             'Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory'
         )->setArguments(array(new Reference('service_container'), array()));
 
-        $this->compileContainer($container);
+        $this->load();
+        $this->compile();
 
-        $validatorFactory = $container->getDefinition('validator.validator_factory');
+        $validatorFactory = $this->container->getDefinition('validator.validator_factory');
         $factoryArguments = $validatorFactory->getArguments();
 
-        $this->assertArrayHasKey('rollerworks_password_strength', $factoryArguments[1]);
-        $this->assertEquals(
-            'rollerworks_password_strength.validator.password_strength',
-            $factoryArguments[1]['rollerworks_password_strength']
+        $validators = array_values($factoryArguments[1]);
+
+        // Use only the service-id as the alias is considered deprecated.
+        // https://github.com/symfony/symfony/issues/16805
+        $this->assertContains('rollerworks_password_strength.validator.password_strength', $validators);
+        $this->assertContains('rollerworks_password_strength.blacklist.validator', $validators);
+    }
+
+    protected function getContainerExtensions()
+    {
+        return array(
+            new RollerworksPasswordStrengthExtension(),
         );
-    }
-
-    /**
-     * @return ContainerBuilder
-     */
-    protected function createContainer()
-    {
-        $container = new ContainerBuilder(new ParameterBag(array(
-            'kernel.cache_dir' => __DIR__.'/.cache',
-            'kernel.charset' => 'UTF-8',
-            'kernel.debug' => false,
-        )));
-
-        return $container;
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     */
-    protected function compileContainer(ContainerBuilder $container)
-    {
-        $container->getCompilerPassConfig()->setOptimizationPasses(array());
-        $container->getCompilerPassConfig()->setRemovingPasses(array());
-        $container->compile();
     }
 }
