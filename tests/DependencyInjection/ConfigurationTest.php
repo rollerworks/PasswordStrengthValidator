@@ -11,59 +11,108 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\DependencyInjection;
 
+use Matthias\SymfonyConfigTest\PhpUnit\AbstractConfigurationTestCase;
 use Rollerworks\Bundle\PasswordStrengthBundle\DependencyInjection\Configuration;
-use Symfony\Component\Config\Definition\Processor;
 
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends AbstractConfigurationTestCase
 {
-    public function testConfigTree()
+    protected function getConfiguration()
     {
-        $processor = new Processor();
-        $configuration = new Configuration();
-        $config = $processor->processConfiguration($configuration, array(array()));
-
-        $this->assertEquals('rollerworks_password_strength.blacklist.provider.noop', $config['blacklist']['default_provider']);
+        return new Configuration();
     }
 
-    public function testConfigSqlite()
+    public function testNoBlacklistProvidersConfiguredByDefault()
     {
-        $processor = new Processor();
-        $configuration = new Configuration();
-        $config = $processor->processConfiguration($configuration, array(
-                array('blacklist' => array('providers' => array(
-                    'sqlite' => array('dsn' => 'sqlite:/path/to/the/db/file'),
+        $this->assertProcessedConfigurationEquals(
+            array(
+                array(),
+            ),
+            array(
+                'blacklist' => array(
+                    'default_provider' => 'rollerworks_password_strength.blacklist.provider.noop',
                 ),
-            )),
-        ));
-
-        $this->assertEquals('sqlite:/path/to/the/db/file', $config['blacklist']['providers']['sqlite']['dsn']);
+            )
+        );
     }
 
-    public function testConfigArray()
+    public function testSqlLiteBlacklistProviderIsConfigured()
     {
-        $processor = new Processor();
-        $configuration = new Configuration();
-        $config = $processor->processConfiguration($configuration, array(
-                array('blacklist' => array('providers' => array(
-                    'array' => array('foo', 'foobar', 'kaboom'),
+        $this->assertProcessedConfigurationEquals(
+            array(
+                array(
+                    'blacklist' => array(
+                        'providers' => array(
+                            'sqlite' => array('dsn' => 'sqlite:/path/to/the/db/file'),
+                        ),
+                    ),
                 ),
-            )),
-        ));
+            ),
+            array(
+                'blacklist' => array(
+                    'providers' => array(
+                        'sqlite' => array('dsn' => 'sqlite:/path/to/the/db/file'),
+                        'array' => array(),
+                    ),
+                    'default_provider' => 'rollerworks_password_strength.blacklist.provider.noop',
+                ),
+            )
+        );
+    }
 
-        $this->assertEquals(array('foo', 'foobar', 'kaboom'), $config['blacklist']['providers']['array']);
+    public function testArrayBlacklistProviderIsConfigured()
+    {
+        $this->assertProcessedConfigurationEquals(
+            array(
+                array(
+                    'blacklist' => array(
+                        'providers' => array(
+                            'array' => array('foo', 'foobar', 'kaboom'),
+                        ),
+                    ),
+                ),
+            ),
+            array(
+                'blacklist' => array(
+                    'providers' => array(
+                        'array' => array('foo', 'foobar', 'kaboom'),
+                    ),
+                    'default_provider' => 'rollerworks_password_strength.blacklist.provider.noop',
+                ),
+            )
+        );
     }
 
     public function testConfigChain()
     {
-        $processor = new Processor();
-        $configuration = new Configuration();
-        $config = $processor->processConfiguration($configuration, array(
-                array('blacklist' => array('providers' => array(
-                    'chain' => array('providers' => array('rollerworks_password_strength.blacklist.provider.array', 'rollerworks_password_strength.blacklist.provider.sqlite')),
+        $this->assertProcessedConfigurationEquals(
+            array(
+                array(
+                    'blacklist' => array(
+                        'providers' => array(
+                            'chain' => array(
+                                'providers' => array(
+                                    'rollerworks_password_strength.blacklist.provider.array',
+                                    'rollerworks_password_strength.blacklist.provider.sqlite',
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
-            )),
-        ));
-
-        $this->assertEquals(array('rollerworks_password_strength.blacklist.provider.array', 'rollerworks_password_strength.blacklist.provider.sqlite'), $config['blacklist']['providers']['chain']['providers']);
+            ),
+            array(
+                'blacklist' => array(
+                    'providers' => array(
+                        'chain' => array(
+                            'providers' => array(
+                                'rollerworks_password_strength.blacklist.provider.array',
+                                'rollerworks_password_strength.blacklist.provider.sqlite',
+                            ),
+                        ),
+                        'array' => array(),
+                    ),
+                    'default_provider' => 'rollerworks_password_strength.blacklist.provider.noop',
+                ),
+            )
+        );
     }
 }

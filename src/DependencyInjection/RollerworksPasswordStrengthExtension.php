@@ -39,19 +39,28 @@ class RollerworksPasswordStrengthExtension extends Extension
         $loader->load('strength_validator.xml');
         $loader->load('blacklist.xml');
 
-        if (isset($config['blacklist']['providers']['sqlite'])) {
-            $container->setParameter('rollerworks_password_strength.blacklist.sqlite.dsn', $config['blacklist']['providers']['sqlite']['dsn']);
+        if (isset($config['blacklist']['providers'])) {
+            $this->setBlackListProvidersConfiguration($config['blacklist']['providers'], $container);
+        }
+    }
+
+    private function setBlackListProvidersConfiguration(array $config, ContainerBuilder $container)
+    {
+        if (isset($config['sqlite'])) {
+            $container->setParameter('rollerworks_password_strength.blacklist.sqlite.dsn', $config['sqlite']['dsn']);
             $container->getDefinition('rollerworks_password_strength.blacklist.provider.sqlite')->setPublic(true);
         }
 
-        if (isset($config['blacklist']['providers']['array'])) {
-            $container->getDefinition('rollerworks_password_strength.blacklist.provider.array')->replaceArgument(0, $config['blacklist']['providers']['array']);
+        if (isset($config['array'])) {
+            $container
+                ->getDefinition('rollerworks_password_strength.blacklist.provider.array')
+                ->replaceArgument(0, $config['array']);
         }
 
-        if (isset($config['blacklist']['providers']['chain'])) {
+        if (isset($config['chain'])) {
             $chainLoader = $container->getDefinition('rollerworks_password_strength.blacklist.provider.chain');
 
-            foreach ($config['blacklist']['providers']['chain']['providers'] as $provider) {
+            foreach ($config['chain']['providers'] as $provider) {
                 $chainLoader->addMethodCall('addProvider', array(new Reference($provider)));
             }
         }
