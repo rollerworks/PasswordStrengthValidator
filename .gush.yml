@@ -7,6 +7,13 @@ table-pr:
     deprecations: ['Deprecations?', 'no']
     fixed_tickets: ['Fixed Tickets', '']
     license: [License, MIT]
+pr_type:
+    - feature
+    - bug
+    - refactor
+    - style
+    - doc
+    - security
 repo_adapter: github
 issue_tracker: github
 repo_org: rollerworks
