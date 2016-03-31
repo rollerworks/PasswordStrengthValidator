@@ -60,7 +60,7 @@
             </trans-unit>
             <trans-unit id="14">
                 <source>rollerworks_password.tip.lowercase_letters</source>
-                <target>add uppercase letters</target>
+                <target>add lowercase letters</target>
             </trans-unit>
             <trans-unit id="15">
                 <source>rollerworks_password.tip.uppercase_letters</source>
