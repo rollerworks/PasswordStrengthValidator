@@ -91,11 +91,11 @@ class PasswordStrengthValidator extends ConstraintValidator
 
         if ($passLength < $constraint->minLength) {
             if ($this->context instanceof ExecutionContextInterface) {
-                $this->context->buildViolation($constraint->message)
-                    ->setParameters(array('{{ length }}' => $constraint->minLength))
+                $this->context->buildViolation($constraint->tooShortMessage)
+                    ->setParameters(array('{{length}}' => $constraint->minLength))
                     ->addViolation();
             } else {
-                $this->context->addViolation($constraint->message, array('{{ length }}' => $constraint->minLength));
+                $this->context->addViolation($constraint->tooShortMessage, array('{{length}}' => $constraint->minLength));
             }
 
             return;
