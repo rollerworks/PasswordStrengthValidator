@@ -60,11 +60,11 @@
             </trans-unit>
             <trans-unit id="14">
                 <source>rollerworks_password.tip.lowercase_letters</source>
-                <target>voeg hoofdletters toe</target>
+                <target>voeg kleine letters toe</target>
             </trans-unit>
             <trans-unit id="15">
                 <source>rollerworks_password.tip.uppercase_letters</source>
-                <target>voeg kleine letters toe</target>
+                <target>voeg hoofdletters toe</target>
             </trans-unit>
             <trans-unit id="16">
                 <source>rollerworks_password.tip.special_chars</source>
