@@ -30,6 +30,26 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
         5 => 'very_strong',
     );
 
+    public function getMock($originalClassName, $methods = array(), array $arguments = array(), $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $cloneArguments = false, $callOriginalMethods = false, $proxyTarget = null)
+    {
+        if (func_num_args() === 1 && preg_match('/^Symfony\\\\Component\\\\([a-z]+\\\\)+[a-z]+Interface$/i', $originalClassName)) {
+            return $this->getMockBuilder($originalClassName)->getMock();
+        }
+
+        return parent::getMock(
+            $originalClassName,
+            $methods,
+            $arguments,
+            $mockClassName,
+            $callOriginalConstructor,
+            $callOriginalClone,
+            $callAutoload,
+            $cloneArguments,
+            $callOriginalMethods,
+            $proxyTarget
+        );
+    }
+
     protected function getApiVersion()
     {
         return Validation::API_VERSION_2_5;
