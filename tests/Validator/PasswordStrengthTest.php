@@ -143,6 +143,21 @@ class PasswordStrengthTest extends AbstractConstraintValidatorTest
             ->assertRaised();
     }
 
+    public function testShortPasswordInMultiByteWillNotPass()
+    {
+        $constraint = new PasswordStrength(array('minStrength' => 5, 'minLength' => 7));
+
+        $this->validator->validate('foöled', $constraint);
+
+        $parameters = array(
+            '{{length}}' => 7,
+        );
+
+        $this->buildViolation('Your password must be at least {{length}} characters long.')
+            ->setParameters($parameters)
+            ->assertRaised();
+    }
+
     /**
      * @dataProvider getWeakPasswords
      */

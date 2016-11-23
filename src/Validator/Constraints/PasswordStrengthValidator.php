@@ -87,7 +87,7 @@ class PasswordStrengthValidator extends ConstraintValidator
         $password = (string) $password;
 
         $passwordStrength = 0;
-        $passLength = strlen($password);
+        $passLength = mb_strlen($password);
 
         if ($passLength < $constraint->minLength) {
             if ($this->context instanceof ExecutionContextInterface) {

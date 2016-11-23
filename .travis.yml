@@ -24,8 +24,8 @@ cache:
     directories:
         - $HOME/.composer/cache
 
-#before_install:
-#    - composer selfupdate
+before_install:
+    - composer selfupdate
 
 install:
     - export COMPOSER_ROOT_VERSION=dev-master
