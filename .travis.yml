@@ -1,21 +1,23 @@
 language: php
 
-php:
-    - 5.3
-    - 5.4
-    - 5.5
-    - 5.6
-    - 7.0
-    - hhvm
-
 matrix:
     include:
+        # Use the newer stack for HHVM as HHVM does not support Precise anymore since a long time and so Precise has an outdated version
+        - php: hhvm-3.15
+          sudo: required
+          dist: trusty
+          group: edge
         - php: 5.3
-          env: DEPENDENCIES='low'
+          env: SKIP_OEL=true
+        - php: 5.4
+          env: SKIP_OEL=true
+        - php: 5.5
+          env: SKIP_OEL=true
+        - php: 5.6
         - php: 7.0
           env: DEPENDENCIES='dev'
-    allow_failures:
-        - env: DEPENDENCIES='dev'
+        - php: 7.1
+          env: DEPENDENCIES='low'
     fast_finish: true
 
 sudo: false
@@ -25,13 +27,18 @@ cache:
         - $HOME/.composer/cache
 
 before_install:
-    - composer selfupdate
+    # Matrix lines for OEL PHP versions are skipped for pull requests
+    - PHP=$TRAVIS_PHP_VERSION
+    - if [[ $SKIP_OEL && $TRAVIS_PULL_REQUEST != false ]]; then echo "Version ${PHP} is skipped for this pull request" && exit 0; fi
+    - if [[ ! $PHP = hhvm* ]]; then phpenv config-rm xdebug.ini || echo "xdebug not available"; fi
+    - composer selfupdate --stable
 
 install:
-    - export COMPOSER_ROOT_VERSION=dev-master
-    - if [ "$DEPENDENCIES" == "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
-    - if [ "$DEPENDENCIES" != "low" ]; then travis_retry composer update; fi;
-    - if [ "$DEPENDENCIES" == "low" ]; then travis_retry composer update --prefer-lowest; fi;
+    - export SYMFONY_PHPUNIT_REMOVE="symfony/yaml"
+    - export SYMFONY_DEPRECATIONS_HELPER=weak
+    - if [ "$DEPENDENCIES" == "dev" ]; then composer config minimum-stability dev; fi;
+    - if [ "$DEPENDENCIES" != "low" ]; then composer update --prefer-dist --no-progress --no-suggest --ansi; fi;
+    - if [ "$DEPENDENCIES" == "low" ]; then composer update --prefer-dist --no-progress --no-suggest --ansi --prefer-lowest; fi;
 
 script:
-    - vendor/bin/phpunit --configuration phpunit.xml.dist
+    - vendor/bin/simple-phpunit --verbose
