@@ -34,7 +34,8 @@
     "autoload": {
         "psr-4": {
             "Rollerworks\\Bundle\\PasswordStrengthBundle\\": "src/"
-        }
+        },
+        "exclude-from-classmap": ["test/"]
     },
     "autoload-dev": {
         "psr-4": {
