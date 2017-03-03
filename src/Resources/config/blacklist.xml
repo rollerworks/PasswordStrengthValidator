@@ -21,7 +21,7 @@
             <argument>%rollerworks_password_strength.blacklist.sqlite.dsn%</argument>
         </service>
         <service id="rollerworks_password_strength.blacklist.provider.chain" class="%rollerworks_password_strength.blacklist.provider.chain.class%" public="false" />
-        <service id="rollerworks_password_strength.blacklist.validator" class="%rollerworks_password_strength.blacklist.validator.class%">
+        <service id="rollerworks_password_strength.blacklist.validator" class="Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\BlacklistValidator">
             <tag name="validator.constraint_validator" alias="rollerworks_password_strength.blacklist.validator" />
             <argument type="service" id="rollerworks_password_strength.blacklist_provider" />
         </service>
