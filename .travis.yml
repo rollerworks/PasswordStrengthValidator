@@ -31,7 +31,6 @@ before_install:
     - PHP=$TRAVIS_PHP_VERSION
     - if [[ $SKIP_OEL && $TRAVIS_PULL_REQUEST != false ]]; then echo "Version ${PHP} is skipped for this pull request" && exit 0; fi
     - if [[ ! $PHP = hhvm* ]]; then phpenv config-rm xdebug.ini || echo "xdebug not available"; fi
-    - composer selfupdate --stable
 
 install:
     - export SYMFONY_PHPUNIT_REMOVE="symfony/yaml"
@@ -39,6 +38,9 @@ install:
     - if [ "$DEPENDENCIES" == "dev" ]; then composer config minimum-stability dev; fi;
     - if [ "$DEPENDENCIES" != "low" ]; then composer update --prefer-dist --no-progress --no-suggest --ansi; fi;
     - if [ "$DEPENDENCIES" == "low" ]; then composer update --prefer-dist --no-progress --no-suggest --ansi --prefer-lowest; fi;
+
+before_script:
+    - if [ $SKIP_OEL ]; then echo 'mbstring.internal_encoding = "UTF-8"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
 
 script:
     - if [ "$DEPENDENCIES" == "dev" ]; then vendor/bin/simple-phpunit --verbose --exclude-group legacy; fi
