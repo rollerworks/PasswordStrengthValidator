@@ -15,6 +15,7 @@ use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Rollerworks\Bundle\PasswordStrengthBundle\DependencyInjection\RollerworksPasswordStrengthExtension;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\Blacklist as BlacklistConstraint;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\AddConstraintValidatorsPass;
+use Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
 use Symfony\Component\Validator\Tests\Fixtures\Reference;
 
 class ExtensionTest extends AbstractExtensionTestCase
@@ -133,12 +134,20 @@ class ExtensionTest extends AbstractExtensionTestCase
         $validatorFactory = $this->container->getDefinition('validator.validator_factory');
         $factoryArguments = $validatorFactory->getArguments();
 
-        $validators = array_values($factoryArguments[1]);
+        // Compatibility for Symfony 3.3
+        if ($factoryArguments[0] instanceof ServiceLocatorArgument) {
+            $validators = $factoryArguments[0]->getValues();
 
-        // Use only the service-id as the alias is considered deprecated.
-        // https://github.com/symfony/symfony/issues/16805
-        $this->assertContains('rollerworks_password_strength.validator.password_strength', $validators);
-        $this->assertContains('rollerworks_password_strength.blacklist.validator', $validators);
+            $this->assertArrayHasKey('Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrengthValidator', $validators);
+            $this->assertArrayHasKey('Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\BlacklistValidator', $validators);
+        } else {
+            $validators = array_values($factoryArguments[1]);
+
+            // Use only the service-id as the alias is considered deprecated.
+            // https://github.com/symfony/symfony/issues/16805
+            $this->assertContains('rollerworks_password_strength.validator.password_strength', $validators);
+            $this->assertContains('rollerworks_password_strength.blacklist.validator', $validators);
+        }
     }
 
     protected function getContainerExtensions()

@@ -41,7 +41,12 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
         // Symfony <2.5 BC
         /** @var QuestionHelper|DialogHelper $questionHelper */
         $questionHelper = $command->getHelperSet()->has('question') ? $command->getHelperSet()->get('question') : $command->getHelperSet()->get('dialog');
-        $questionHelper->setInputStream($this->getInputStream("n\nno\n"));
+
+        if (method_exists($commandTester, 'setInputs')) {
+            $commandTester->setInputs(array('no'));
+        } else {
+            $questionHelper->setInputStream($this->getInputStream("n\nno\n"));
+        }
 
         $commandTester->execute(array('command' => $command->getName()), array('interactive' => true));
 
@@ -74,7 +79,12 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
         // Symfony <2.5 BC
         /** @var QuestionHelper|DialogHelper $questionHelper */
         $questionHelper = $command->getHelperSet()->has('question') ? $command->getHelperSet()->get('question') : $command->getHelperSet()->get('dialog');
-        $questionHelper->setInputStream($this->getInputStream("y\nyes\n"));
+
+        if (method_exists($commandTester, 'setInputs')) {
+            $commandTester->setInputs(array('y', 'yes'));
+        } else {
+            $questionHelper->setInputStream($this->getInputStream("y\nyes\n"));
+        }
 
         $commandTester->execute(array('command' => $command->getName()));
 
