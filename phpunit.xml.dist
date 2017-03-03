@@ -15,7 +15,6 @@
         <ini name="intl.default_locale" value="en"/>
         <ini name="intl.error_level" value="0"/>
         <ini name="memory_limit" value="-1"/>
-        <ini name="mbstring.internal_encoding" value="UTF-8"/>
     </php>
 
     <testsuites>
@@ -27,10 +26,10 @@
     <filter>
         <whitelist>
             <directory>./src</directory>
-        </whitelist>
-        <exclude>
+            <exclude>
                 <directory>./vendor/</directory>
                 <directory>./tests/</directory>
             </exclude>
+        </whitelist>
     </filter>
 </phpunit>

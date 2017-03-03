@@ -13,6 +13,9 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Validator;
 
 use Symfony\Component\Validator\Validation;
 
+/**
+ * @group legacy
+ */
 class LegacyPasswordRequirementsValidator2Dot4ApiTest extends PasswordRequirementsValidatorTest
 {
     protected function getApiVersion()
