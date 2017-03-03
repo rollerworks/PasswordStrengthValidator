@@ -41,4 +41,5 @@ install:
     - if [ "$DEPENDENCIES" == "low" ]; then composer update --prefer-dist --no-progress --no-suggest --ansi --prefer-lowest; fi;
 
 script:
-    - if [ "$DEPENDENCIES" == "dev" ]; then vendor/bin/simple-phpunit --verbose --exclude-group legacy || vendor/bin/simple-phpunit --verbose; fi
+    - if [ "$DEPENDENCIES" == "dev" ]; then vendor/bin/simple-phpunit --verbose --exclude-group legacy; fi
+    - if [ "$DEPENDENCIES" != "dev" ]; then vendor/bin/simple-phpunit --verbose; fi
