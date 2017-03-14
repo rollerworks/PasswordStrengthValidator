@@ -11,10 +11,11 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Blacklist;
 
+use PHPUnit\Framework\TestCase;
 use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider;
 use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ChainProvider;
 
-class ChainProviderTest extends \PHPUnit_Framework_TestCase
+class ChainProviderTest extends TestCase
 {
     public function testBlackList()
     {
@@ -22,16 +23,16 @@ class ChainProviderTest extends \PHPUnit_Framework_TestCase
         $provider->addProvider(new ArrayProvider(array('test', 'foobar', 0)));
         $provider->addProvider(new ArrayProvider(array('weak', 'god')));
 
-        $this->assertTrue($provider->isBlacklisted('test'));
-        $this->assertTrue($provider->isBlacklisted('foobar'));
-        $this->assertTrue($provider->isBlacklisted(0));
+        self::assertTrue($provider->isBlacklisted('test'));
+        self::assertTrue($provider->isBlacklisted('foobar'));
+        self::assertTrue($provider->isBlacklisted(0));
 
-        $this->assertTrue($provider->isBlacklisted('weak'));
-        $this->assertTrue($provider->isBlacklisted('god'));
+        self::assertTrue($provider->isBlacklisted('weak'));
+        self::assertTrue($provider->isBlacklisted('god'));
 
-        $this->assertFalse($provider->isBlacklisted('tests'));
-        $this->assertFalse($provider->isBlacklisted(null));
-        $this->assertFalse($provider->isBlacklisted(false));
+        self::assertFalse($provider->isBlacklisted('tests'));
+        self::assertFalse($provider->isBlacklisted(null));
+        self::assertFalse($provider->isBlacklisted(false));
     }
 
     public function testProvidersByConstruct()
@@ -41,7 +42,7 @@ class ChainProviderTest extends \PHPUnit_Framework_TestCase
 
         $provider = new ChainProvider(array($provider1, $provider2));
 
-        $this->assertEquals(array($provider1, $provider2), $provider->getProviders());
+        self::assertEquals(array($provider1, $provider2), $provider->getProviders());
     }
 
     public function testGetProviders()
@@ -54,7 +55,7 @@ class ChainProviderTest extends \PHPUnit_Framework_TestCase
         $provider->addProvider($provider1);
         $provider->addProvider($provider2);
 
-        $this->assertEquals(array($provider1, $provider2), $provider->getProviders());
+        self::assertEquals(array($provider1, $provider2), $provider->getProviders());
     }
 
     public function testNoAssignSelf()
