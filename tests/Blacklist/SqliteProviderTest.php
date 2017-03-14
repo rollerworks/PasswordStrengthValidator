@@ -11,9 +11,10 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Blacklist;
 
+use PHPUnit\Framework\TestCase;
 use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider;
 
-class SqliteProviderTest extends \PHPUnit_Framework_TestCase
+class SqliteProviderTest extends TestCase
 {
     /**
      * @var string
@@ -46,41 +47,41 @@ class SqliteProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testAdd()
     {
-        $this->assertTrue(self::$provider->add('test'));
-        $this->assertTrue(self::$provider->add('foobar'));
+        self::assertTrue(self::$provider->add('test'));
+        self::assertTrue(self::$provider->add('foobar'));
 
-        $this->assertTrue(self::$provider->isBlacklisted('test'));
-        $this->assertTrue(self::$provider->isBlacklisted('foobar'));
-        $this->assertFalse(self::$provider->isBlacklisted('testing'));
+        self::assertTrue(self::$provider->isBlacklisted('test'));
+        self::assertTrue(self::$provider->isBlacklisted('foobar'));
+        self::assertFalse(self::$provider->isBlacklisted('testing'));
     }
 
     public function testDelete()
     {
-        $this->assertTrue(self::$provider->add('test'));
-        $this->assertTrue(self::$provider->add('foobar'));
+        self::assertTrue(self::$provider->add('test'));
+        self::assertTrue(self::$provider->add('foobar'));
 
-        $this->assertTrue(self::$provider->isBlacklisted('test'));
-        $this->assertTrue(self::$provider->isBlacklisted('foobar'));
-        $this->assertFalse(self::$provider->isBlacklisted('testing'));
+        self::assertTrue(self::$provider->isBlacklisted('test'));
+        self::assertTrue(self::$provider->isBlacklisted('foobar'));
+        self::assertFalse(self::$provider->isBlacklisted('testing'));
 
-        $this->assertTrue(self::$provider->delete('foobar'));
-        $this->assertFalse(self::$provider->isBlacklisted('foobar'));
-        $this->assertTrue(self::$provider->isBlacklisted('test'));
+        self::assertTrue(self::$provider->delete('foobar'));
+        self::assertFalse(self::$provider->isBlacklisted('foobar'));
+        self::assertTrue(self::$provider->isBlacklisted('test'));
     }
 
     public function testPurge()
     {
-        $this->assertTrue(self::$provider->add('test'));
-        $this->assertTrue(self::$provider->add('foobar'));
+        self::assertTrue(self::$provider->add('test'));
+        self::assertTrue(self::$provider->add('foobar'));
 
-        $this->assertTrue(self::$provider->isBlacklisted('test'));
-        $this->assertTrue(self::$provider->isBlacklisted('foobar'));
+        self::assertTrue(self::$provider->isBlacklisted('test'));
+        self::assertTrue(self::$provider->isBlacklisted('foobar'));
 
         self::$provider->purge();
-        $this->assertFalse(self::$provider->isBlacklisted('foobar'));
-        $this->assertFalse(self::$provider->isBlacklisted('test'));
-        $this->assertTrue(self::$provider->add('test'));
-        $this->assertTrue(self::$provider->isBlacklisted('test'));
+        self::assertFalse(self::$provider->isBlacklisted('foobar'));
+        self::assertFalse(self::$provider->isBlacklisted('test'));
+        self::assertTrue(self::$provider->add('test'));
+        self::assertTrue(self::$provider->isBlacklisted('test'));
     }
 
     protected function setUp()

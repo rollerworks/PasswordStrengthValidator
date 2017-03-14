@@ -40,6 +40,7 @@ install:
     - if [ "$DEPENDENCIES" == "low" ]; then composer update --prefer-dist --no-progress --no-suggest --ansi --prefer-lowest; fi;
 
 before_script:
+    - if [ "$SYMFONY_PHPUNIT_VERSION" == "" ]; then export SYMFONY_PHPUNIT_VERSION=5.7.1; fi
     - if [ $SKIP_OEL ]; then echo 'mbstring.internal_encoding = "UTF-8"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
 
 script:

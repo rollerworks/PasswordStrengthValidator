@@ -11,19 +11,20 @@
 
 namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Blacklist;
 
+use PHPUnit\Framework\TestCase;
 use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\NoopProvider;
 
-class NoopProviderTest extends \PHPUnit_Framework_TestCase
+class NoopProviderTest extends TestCase
 {
     public function testBlackList()
     {
         $provider = new NoopProvider();
 
-        $this->assertFalse($provider->isBlacklisted('test'));
-        $this->assertFalse($provider->isBlacklisted('foobar'));
-        $this->assertFalse($provider->isBlacklisted(0));
-        $this->assertFalse($provider->isBlacklisted('tests'));
-        $this->assertFalse($provider->isBlacklisted(null));
-        $this->assertFalse($provider->isBlacklisted(false));
+        self::assertFalse($provider->isBlacklisted('test'));
+        self::assertFalse($provider->isBlacklisted('foobar'));
+        self::assertFalse($provider->isBlacklisted(0));
+        self::assertFalse($provider->isBlacklisted('tests'));
+        self::assertFalse($provider->isBlacklisted(null));
+        self::assertFalse($provider->isBlacklisted(false));
     }
 }

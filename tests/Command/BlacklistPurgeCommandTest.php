@@ -32,9 +32,9 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
         $this->getProvider()->add('foobar');
         $this->getProvider()->add('kaboom');
 
-        $this->assertTrue($this->getProvider()->isBlacklisted('test'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('foobar'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertTrue($this->getProvider()->isBlacklisted('test'));
+        self::assertTrue($this->getProvider()->isBlacklisted('foobar'));
+        self::assertTrue($this->getProvider()->isBlacklisted('kaboom'));
 
         $commandTester = new CommandTester($command);
 
@@ -50,11 +50,11 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
 
         $commandTester->execute(array('command' => $command->getName()), array('interactive' => true));
 
-        $this->assertRegExp('/This will remove all the passwords from your blacklist database!!/', $commandTester->getDisplay());
+        self::assertRegExp('/This will remove all the passwords from your blacklist database!!/', $commandTester->getDisplay());
 
-        $this->assertTrue($this->getProvider()->isBlacklisted('test'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('foobar'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertTrue($this->getProvider()->isBlacklisted('test'));
+        self::assertTrue($this->getProvider()->isBlacklisted('foobar'));
+        self::assertTrue($this->getProvider()->isBlacklisted('kaboom'));
     }
 
     public function testWithAskConfirm()
@@ -70,9 +70,9 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
         $this->getProvider()->add('foobar');
         $this->getProvider()->add('kaboom');
 
-        $this->assertTrue($this->getProvider()->isBlacklisted('test'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('foobar'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertTrue($this->getProvider()->isBlacklisted('test'));
+        self::assertTrue($this->getProvider()->isBlacklisted('foobar'));
+        self::assertTrue($this->getProvider()->isBlacklisted('kaboom'));
 
         $commandTester = new CommandTester($command);
 
@@ -88,11 +88,11 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
 
         $commandTester->execute(array('command' => $command->getName()));
 
-        $this->assertRegExp('/This will remove all the passwords from your blacklist database!!/', $commandTester->getDisplay());
+        self::assertRegExp('/This will remove all the passwords from your blacklist database!!/', $commandTester->getDisplay());
 
-        $this->assertFalse($this->getProvider()->isBlacklisted('test'));
-        $this->assertFalse($this->getProvider()->isBlacklisted('foobar'));
-        $this->assertFalse($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertFalse($this->getProvider()->isBlacklisted('test'));
+        self::assertFalse($this->getProvider()->isBlacklisted('foobar'));
+        self::assertFalse($this->getProvider()->isBlacklisted('kaboom'));
     }
 
     public function testNoAsk()
@@ -108,16 +108,16 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
         $this->getProvider()->add('foobar');
         $this->getProvider()->add('kaboom');
 
-        $this->assertTrue($this->getProvider()->isBlacklisted('test'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('foobar'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertTrue($this->getProvider()->isBlacklisted('test'));
+        self::assertTrue($this->getProvider()->isBlacklisted('foobar'));
+        self::assertTrue($this->getProvider()->isBlacklisted('kaboom'));
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName(), '--no-ask' => null));
 
-        $this->assertFalse($this->getProvider()->isBlacklisted('test'));
-        $this->assertFalse($this->getProvider()->isBlacklisted('foobar'));
-        $this->assertFalse($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertFalse($this->getProvider()->isBlacklisted('test'));
+        self::assertFalse($this->getProvider()->isBlacklisted('foobar'));
+        self::assertFalse($this->getProvider()->isBlacklisted('kaboom'));
     }
 
     protected function getInputStream($input)

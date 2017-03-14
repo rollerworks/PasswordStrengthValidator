@@ -29,16 +29,16 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         $this->getProvider()->add('test');
         $this->getProvider()->add('foobar');
 
-        $this->assertTrue($this->getProvider()->isBlacklisted('test'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('foobar'));
+        self::assertTrue($this->getProvider()->isBlacklisted('test'));
+        self::assertTrue($this->getProvider()->isBlacklisted('foobar'));
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName(), 'passwords' => 'test'));
 
-        $this->assertFalse($this->getProvider()->isBlacklisted('test'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('foobar'));
+        self::assertFalse($this->getProvider()->isBlacklisted('test'));
+        self::assertTrue($this->getProvider()->isBlacklisted('foobar'));
 
-        $this->assertRegExp('/Successfully removed 1 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertRegExp('/Successfully removed 1 password\(s\) from your blacklist database/', $commandTester->getDisplay());
     }
 
     public function testDeleteNoneExistingWord()
@@ -50,13 +50,13 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
 
         $command = $application->find('rollerworks-password:blacklist:delete');
 
-        $this->assertFalse($this->getProvider()->isBlacklisted('test'));
+        self::assertFalse($this->getProvider()->isBlacklisted('test'));
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName(), 'passwords' => 'test'));
 
-        $this->assertFalse($this->getProvider()->isBlacklisted('test'));
-        $this->assertRegExp('/Successfully removed 0 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertFalse($this->getProvider()->isBlacklisted('test'));
+        self::assertRegExp('/Successfully removed 0 password\(s\) from your blacklist database/', $commandTester->getDisplay());
     }
 
     public function testDeleteTwoWords()
@@ -75,11 +75,11 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName(), 'passwords' => array('test', 'foobar')));
 
-        $this->assertFalse($this->getProvider()->isBlacklisted('test'));
-        $this->assertFalse($this->getProvider()->isBlacklisted('foobar'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertFalse($this->getProvider()->isBlacklisted('test'));
+        self::assertFalse($this->getProvider()->isBlacklisted('foobar'));
+        self::assertTrue($this->getProvider()->isBlacklisted('kaboom'));
 
-        $this->assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
     }
 
     public function testNoInput()
@@ -94,8 +94,8 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName()));
 
-        $this->assertNotRegExp('/Successfully removed \d+ password\(s\) from your blacklist database/', $commandTester->getDisplay());
-        $this->assertRegExp('/No passwords or file-option given/', $commandTester->getDisplay());
+        self::assertNotRegExp('/Successfully removed \d+ password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertRegExp('/No passwords or file-option given/', $commandTester->getDisplay());
     }
 
     public function testReadFromFile()
@@ -114,11 +114,11 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         $commandTester = new CommandTester($command);
 
         $commandTester->execute(array('command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt'));
-        $this->assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
 
-        $this->assertFalse($this->getProvider()->isBlacklisted('test'));
-        $this->assertFalse($this->getProvider()->isBlacklisted('foobar'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertFalse($this->getProvider()->isBlacklisted('test'));
+        self::assertFalse($this->getProvider()->isBlacklisted('foobar'));
+        self::assertTrue($this->getProvider()->isBlacklisted('kaboom'));
     }
 
     public function testImportExistingFromFile()
@@ -137,14 +137,14 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         $commandTester = new CommandTester($command);
 
         $commandTester->execute(array('command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt'));
-        $this->assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
 
-        $this->assertFalse($this->getProvider()->isBlacklisted('test'));
-        $this->assertFalse($this->getProvider()->isBlacklisted('foobar'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertFalse($this->getProvider()->isBlacklisted('test'));
+        self::assertFalse($this->getProvider()->isBlacklisted('foobar'));
+        self::assertTrue($this->getProvider()->isBlacklisted('kaboom'));
 
         $commandTester->execute(array('command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt'));
-        $this->assertRegExp('/Successfully removed 0 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertRegExp('/Successfully removed 0 password\(s\) from your blacklist database/', $commandTester->getDisplay());
     }
 
     public function testImportFromRelFile()
@@ -166,11 +166,11 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         chdir(__DIR__);
 
         $commandTester->execute(array('command' => $command->getName(), '--file' => '../fixtures/passwords-list1.txt'));
-        $this->assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
 
-        $this->assertFalse($this->getProvider()->isBlacklisted('test'));
-        $this->assertFalse($this->getProvider()->isBlacklisted('foobar'));
-        $this->assertTrue($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertFalse($this->getProvider()->isBlacklisted('test'));
+        self::assertFalse($this->getProvider()->isBlacklisted('foobar'));
+        self::assertTrue($this->getProvider()->isBlacklisted('kaboom'));
     }
 
     public function testImportFromNoFile()
@@ -182,15 +182,15 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
 
         $command = $application->find('rollerworks-password:blacklist:delete');
 
-        $this->assertFalse($this->getProvider()->isBlacklisted('test'));
-        $this->assertFalse($this->getProvider()->isBlacklisted('foobar'));
+        self::assertFalse($this->getProvider()->isBlacklisted('test'));
+        self::assertFalse($this->getProvider()->isBlacklisted('foobar'));
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             array('command' => $command->getName(), '--file' => '../fixtures/unknown.txt')
         );
 
-        $this->assertRegExp('#Unable to read passwords list. No such file: \.\./fixtures/unknown\.txt#', $commandTester->getDisplay());
+        self::assertRegExp('#Unable to read passwords list. No such file: \.\./fixtures/unknown\.txt#', $commandTester->getDisplay());
     }
 
     public function testImportFromEmptyFile()
@@ -202,14 +202,14 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
 
         $command = $application->find('rollerworks-password:blacklist:delete');
 
-        $this->assertFalse($this->getProvider()->isBlacklisted('test'));
-        $this->assertFalse($this->getProvider()->isBlacklisted('foobar'));
+        self::assertFalse($this->getProvider()->isBlacklisted('test'));
+        self::assertFalse($this->getProvider()->isBlacklisted('foobar'));
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(
             array('command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list2.txt')
         );
 
-        $this->assertRegExp('/Passwords list seems empty, are you sure this is the correct file\?/', $commandTester->getDisplay());
+        self::assertRegExp('/Passwords list seems empty, are you sure this is the correct file\?/', $commandTester->getDisplay());
     }
 }

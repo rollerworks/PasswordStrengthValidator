@@ -33,7 +33,7 @@ class BlacklistListCommandTest extends BlacklistCommandTestCase
         }
 
         foreach ($blackListedWords as $word) {
-            $this->assertTrue($this->getProvider()->isBlacklisted($word));
+            self::assertTrue($this->getProvider()->isBlacklisted($word));
             $this->getProvider()->add($word);
         }
 
@@ -45,7 +45,7 @@ class BlacklistListCommandTest extends BlacklistCommandTestCase
 
         // Words may be displayed in any order, so check each of them
         foreach ($blackListedWords as $word) {
-            $this->assertRegExp("/([\n]|^){$word}[\n]/s", $display);
+            self::assertRegExp("/([\n]|^){$word}[\n]/s", $display);
             $this->getProvider()->add($word);
         }
     }

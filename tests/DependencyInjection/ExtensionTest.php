@@ -76,10 +76,10 @@ class ExtensionTest extends AbstractExtensionTestCase
 
         $provider = $this->container->get('rollerworks_password_strength.blacklist_provider');
 
-        $this->assertTrue($provider->isBlacklisted('foo'));
-        $this->assertTrue($provider->isBlacklisted('foobar'));
-        $this->assertTrue($provider->isBlacklisted('kaboom'));
-        $this->assertFalse($provider->isBlacklisted('leeRoy'));
+        self::assertTrue($provider->isBlacklisted('foo'));
+        self::assertTrue($provider->isBlacklisted('foobar'));
+        self::assertTrue($provider->isBlacklisted('kaboom'));
+        self::assertFalse($provider->isBlacklisted('leeRoy'));
     }
 
     public function testLoadWithChainConfiguration()
@@ -113,11 +113,11 @@ class ExtensionTest extends AbstractExtensionTestCase
         );
 
         $provider = $this->container->get('rollerworks_password_strength.blacklist_provider');
-        $this->assertTrue($provider->isBlacklisted('foo'));
-        $this->assertTrue($provider->isBlacklisted('foobar'));
-        $this->assertTrue($provider->isBlacklisted('kaboom'));
-        $this->assertTrue($provider->isBlacklisted('doctor'));
-        $this->assertFalse($provider->isBlacklisted('leeRoy'));
+        self::assertTrue($provider->isBlacklisted('foo'));
+        self::assertTrue($provider->isBlacklisted('foobar'));
+        self::assertTrue($provider->isBlacklisted('kaboom'));
+        self::assertTrue($provider->isBlacklisted('doctor'));
+        self::assertFalse($provider->isBlacklisted('leeRoy'));
     }
 
     public function testPasswordValidatorsAreRegistered()
