@@ -15,7 +15,7 @@ use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Rollerworks\Bundle\PasswordStrengthBundle\DependencyInjection\RollerworksPasswordStrengthExtension;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\Blacklist as BlacklistConstraint;
 use Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\AddConstraintValidatorsPass;
-use Symfony\Component\DependencyInjection\Argument\ServiceLocatorArgument;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\Validator\Tests\Fixtures\Reference;
 
 class ExtensionTest extends AbstractExtensionTestCase
@@ -135,8 +135,8 @@ class ExtensionTest extends AbstractExtensionTestCase
         $factoryArguments = $validatorFactory->getArguments();
 
         // Compatibility for Symfony 3.3
-        if ($factoryArguments[0] instanceof ServiceLocatorArgument) {
-            $validators = $factoryArguments[0]->getValues();
+        if ($factoryArguments[0] instanceof Definition) {
+            $validators = $factoryArguments[0]->getArgument(0);
 
             $this->assertArrayHasKey('Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrengthValidator', $validators);
             $this->assertArrayHasKey('Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\BlacklistValidator', $validators);
