@@ -14,9 +14,12 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\DependencyInjection;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Rollerworks\Bundle\PasswordStrengthBundle\DependencyInjection\RollerworksPasswordStrengthExtension;
 use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\Blacklist as BlacklistConstraint;
-use Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\AddConstraintValidatorsPass;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\Validator\Tests\Fixtures\Reference;
+use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\Blacklist;
+use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrength;
+use Symfony\Bundle\FrameworkBundle\DependencyInjection\Compiler\AddConstraintValidatorsPass as LegacyAddConstraintValidatorsPass;
+use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\Validator\ConstraintValidatorFactory;
+use Symfony\Component\Validator\DependencyInjection\AddConstraintValidatorsPass;
 
 class ExtensionTest extends AbstractExtensionTestCase
 {
@@ -122,7 +125,12 @@ class ExtensionTest extends AbstractExtensionTestCase
 
     public function testPasswordValidatorsAreRegistered()
     {
-        $this->container->addCompilerPass(new AddConstraintValidatorsPass());
+        if (class_exists('Symfony\Component\Validator\DependencyInjection\AddConstraintValidatorsPass')) {
+            $this->container->addCompilerPass(new AddConstraintValidatorsPass());
+        } else {
+            $this->container->addCompilerPass(new LegacyAddConstraintValidatorsPass());
+        }
+
         $this->container->register(
             'validator.validator_factory',
             'Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory'
@@ -131,23 +139,11 @@ class ExtensionTest extends AbstractExtensionTestCase
         $this->load();
         $this->compile();
 
-        $validatorFactory = $this->container->getDefinition('validator.validator_factory');
-        $factoryArguments = $validatorFactory->getArguments();
+        /** @var ConstraintValidatorFactory $factory */
+        $factory = $this->container->get('validator.validator_factory');
 
-        // Compatibility for Symfony 3.3
-        if ($factoryArguments[0] instanceof Definition) {
-            $validators = $factoryArguments[0]->getArgument(0);
-
-            $this->assertArrayHasKey('Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrengthValidator', $validators);
-            $this->assertArrayHasKey('Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\BlacklistValidator', $validators);
-        } else {
-            $validators = array_values($factoryArguments[1]);
-
-            // Use only the service-id as the alias is considered deprecated.
-            // https://github.com/symfony/symfony/issues/16805
-            $this->assertContains('rollerworks_password_strength.validator.password_strength', $validators);
-            $this->assertContains('rollerworks_password_strength.blacklist.validator', $validators);
-        }
+        self::assertInstanceOf('Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrengthValidator', $factory->getInstance(new PasswordStrength(array('minStrength' => 1))));
+        self::assertInstanceOf('Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\BlacklistValidator', $factory->getInstance(new Blacklist()));
     }
 
     protected function getContainerExtensions()
