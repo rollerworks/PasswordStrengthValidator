@@ -7,9 +7,10 @@ constraint with the following options.
 * message: The validation message (default: password_too_weak)
 * minLength: Minimum length of the password, should be at least 6 (or 8 for better security)
 * minStrength: Minimum required strength of the password.
+* unicodeEquality: Consider characters from other scripts (unicode) as equal.
+  When set to false (default) `²` will seen as a special character rather then then 2 in another script.
 
-The strength is computed from various measures including
-length and usage of (special) characters.
+The strength is computed from various measures including length and usage of (special) characters.
 
 **Note:** A strength is measured by the presence of a character and total length.
 One can have a 'medium' password consisting of only a-z and A-Z, but with a length higher than 12 characters.

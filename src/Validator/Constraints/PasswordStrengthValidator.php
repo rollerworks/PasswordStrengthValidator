@@ -85,8 +85,6 @@ class PasswordStrengthValidator extends ConstraintValidator
         }
 
         $password = (string) $password;
-
-        $passwordStrength = 0;
         $passLength = mb_strlen($password);
 
         if ($passLength < $constraint->minLength) {
@@ -103,30 +101,10 @@ class PasswordStrengthValidator extends ConstraintValidator
 
         $tips = array();
 
-        if (preg_match('/[a-zA-Z]/', $password)) {
-            ++$passwordStrength;
-
-            if (!preg_match('/[a-z]/', $password)) {
-                $tips[] = 'lowercase_letters';
-            } elseif (preg_match('/[A-Z]/', $password)) {
-                ++$passwordStrength;
-            } else {
-                $tips[] = 'uppercase_letters';
-            }
+        if ($constraint->unicodeEquality) {
+            $passwordStrength = $this->calculateStrengthUnicode($password, $tips);
         } else {
-            $tips[] = 'letters';
-        }
-
-        if (preg_match('/\d+/', $password)) {
-            ++$passwordStrength;
-        } else {
-            $tips[] = 'numbers';
-        }
-
-        if (preg_match('/[^a-zA-Z0-9]/', $password)) {
-            ++$passwordStrength;
-        } else {
-            $tips[] = 'special_chars';
+            $passwordStrength = $this->calculateStrength($password, $tips);
         }
 
         if ($passLength > 12) {
@@ -161,5 +139,71 @@ class PasswordStrengthValidator extends ConstraintValidator
     public function translateTips($tip)
     {
         return $this->translator->trans('rollerworks_password.tip.'.$tip, array(), 'validators');
+    }
+
+    private function calculateStrength($password, &$tips)
+    {
+        $passwordStrength = 0;
+
+        if (preg_match('/[a-zA-Z]/', $password)) {
+            ++$passwordStrength;
+
+            if (!preg_match('/[a-z]/', $password)) {
+                $tips[] = 'lowercase_letters';
+            } elseif (preg_match('/[A-Z]/', $password)) {
+                ++$passwordStrength;
+            } else {
+                $tips[] = 'uppercase_letters';
+            }
+        } else {
+            $tips[] = 'letters';
+        }
+
+        if (preg_match('/\d+/', $password)) {
+            ++$passwordStrength;
+        } else {
+            $tips[] = 'numbers';
+        }
+
+        if (preg_match('/[^a-zA-Z0-9]/', $password)) {
+            ++$passwordStrength;
+        } else {
+            $tips[] = 'special_chars';
+        }
+
+        return $passwordStrength;
+    }
+
+    private function calculateStrengthUnicode($password, &$tips)
+    {
+        $passwordStrength = 0;
+
+        if (preg_match('/\p{L}/u', $password)) {
+            ++$passwordStrength;
+
+            if (!preg_match('/\p{Ll}/u', $password)) {
+                $tips[] = 'lowercase_letters';
+            } elseif (preg_match('/\p{Lu}/u', $password)) {
+                ++$passwordStrength;
+            } else {
+                $tips[] = 'uppercase_letters';
+            }
+        } else {
+            $tips[] = 'letters';
+        }
+
+        if (preg_match('/\p{N}/u', $password)) {
+            ++$passwordStrength;
+        } else {
+            $tips[] = 'numbers';
+        }
+
+        if (preg_match('/[^\p{L}\p{N}]/u', $password)) {
+            ++$passwordStrength;
+        } else {
+            $tips[] = 'special_chars';
+        }
+
+        return $passwordStrength;
     }
 }
