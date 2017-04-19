@@ -22,6 +22,7 @@ class PasswordStrength extends Constraint
     public $message = 'password_too_weak';
     public $minLength = 6;
     public $minStrength;
+    public $unicodeEquality = false;
 
     /**
      * {@inheritdoc}

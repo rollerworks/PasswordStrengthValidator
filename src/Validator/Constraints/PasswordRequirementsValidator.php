@@ -27,7 +27,7 @@ class PasswordRequirementsValidator extends ConstraintValidator
             return;
         }
 
-        if ($constraint->minLength > 0 && (strlen($value) < $constraint->minLength)) {
+        if ($constraint->minLength > 0 && (mb_strlen($value) < $constraint->minLength)) {
             if ($this->context instanceof ExecutionContextInterface) {
                 $this->context->buildViolation($constraint->tooShortMessage)
                     ->setParameters(array('{{length}}' => $constraint->minLength))
@@ -38,7 +38,7 @@ class PasswordRequirementsValidator extends ConstraintValidator
             }
         }
 
-        if ($constraint->requireLetters && !preg_match('/\pL/', $value)) {
+        if ($constraint->requireLetters && !preg_match('/\pL/u', $value)) {
             if ($this->context instanceof ExecutionContextInterface) {
                 $this->context->buildViolation($constraint->missingLettersMessage)
                     ->setInvalidValue($value)
@@ -48,7 +48,7 @@ class PasswordRequirementsValidator extends ConstraintValidator
             }
         }
 
-        if ($constraint->requireCaseDiff && !preg_match('/(\p{Ll}+.*\p{Lu})|(\p{Lu}+.*\p{Ll})/', $value)) {
+        if ($constraint->requireCaseDiff && !preg_match('/(\p{Ll}+.*\p{Lu})|(\p{Lu}+.*\p{Ll})/u', $value)) {
             if ($this->context instanceof ExecutionContextInterface) {
                 $this->context->buildViolation($constraint->requireCaseDiffMessage)
                     ->setInvalidValue($value)
@@ -58,7 +58,7 @@ class PasswordRequirementsValidator extends ConstraintValidator
             }
         }
 
-        if ($constraint->requireNumbers && !preg_match('/\pN/', $value)) {
+        if ($constraint->requireNumbers && !preg_match('/\pN/u', $value)) {
             if ($this->context instanceof ExecutionContextInterface) {
                 $this->context->buildViolation($constraint->missingNumbersMessage)
                     ->setInvalidValue($value)
@@ -68,9 +68,7 @@ class PasswordRequirementsValidator extends ConstraintValidator
             }
         }
 
-        if ($constraint->requireSpecialCharacter &&
-            !preg_match('/[^p{Ll}\p{Lu}\pL\pN]/', $value)
-        ) {
+        if ($constraint->requireSpecialCharacter && !preg_match('/[^p{Ll}\p{Lu}\pL\pN]/u', $value)) {
             if ($this->context instanceof ExecutionContextInterface) {
                 $this->context->buildViolation($constraint->missingSpecialCharacterMessage)
                     ->setInvalidValue($value)

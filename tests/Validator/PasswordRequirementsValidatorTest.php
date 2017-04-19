@@ -130,6 +130,9 @@ class PasswordRequirementsValidatorTest extends AbstractConstraintValidatorTest
         $constraint = new PasswordRequirements();
 
         return array(
+            array('１', new PasswordRequirements(array('minLength' => 2, 'requireLetters' => false)), array(
+                array($constraint->tooShortMessage, array('{{length}}' => 2)),
+            )),
             array('test', new PasswordRequirements(array('requireLetters' => true)), array(
                 array($constraint->tooShortMessage, array('{{length}}' => $constraint->minLength)),
             )),
