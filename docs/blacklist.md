@@ -1,100 +1,53 @@
 Password blacklisting
 =====================
 
-Usage of the ```Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\Blacklist```
-constraint is very simple.
+Usage of the `Rollerworks\Component\PasswordStrength\Validator\Constraints\Blacklist`
+constraint works different then other strength validators.
 
-    **Note.** The blacklisted passwords are case-sensitive.
+The BlacklistValidator requires a blacklist provider before any validation can be
+performed. This library comes already pre-bundled with support for, in-memory, 
+SQLite3 and PDO.
+
+**Note.** Blacklisted passwords are case-sensitive.
 
 ## Configuration
 
-First you need to configure a blacklist provider.
+First you need a blacklist provider (for this example we will use the `ArrayProvider`):
 
-    **Tip.** You can use the ChainProvider for using multiple providers at once.
+```php
+<?php
 
-```default_provider``` contains the service-name you want to use for BlackListValidator.
+use Rollerworks\Component\PasswordStrength\Blacklist\ArrayProvider;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints\BlacklistValidator;
 
-You can choose from:
+use Symfony\Component\Validator\ContainerConstraintValidatorFactory;
+use Symfony\Component\Validator\Validation;
 
-* rollerworks_password_strength.blacklist.provider.noop: Default implementation, always returns false.
-* [rollerworks_password_strength.blacklist.provider.array](#array): In-memory-array blacklist, not recommended for big lists.
-* [rollerworks_password_strength.blacklist.provider.sqlite](#sqlite): SQLite3 database file, updatable using the rollerworks-password:blacklist:update console command.
-* [rollerworks_password_strength.blacklist.provider.chain](#chain): Allows using multiple blacklist providers.
+// ...
 
-Or create your own service.
+$blacklistProvider = new ArrayProvider(['root', 'password']);
+$blacklistValidator = new BlacklistValidator($blacklistProvider);
 
-    Your blacklist provider must implement the Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\BlacklistProviderInterface.
+// The service container is expected to have the `BlacklistValidator` loadable as service
+// by id (Rollerworks\Component\PasswordStrength\Validator\Constraints\BlacklistValidator).
+$container = ...; // \Psr\Container\ContainerInterface
 
-Add the following to your config file:
+$constraintFactory = new ContainerConstraintValidatorFactory($container);
 
-``` yaml
-# app/config/config.yml
-
-rollerworks_password_strength:
-    blacklist:
-        # Replace rollerworks_password_strength.blacklist.provider.noop with the service you want to use
-        default_provider: rollerworks_password_strength.blacklist.provider.noop
+$validator = Validation::createValidatorBuilder()
+    ->setConstraintValidatorFactory($constraintFactory)
+    ->getValidator();
 ```
 
-### Array
-
-Add the following to your config file:
-
-``` yaml
-# app/config/config.yml
-
-rollerworks_password_strength:
-    blacklist:
-        default_provider: rollerworks_password_strength.blacklist.provider.array
-        providers:
-            # The 'array' contains a list with all the blacklisted words
-            array: [blacklisted-word-1, blacklisted-word-2]
-```
-
-### Sqlite
-
-Add the following to your config file:
-
-``` yaml
-# app/config/config.yml
-
-rollerworks_password_strength:
-    blacklist:
-        default_provider: rollerworks_password_strength.blacklist.provider.sqlite
-        providers:
-            sqlite:
-                # Make sure the location is outside the cache dir
-                dsn: "file:%kernel.root_dir%/Resources/password_blacklist.db"
-```
-
-### Chain
-
-The chain provider works by searching in the registered providers.
-
-You can add as many providers as you want.
-
-Add the following to your config file:
-
-``` yaml
-# app/config/config.yml
-
-rollerworks_password_strength:
-    blacklist:
-        default_provider: rollerworks_password_strength.blacklist.provider.sqlite
-        providers:
-            chain:
-                providers:
-                    # Add a list of services to search in
-                    - rollerworks_password_strength.blacklist.provider.array
-                    - rollerworks_password_strength.blacklist.provider.sqlite
-```
+That's it, you can choose to replace the `$blacklistProvider` with a more powerful provider
+like PDO or the ChainProvider so you can use multiple providers at once.
 
 ## Annotations
 
 If you are using annotations for validation, include the constraints namespace:
 
 ```php
-use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints as RollerworksPassword;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints as RollerworksPassword;
 ```
 
 and then add the PasswordStrength validator to the relevant field:
@@ -107,39 +60,99 @@ and then add the PasswordStrength validator to the relevant field:
 protected $password;
 ```
 
-## Updating the blacklist database (SQLite only)
+## Providers
 
-You can use the following app/console commands to manage your blacklist-database.
+### Array
+
+The `Rollerworks\Component\PasswordStrength\Blacklist\ArrayProvider` uses a static 
+list of values to check for blacklisting. This provider is best used for small lists
+or testing.
+
+For a blacklist with more then 20 entries it's better to use a database provider.
+
+```php
+$blacklistProvider = new ArrayProvider(['root', 'password']);
+```
+
+### PDO
+
+The `Rollerworks\Component\PasswordStrength\Blacklist\PdoProvider` cannot be constructed,
+you can use this abstract class as a blueprint for creating your own blacklist provider.
+
+This provider can be updated using the provided [Console commands][1].
+
+### Sqlite
+
+The `Rollerworks\Component\PasswordStrength\Blacklist\SqliteProvider` uses a local
+SQLite3 flat-file database for keeping the blacklist entries.
+
+This provider requires the SQLite3 extension or the PDO extension 
+(with the sqlite driver) is enabled.
+
+**Caution:** SQLite requires a full path for the database file (relative locations
+are not supported).
+
+This provider can be updated using the provided [Console commands][1].
+
+```php
+$blacklistProvider = new SqliteProvider('sqlite:/path/to/the/db/file.db');
+```
+
+### Chain
+
+The `Rollerworks\Component\PasswordStrength\Blacklist\ChainProvider` searches
+in the blacklist providers until a positive result is given (a password is blacklisted).
+
+```php
+$blacklistProvider = new ChainProvider([
+    new ArrayProvider(['root', 'password']),
+    new SqliteProvider('sqlite:/path/to/the/db/file.db')
+]);
+```
+
+## Updating the blacklist database
+
+To update your blacklist providers with new entries (or purge outdated outdated entries)
+this library provides a number of command-line commands which you can use.
+
+To use these commands you need to install the [Symfony Console component][2].
+And register these commands for usage (see the Symfony manual for details).
+
+### Commands
 
 To add new passwords to the blacklist:
 
 ```bash
-$ app/console rollerworks-password:blacklist:update password password2 "this pass word has spaces"
+$ bin/console rollerworks-password:blacklist:update password password2 "this pass word has spaces"
 ```
 
 To remove passwords from the blacklist.
 
 ```bash
-$ app/console rollerworks-password:blacklist:delete password password2 "this pass word has spaces"
+$ bin/console rollerworks-password:blacklist:delete password password2 "this pass word has spaces"
 ```
 
 Or when you want import a list of passwords from a file, use the --file parameter.
 
-Every line in the file is considered a password.
+Every line (supports both Windows and Unix file-endings) in the file is considered a password.
 
 ```bash
-$ app/console rollerworks-password:blacklist:update --file="/tmp/passwords-blacklist.txt"
+$ bin/console rollerworks-password:blacklist:update --file="/tmp/passwords-blacklist.txt"
 ```
 
-To remove the database completely (warning this will remove all the blacklisted passwords from your database).
+To remove the database completely (**this will remove all the blacklisted passwords from your database**).
 
 ```bash
 $ app/console rollerworks-password:blacklist:purge
 ```
 
-To export the database, this will display all the blacklisted passwords (one per line).
+To export the database (this will display all the blacklisted passwords (one per line)) use.
 
-You can then forward the result to a text file.
+```bash
+$ app/console rollerworks-password:blacklist:list
+```
+
+You can also forward the result to a text file.
 
 ```bash
 $ app/console rollerworks-password:blacklist:list > /tmp/exported-blacklist.txt
