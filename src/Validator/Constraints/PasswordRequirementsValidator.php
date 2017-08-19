@@ -33,7 +33,7 @@ class PasswordRequirementsValidator extends ConstraintValidator
 
         if ($constraint->minLength > 0 && (mb_strlen($value) < $constraint->minLength)) {
             $this->context->buildViolation($constraint->tooShortMessage)
-                ->setParameters(array('{{length}}' => $constraint->minLength))
+                ->setParameters(['{{length}}' => $constraint->minLength])
                 ->setInvalidValue($value)
                 ->addViolation();
         }

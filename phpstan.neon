@@ -1,0 +1,12 @@
+parameters:
+    autoload_files:
+        - vendor/autoload.php
+        - vendor/symfony/phpunit-bridge/bin/.phpunit/phpunit-5.7.1/vendor/autoload.php
+
+    ignoreErrors:
+        #- '#__construct\(\) does not call parent constructor from .+#'
+        - '#Access to an undefined property Symfony\\Component\\Validator\\Constraint\:\:#'
+        - "#Casting to string something that's already string#"
+
+        # Tests
+        - '#Parameter \#1 \$password of method Rollerworks\\Component\\PasswordStrength\\Blacklist\\[a-zA-Z]+\:\:isBlacklisted\(\) expects string#'

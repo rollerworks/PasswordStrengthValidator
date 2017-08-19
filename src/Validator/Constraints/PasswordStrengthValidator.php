@@ -81,7 +81,7 @@ class PasswordStrengthValidator extends ConstraintValidator
 
         if ($passLength < $constraint->minLength) {
             $this->context->buildViolation($constraint->tooShortMessage)
-                ->setParameters(array('{{length}}' => $constraint->minLength))
+                ->setParameters(['{{length}}' => $constraint->minLength])
                 ->addViolation();
 
             return;
@@ -105,12 +105,12 @@ class PasswordStrengthValidator extends ConstraintValidator
         // Detecting this is tricky and requires a deep understanding of the syntax.
 
         if ($passwordStrength < $constraint->minStrength) {
-            $parameters = array(
+            $parameters = [
                 '{{ length }}' => $constraint->minLength,
                 '{{ min_strength }}' => $this->translator->trans('rollerworks_password.strength_level.'.self::$levelToLabel[$constraint->minStrength], [], 'validators'),
                 '{{ current_strength }}' => $this->translator->trans('rollerworks_password.strength_level.'.self::$levelToLabel[$passwordStrength], [], 'validators'),
-                '{{ strength_tips }}' => implode(', ', array_map(array($this, 'translateTips'), $tips)),
-            );
+                '{{ strength_tips }}' => implode(', ', array_map([$this, 'translateTips'], $tips)),
+            ];
 
             $this->context->buildViolation($constraint->message)
                 ->setParameters($parameters)

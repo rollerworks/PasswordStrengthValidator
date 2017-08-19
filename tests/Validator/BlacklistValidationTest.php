@@ -14,12 +14,11 @@ namespace Rollerworks\Component\PasswordStrength\Tests\Validator;
 use Rollerworks\Component\PasswordStrength\Blacklist\ArrayProvider;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\Blacklist;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\BlacklistValidator;
-use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
-use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
-class BlacklistValidationTest extends AbstractConstraintValidatorTest
+class BlacklistValidationTest extends ConstraintValidatorTestCase
 {
-    public function getMock($originalClassName, $methods = array(), array $arguments = array(), $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $cloneArguments = false, $callOriginalMethods = false, $proxyTarget = null)
+    public function getMock($originalClassName, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $cloneArguments = false, $callOriginalMethods = false, $proxyTarget = null)
     {
         if (func_num_args() === 1 && preg_match('/^Symfony\\\\Component\\\\([a-z]+\\\\)+[a-z]+Interface$/i', $originalClassName)) {
             return $this->getMockBuilder($originalClassName)->getMock();
@@ -41,7 +40,7 @@ class BlacklistValidationTest extends AbstractConstraintValidatorTest
 
     protected function createValidator()
     {
-        $provider = new ArrayProvider(array('test', 'foobar'));
+        $provider = new ArrayProvider(['test', 'foobar']);
 
         return new BlacklistValidator($provider);
     }
@@ -79,9 +78,9 @@ class BlacklistValidationTest extends AbstractConstraintValidatorTest
 
     public function testBlackListed()
     {
-        $constraint = new Blacklist(array(
+        $constraint = new Blacklist([
             'message' => 'myMessage',
-        ));
+        ]);
         $this->validator->validate('test', $constraint);
 
         $this->buildViolation('myMessage')

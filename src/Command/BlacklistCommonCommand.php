@@ -11,7 +11,6 @@
 
 namespace Rollerworks\Component\PasswordStrength\Command;
 
-use Rollerworks\Component\PasswordStrength\Blacklist\SqliteProvider;
 use Rollerworks\Component\PasswordStrength\Blacklist\UpdatableBlacklistProviderInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

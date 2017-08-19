@@ -28,7 +28,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
 
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('command' => $command->getName(), 'passwords' => 'test'));
+        $commandTester->execute(['command' => $command->getName(), 'passwords' => 'test']);
 
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
         self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
@@ -43,7 +43,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
 
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('command' => $command->getName(), 'passwords' => 'test'));
+        $commandTester->execute(['command' => $command->getName(), 'passwords' => 'test']);
 
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
         self::assertRegExp('/Successfully removed 0 password\(s\) from your blacklist database/', $commandTester->getDisplay());
@@ -58,7 +58,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         self::$blackListProvider->add('kaboom');
 
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('command' => $command->getName(), 'passwords' => array('test', 'foobar')));
+        $commandTester->execute(['command' => $command->getName(), 'passwords' => ['test', 'foobar']]);
 
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
         self::assertFalse(self::$blackListProvider->isBlacklisted('foobar'));
@@ -72,7 +72,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         $command = $this->getCommand();
 
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('command' => $command->getName()));
+        $commandTester->execute(['command' => $command->getName()]);
 
         self::assertNotRegExp('/Successfully removed \d+ password\(s\) from your blacklist database/', $commandTester->getDisplay());
         self::assertRegExp('/No passwords or file-option given/', $commandTester->getDisplay());
@@ -88,7 +88,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
 
         $commandTester = new CommandTester($command);
 
-        $commandTester->execute(array('command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt'));
+        $commandTester->execute(['command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt']);
         self::assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
 
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
@@ -106,14 +106,14 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
 
         $commandTester = new CommandTester($command);
 
-        $commandTester->execute(array('command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt'));
+        $commandTester->execute(['command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt']);
         self::assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
 
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
         self::assertFalse(self::$blackListProvider->isBlacklisted('foobar'));
         self::assertTrue(self::$blackListProvider->isBlacklisted('kaboom'));
 
-        $commandTester->execute(array('command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt'));
+        $commandTester->execute(['command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt']);
         self::assertRegExp('/Successfully removed 0 password\(s\) from your blacklist database/', $commandTester->getDisplay());
     }
 
@@ -130,7 +130,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         // This changes the current working directory to this one so we can check relative files
         chdir(__DIR__);
 
-        $commandTester->execute(array('command' => $command->getName(), '--file' => '../fixtures/passwords-list1.txt'));
+        $commandTester->execute(['command' => $command->getName(), '--file' => '../fixtures/passwords-list1.txt']);
         self::assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
 
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
@@ -147,7 +147,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(
-            array('command' => $command->getName(), '--file' => '../fixtures/unknown.txt')
+            ['command' => $command->getName(), '--file' => '../fixtures/unknown.txt']
         );
 
         self::assertRegExp('#Unable to read passwords list. No such file: \.\./fixtures/unknown\.txt#', $commandTester->getDisplay());
@@ -162,7 +162,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(
-            array('command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list2.txt')
+            ['command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list2.txt']
         );
 
         self::assertRegExp('/Passwords list seems empty, are you sure this is the correct file\?/', $commandTester->getDisplay());
