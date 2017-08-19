@@ -12,63 +12,57 @@
 namespace Rollerworks\Component\PasswordStrength\Command;
 
 use Rollerworks\Component\PasswordStrength\Blacklist\SqliteProvider;
+use Rollerworks\Component\PasswordStrength\Blacklist\UpdatableBlacklistProviderInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 abstract class BlacklistCommonCommand extends BlacklistCommand
 {
-    const MESSAGE = 'change me';
+    const MESSAGE = '%d';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new SymfonyStyle($input, $output);
+
         if (!$input->getArgument('passwords') && !$input->getOption('file')) {
-            $output->writeln('<error>No passwords or file-option given.</error>');
+            $io->error('No passwords or file-option given.');
 
-            return;
+            return 1;
         }
-
-        /** @var \Rollerworks\Component\PasswordStrength\Blacklist\SqliteProvider $service */
-        $service = $this->getContainer()->get('rollerworks_password_strength.blacklist.provider.sqlite');
 
         if ($input->getOption('file')) {
             $file = realpath($input->getOption('file'));
 
             if (!file_exists($file)) {
-                $output->writeln('<error>Unable to read passwords list. No such file: '.$input->getOption('file').'</error>');
+                $io->error('Unable to read passwords list. No such file: '.$input->getOption('file'));
 
-                return;
+                return 1;
             }
 
             if (!is_readable($file)) {
-                $output->writeln('<error>Unable to read passwords list. Access denied: '.$input->getOption('file').'</error>');
+                $io->error('Unable to read passwords list. Access denied: '.$input->getOption('file'));
 
-                return;
+                return 1;
             }
 
-            if (filesize($file) == 0) {
-                $output->writeln('<comment>Passwords list seems empty, are you sure this is the correct file?</comment>');
+            if (filesize($file) === 0) {
+                $io->note('Passwords list seems empty, are you sure this is the correct file?');
 
-                return;
+                return 1;
             }
 
-            $count = $this->doFromFile($service, $file);
+            $count = $this->doFromFile($this->blacklistProvider, $file);
         } else {
-            $count = $this->doFromArray($service, (array) $input->getArgument('passwords'));
+            $count = $this->doFromArray($this->blacklistProvider, (array) $input->getArgument('passwords'));
         }
 
         $output->writeln(sprintf(static::MESSAGE, $count));
     }
 
-    /**
-     * @param SqliteProvider $service
-     * @param string         $filename
-     *
-     * @return int
-     */
-    protected function doFromFile(SqliteProvider $service, $filename)
+    abstract protected function attemptAction(UpdatableBlacklistProviderInterface $service, $password);
+
+    private function doFromFile(UpdatableBlacklistProviderInterface $service, $filename)
     {
         $file = new \SplFileObject($filename, 'r');
         $count = 0;
@@ -86,13 +80,7 @@ abstract class BlacklistCommonCommand extends BlacklistCommand
         return $count;
     }
 
-    /**
-     * @param SqliteProvider $service
-     * @param array          $passwords
-     *
-     * @return int
-     */
-    protected function doFromArray(SqliteProvider $service, array $passwords)
+    private function doFromArray(UpdatableBlacklistProviderInterface $service, array $passwords)
     {
         $count = 0;
         foreach ($passwords as $password) {
@@ -103,6 +91,4 @@ abstract class BlacklistCommonCommand extends BlacklistCommand
 
         return $count;
     }
-
-    abstract protected function attemptAction(SqliteProvider $service, $password);
 }

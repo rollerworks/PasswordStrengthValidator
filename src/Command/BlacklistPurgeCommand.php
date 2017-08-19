@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class BlacklistPurgeCommand extends BlacklistCommand
 {
@@ -37,27 +38,18 @@ class BlacklistPurgeCommand extends BlacklistCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var \Rollerworks\Component\PasswordStrength\Blacklist\SqliteProvider $service */
-        $service = $this->getContainer()->get('rollerworks_password_strength.blacklist.provider.sqlite');
+        $io = new SymfonyStyle($input, $output);
 
         if (!$input->getOption('no-ask')) {
-            // Symfony <2.5 BC
-            /** @var QuestionHelper|DialogHelper $questionHelper */
-            $questionHelper = $this->getHelperSet()->has('question') ? $this->getHelperSet()->get('question') : $this->getHelperSet()->get('dialog');
+            $io->warning('This will remove all the passwords from your blacklist.');
 
-            if ($questionHelper instanceof QuestionHelper) {
-                $question = new ConfirmationQuestion('<question>This will remove all the passwords from your blacklist database!!, continue?</question>', false);
-                $confirmed = $questionHelper->ask($input, $output, $question);
-            } else {
-                $confirmed = $questionHelper->askConfirmation($output, '<question>This will remove all the passwords from your blacklist database!!, continue?</question>', false);
-            }
-
-            if (!$confirmed) {
-                return;
+            if (!$io->confirm('Are you sure you want to purge the blacklist?', false)) {
+                return 1;
             }
         }
 
-        $service->purge();
-        $output->writeln('<info>Successfully removed all passwords from your blacklist database.</info>');
+        $this->blacklistProvider->purge();
+
+        $io->success('Successfully removed all passwords from your blacklist.');
     }
 }

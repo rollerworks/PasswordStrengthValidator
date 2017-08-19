@@ -21,111 +21,85 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
 {
     public function testWithAsk()
     {
-        $application = new Application();
-        $command = new BlacklistPurgeCommand();
-        $command->setContainer(self::$container);
-        $application->add($command);
+        $command = $this->getCommand();
 
-        $command = $application->find('rollerworks-password:blacklist:purge');
+        self::$blackListProvider->add('test');
+        self::$blackListProvider->add('foobar');
+        self::$blackListProvider->add('kaboom');
 
-        $this->getProvider()->add('test');
-        $this->getProvider()->add('foobar');
-        $this->getProvider()->add('kaboom');
-
-        self::assertTrue($this->getProvider()->isBlacklisted('test'));
-        self::assertTrue($this->getProvider()->isBlacklisted('foobar'));
-        self::assertTrue($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
+        self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
+        self::assertTrue(self::$blackListProvider->isBlacklisted('kaboom'));
 
         $commandTester = new CommandTester($command);
-
-        // Symfony <2.5 BC
-        /** @var QuestionHelper|DialogHelper $questionHelper */
-        $questionHelper = $command->getHelperSet()->has('question') ? $command->getHelperSet()->get('question') : $command->getHelperSet()->get('dialog');
-
-        if (method_exists($commandTester, 'setInputs')) {
-            $commandTester->setInputs(array('no'));
-        } else {
-            $questionHelper->setInputStream($this->getInputStream("n\nno\n"));
-        }
-
+        $commandTester->setInputs(array('no'));
         $commandTester->execute(array('command' => $command->getName()), array('interactive' => true));
 
-        self::assertRegExp('/This will remove all the passwords from your blacklist database!!/', $commandTester->getDisplay());
+        $display = $commandTester->getDisplay(true);
+        self::assertRegExp('/This will remove all the passwords from your blacklist./', $display);
+        self::assertRegExp('/Are you sure you want to purge the blacklist\?/', $display);
 
-        self::assertTrue($this->getProvider()->isBlacklisted('test'));
-        self::assertTrue($this->getProvider()->isBlacklisted('foobar'));
-        self::assertTrue($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertNotRegExp('/Successfully removed all passwords from your blacklist\./', $commandTester->getDisplay(true));
+
+        self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
+        self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
+        self::assertTrue(self::$blackListProvider->isBlacklisted('kaboom'));
     }
 
     public function testWithAskConfirm()
     {
-        $application = new Application();
-        $command = new BlacklistPurgeCommand();
-        $command->setContainer(self::$container);
-        $application->add($command);
+        $command = $this->getCommand();
 
-        $command = $application->find('rollerworks-password:blacklist:purge');
+        self::$blackListProvider->add('test');
+        self::$blackListProvider->add('foobar');
+        self::$blackListProvider->add('kaboom');
 
-        $this->getProvider()->add('test');
-        $this->getProvider()->add('foobar');
-        $this->getProvider()->add('kaboom');
-
-        self::assertTrue($this->getProvider()->isBlacklisted('test'));
-        self::assertTrue($this->getProvider()->isBlacklisted('foobar'));
-        self::assertTrue($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
+        self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
+        self::assertTrue(self::$blackListProvider->isBlacklisted('kaboom'));
 
         $commandTester = new CommandTester($command);
-
-        // Symfony <2.5 BC
-        /** @var QuestionHelper|DialogHelper $questionHelper */
-        $questionHelper = $command->getHelperSet()->has('question') ? $command->getHelperSet()->get('question') : $command->getHelperSet()->get('dialog');
-
-        if (method_exists($commandTester, 'setInputs')) {
-            $commandTester->setInputs(array('y', 'yes'));
-        } else {
-            $questionHelper->setInputStream($this->getInputStream("y\nyes\n"));
-        }
-
+        $commandTester->setInputs(array('y', 'yes'));
         $commandTester->execute(array('command' => $command->getName()));
 
-        self::assertRegExp('/This will remove all the passwords from your blacklist database!!/', $commandTester->getDisplay());
+        $display = $commandTester->getDisplay(true);
+        self::assertRegExp('/This will remove all the passwords from your blacklist\./', $display);
+        self::assertRegExp('/Are you sure you want to purge the blacklist\?/', $display);
 
-        self::assertFalse($this->getProvider()->isBlacklisted('test'));
-        self::assertFalse($this->getProvider()->isBlacklisted('foobar'));
-        self::assertFalse($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertRegExp('/Successfully removed all passwords from your blacklist\./', $commandTester->getDisplay(true));
+
+        self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
+        self::assertFalse(self::$blackListProvider->isBlacklisted('foobar'));
+        self::assertFalse(self::$blackListProvider->isBlacklisted('kaboom'));
     }
 
     public function testNoAsk()
     {
-        $application = new Application();
-        $command = new BlacklistPurgeCommand();
-        $command->setContainer(self::$container);
-        $application->add($command);
+        $command = $this->getCommand();
 
-        $command = $application->find('rollerworks-password:blacklist:purge');
+        self::$blackListProvider->add('test');
+        self::$blackListProvider->add('foobar');
+        self::$blackListProvider->add('kaboom');
 
-        $this->getProvider()->add('test');
-        $this->getProvider()->add('foobar');
-        $this->getProvider()->add('kaboom');
-
-        self::assertTrue($this->getProvider()->isBlacklisted('test'));
-        self::assertTrue($this->getProvider()->isBlacklisted('foobar'));
-        self::assertTrue($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
+        self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
+        self::assertTrue(self::$blackListProvider->isBlacklisted('kaboom'));
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName(), '--no-ask' => null));
 
-        self::assertFalse($this->getProvider()->isBlacklisted('test'));
-        self::assertFalse($this->getProvider()->isBlacklisted('foobar'));
-        self::assertFalse($this->getProvider()->isBlacklisted('kaboom'));
+        self::assertRegExp('/Successfully removed all passwords from your blacklist\./', $commandTester->getDisplay(true));
+
+        self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
+        self::assertFalse(self::$blackListProvider->isBlacklisted('foobar'));
+        self::assertFalse(self::$blackListProvider->isBlacklisted('kaboom'));
     }
 
-    protected function getInputStream($input)
+    private function getCommand()
     {
-        $stream = fopen('php://memory', 'r+', false);
-        fwrite($stream, $input);
-        rewind($stream);
+        $application = new Application();
+        $application->add(new BlacklistPurgeCommand(self::$blackListProvider));
 
-        return $stream;
+        return $application->find('rollerworks-password:blacklist:purge');
     }
 }

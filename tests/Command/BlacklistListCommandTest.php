@@ -20,8 +20,7 @@ class BlacklistListCommandTest extends BlacklistCommandTestCase
     public function testList()
     {
         $application = new Application();
-        $command = new BlacklistListCommand();
-        $command->setContainer(self::$container);
+        $command = new BlacklistListCommand(self::$blackListProvider);
         $application->add($command);
 
         $command = $application->find('rollerworks-password:blacklist:list');
@@ -29,12 +28,12 @@ class BlacklistListCommandTest extends BlacklistCommandTestCase
         $blackListedWords = array('test', 'foobar', 'kaboom');
 
         foreach ($blackListedWords as $word) {
-            $this->getProvider()->add($word);
+            self::$blackListProvider->add($word);
         }
 
         foreach ($blackListedWords as $word) {
-            self::assertTrue($this->getProvider()->isBlacklisted($word));
-            $this->getProvider()->add($word);
+            self::assertTrue(self::$blackListProvider->isBlacklisted($word));
+            self::$blackListProvider->add($word);
         }
 
         $commandTester = new CommandTester($command);
@@ -46,7 +45,7 @@ class BlacklistListCommandTest extends BlacklistCommandTestCase
         // Words may be displayed in any order, so check each of them
         foreach ($blackListedWords as $word) {
             self::assertRegExp("/([\n]|^){$word}[\n]/s", $display);
-            $this->getProvider()->add($word);
+            self::$blackListProvider->add($word);
         }
     }
 }

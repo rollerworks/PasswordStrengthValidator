@@ -17,9 +17,13 @@ use Symfony\Component\DependencyInjection\Container;
 
 abstract class BlacklistCommandTestCase extends TestCase
 {
-    protected static $container;
     protected static $dbFile;
     protected static $storage;
+
+    /**
+     * @var SqliteProvider
+     */
+    protected static $blackListProvider;
 
     public static function setUpBeforeClass()
     {
@@ -32,10 +36,7 @@ abstract class BlacklistCommandTestCase extends TestCase
             @unlink(self::$dbFile);
         }
 
-        $sqliteProvider = new SqliteProvider('sqlite:'.self::$dbFile);
-
-        self::$container = new Container();
-        self::$container->set('rollerworks_password_strength.blacklist.provider.sqlite', $sqliteProvider);
+        self::$blackListProvider = new SqliteProvider('sqlite:'.self::$dbFile);
     }
 
     public static function tearDownAfterClass()
@@ -45,14 +46,6 @@ abstract class BlacklistCommandTestCase extends TestCase
 
     protected function setUp()
     {
-        $this->getProvider()->purge();
-    }
-
-    /**
-     * @return SqliteProvider
-     */
-    protected function getProvider()
-    {
-        return self::$container->get('rollerworks_password_strength.blacklist.provider.sqlite');
+        self::$blackListProvider->purge();
     }
 }
