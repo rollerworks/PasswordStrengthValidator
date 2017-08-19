@@ -24,8 +24,7 @@
         "symfony/polyfill-mbstring": "^1.5.0"
     },
     "require-dev": {
-        "matthiasnoback/symfony-dependency-injection-test": "^2.1.0",
-        "matthiasnoback/symfony-service-definition-validator": "^1.2.8",
+        "symfony/config": "^3.3.6",
         "symfony/console": "^3.3.6",
         "symfony/phpunit-bridge": "^3.3.6"
     },
