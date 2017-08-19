@@ -23,10 +23,8 @@ install:
     - if [ "$DEPENDENCIES" != "low" ]; then composer update --prefer-dist --no-progress --no-suggest --ansi; fi;
     - if [ "$DEPENDENCIES" == "low" ]; then composer update --prefer-dist --no-progress --no-suggest --ansi --prefer-lowest; fi;
 
-before_script:
-    - if [ "$SYMFONY_PHPUNIT_VERSION" == "" ]; then export SYMFONY_PHPUNIT_VERSION=5.7.1; fi
-
 script:
+    - export SYMFONY_PHPUNIT_VERSION=5.7.1
     - export SYMFONY_PHPUNIT_REMOVE="symfony/yaml"
     - export SYMFONY_DEPRECATIONS_HELPER=strict
     - vendor/bin/simple-phpunit --verbose

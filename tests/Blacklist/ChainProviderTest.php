@@ -62,7 +62,8 @@ class ChainProviderTest extends TestCase
     {
         $provider = new ChainProvider();
 
-        $this->setExpectedException('\RuntimeException', 'Unable to add ChainProvider to itself.');
+        $this->expectException('\RuntimeException');
+        $this->expectExceptionMessage('Unable to add ChainProvider to itself.');
         $provider->addProvider($provider);
     }
 }
