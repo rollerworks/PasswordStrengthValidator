@@ -11,20 +11,29 @@
 
 namespace Rollerworks\Component\PasswordStrength\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Rollerworks\Component\PasswordStrength\Blacklist\BlacklistProviderInterface;
+use Rollerworks\Component\PasswordStrength\Blacklist\UpdatableBlacklistProviderInterface;
+use Symfony\Component\Console\Command\Command;
 
-abstract class BlacklistCommand extends ContainerAwareCommand
+/**
+ * @author Sebastiaan Stok <s.stok@rollerscapes.net>
+ */
+abstract class BlacklistCommand extends Command
 {
+    /**
+     * @var BlacklistProviderInterface|UpdatableBlacklistProviderInterface
+     */
+    protected $blacklistProvider;
+
+    public function __construct(BlacklistProviderInterface $blacklistProvider)
+    {
+        parent::__construct(null);
+
+        $this->blacklistProvider = $blacklistProvider;
+    }
+
     public function isEnabled()
     {
-        if (!$this->getContainer()->has('rollerworks_password_strength.blacklist.provider.sqlite')) {
-            return false;
-        }
-
-        if (!class_exists('SQLite3') && (!class_exists('PDO') || in_array('sqlite', \PDO::getAvailableDrivers(), true))) {
-            return false;
-        }
-
-        return true;
+        return $this->blacklistProvider instanceof UpdatableBlacklistProviderInterface;
     }
 }

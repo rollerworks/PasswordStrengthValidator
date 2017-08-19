@@ -12,6 +12,7 @@
 namespace Rollerworks\Component\PasswordStrength\Command;
 
 use Rollerworks\Component\PasswordStrength\Blacklist\SqliteProvider;
+use Rollerworks\Component\PasswordStrength\Blacklist\UpdatableBlacklistProviderInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -32,7 +33,7 @@ class BlacklistDeleteCommand extends BlacklistCommonCommand
         ;
     }
 
-    protected function attemptAction(SqliteProvider $service, $password)
+    protected function attemptAction(UpdatableBlacklistProviderInterface $service, $password)
     {
         return $service->isBlacklisted($password) && true === $service->delete($password);
     }

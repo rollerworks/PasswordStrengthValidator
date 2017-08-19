@@ -31,13 +31,15 @@ interface UpdatableBlacklistProviderInterface extends BlacklistProviderInterface
      * Deletes a word from the blacklist.
      *
      * @param string $password
+     *
+     * @return bool
      */
     public function delete($password);
 
     /**
      * Returns an array or Traversable object with all the blacklisted passwords.
      *
-     * @return array|\Traversable
+     * @return array|\Traversable|iterable
      */
     public function all();
 
