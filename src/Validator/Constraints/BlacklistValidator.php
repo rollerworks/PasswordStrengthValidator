@@ -14,7 +14,6 @@ namespace Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints;
 use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\BlacklistProviderInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 /**
@@ -44,22 +43,18 @@ class BlacklistValidator extends ConstraintValidator
      */
     public function validate($password, Constraint $constraint)
     {
-        if (null !== $password && !is_scalar($password) && !(is_object($password) && method_exists($password, '__toString'))) {
-            throw new UnexpectedTypeException($password, 'string');
-        }
-
         if (null === $password) {
             return;
         }
 
+        if (!is_scalar($password) && !(is_object($password) && method_exists($password, '__toString'))) {
+            throw new UnexpectedTypeException($password, 'string');
+        }
+
         if (true === $this->provider->isBlacklisted((string) $password)) {
-            if ($this->context instanceof ExecutionContextInterface) {
-                $this->context->buildViolation($constraint->message)
-                    ->setInvalidValue($password)
-                    ->addViolation();
-            } else {
-                $this->context->addViolation($constraint->message, array(), $password);
-            }
+            $this->context->buildViolation($constraint->message)
+                ->setInvalidValue($password)
+                ->addViolation();
         }
     }
 }

@@ -46,7 +46,7 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
             throw new \InvalidArgumentException('Only scalar values are accepted.');
         }
 
-        if ('' == $password) {
+        if ('' === $password) {
             return -1;
         }
 
@@ -159,9 +159,8 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
             $stmt->bindValue($arg, $val, is_int($val) ? \PDO::PARAM_INT : \PDO::PARAM_STR);
         }
         $stmt->execute();
-        $return = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        return $return;
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     /**
