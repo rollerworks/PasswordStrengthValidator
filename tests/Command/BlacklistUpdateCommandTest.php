@@ -9,9 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Command;
+namespace Rollerworks\Component\PasswordStrength\Tests\Command;
 
-use Rollerworks\Bundle\PasswordStrengthBundle\Command\BlacklistUpdateCommand;
+use Rollerworks\Component\PasswordStrength\Command\BlacklistUpdateCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 

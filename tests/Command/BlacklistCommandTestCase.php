@@ -9,10 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Command;
+namespace Rollerworks\Component\PasswordStrength\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
-use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider;
+use Rollerworks\Component\PasswordStrength\Blacklist\SqliteProvider;
 use Symfony\Component\DependencyInjection\Container;
 
 abstract class BlacklistCommandTestCase extends TestCase

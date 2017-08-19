@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Rollerworks\Bundle\PasswordStrengthBundle\Blacklist;
+namespace Rollerworks\Component\PasswordStrength\Blacklist;
 
 /**
  * Array Blacklist Provider.

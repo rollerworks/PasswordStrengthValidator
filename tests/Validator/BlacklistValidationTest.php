@@ -9,11 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Validator;
+namespace Rollerworks\Component\PasswordStrength\Tests\Validator;
 
-use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider;
-use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\Blacklist;
-use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\BlacklistValidator;
+use Rollerworks\Component\PasswordStrength\Blacklist\ArrayProvider;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints\Blacklist;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints\BlacklistValidator;
 use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 use Symfony\Component\Validator\Validation;
 

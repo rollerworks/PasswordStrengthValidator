@@ -1,8 +1,8 @@
 {
-    "name": "rollerworks/password-strength-bundle",
-    "description": "Password-strength validator bundle for Symfony",
-    "keywords": ["password", "validator", "symfony", "bundle"],
-    "type": "symfony-bundle",
+    "name": "rollerworks/password-strength-validator",
+    "description": "Password-strength validator for Symfony",
+    "keywords": ["password", "validator", "symfony"],
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
@@ -15,19 +15,15 @@
         },
         {
             "name": "Community contributions",
-            "homepage": "https://github.com/rollerworks/PasswordStrengthBundle/contributors"
+            "homepage": "https://github.com/rollerworks/PasswordStrengthValidator/contributors"
         }
     ],
     "require": {
-        "symfony/framework-bundle": "^2.3.3|^3.0",
         "php": "^5.6 || ^7.0",
         "symfony/validator": "^3.3.6",
         "symfony/polyfill-mbstring": "^1.5.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^3.2.6",
-        "matthiasnoback/symfony-dependency-injection-test": "^1.1.0",
-        "matthiasnoback/symfony-service-definition-validator": "^1.2.2"
         "matthiasnoback/symfony-dependency-injection-test": "^2.1.0",
         "matthiasnoback/symfony-service-definition-validator": "^1.2.8",
         "symfony/console": "^3.3.6",
@@ -35,13 +31,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Rollerworks\\Bundle\\PasswordStrengthBundle\\": "src/"
+            "Rollerworks\\Component\\PasswordStrength\\": "src/"
         },
         "exclude-from-classmap": ["test/"]
     },
     "autoload-dev": {
         "psr-4": {
-            "Rollerworks\\Bundle\\PasswordStrengthBundle\\Tests\\": "tests/"
+            "Rollerworks\\Component\\PasswordStrength\\Tests\\": "tests/"
         }
     },
     "extra": {

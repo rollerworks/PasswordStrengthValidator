@@ -9,9 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Rollerworks\Bundle\PasswordStrengthBundle\Command;
+namespace Rollerworks\Component\PasswordStrength\Command;
 
-use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider;
+use Rollerworks\Component\PasswordStrength\Blacklist\SqliteProvider;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
