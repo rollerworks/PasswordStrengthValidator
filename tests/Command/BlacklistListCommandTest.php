@@ -25,7 +25,7 @@ class BlacklistListCommandTest extends BlacklistCommandTestCase
 
         $command = $application->find('rollerworks-password:blacklist:list');
 
-        $blackListedWords = array('test', 'foobar', 'kaboom');
+        $blackListedWords = ['test', 'foobar', 'kaboom'];
 
         foreach ($blackListedWords as $word) {
             self::$blackListProvider->add($word);
@@ -38,7 +38,7 @@ class BlacklistListCommandTest extends BlacklistCommandTestCase
 
         $commandTester = new CommandTester($command);
 
-        $commandTester->execute(array('command' => $command->getName()));
+        $commandTester->execute(['command' => $command->getName()]);
 
         $display = $commandTester->getDisplay(true);
 

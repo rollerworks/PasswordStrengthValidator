@@ -20,8 +20,8 @@ class ChainProviderTest extends TestCase
     public function testBlackList()
     {
         $provider = new ChainProvider();
-        $provider->addProvider(new ArrayProvider(array('test', 'foobar', 0)));
-        $provider->addProvider(new ArrayProvider(array('weak', 'god')));
+        $provider->addProvider(new ArrayProvider(['test', 'foobar', 0]));
+        $provider->addProvider(new ArrayProvider(['weak', 'god']));
 
         self::assertTrue($provider->isBlacklisted('test'));
         self::assertTrue($provider->isBlacklisted('foobar'));
@@ -37,25 +37,25 @@ class ChainProviderTest extends TestCase
 
     public function testProvidersByConstruct()
     {
-        $provider1 = new ArrayProvider(array('test', 'foobar', 0));
-        $provider2 = new ArrayProvider(array('weak', 'god'));
+        $provider1 = new ArrayProvider(['test', 'foobar', 0]);
+        $provider2 = new ArrayProvider(['weak', 'god']);
 
-        $provider = new ChainProvider(array($provider1, $provider2));
+        $provider = new ChainProvider([$provider1, $provider2]);
 
-        self::assertEquals(array($provider1, $provider2), $provider->getProviders());
+        self::assertEquals([$provider1, $provider2], $provider->getProviders());
     }
 
     public function testGetProviders()
     {
         $provider = new ChainProvider();
 
-        $provider1 = new ArrayProvider(array('test', 'foobar', 0));
-        $provider2 = new ArrayProvider(array('weak', 'god'));
+        $provider1 = new ArrayProvider(['test', 'foobar', 0]);
+        $provider2 = new ArrayProvider(['weak', 'god']);
 
         $provider->addProvider($provider1);
         $provider->addProvider($provider2);
 
-        self::assertEquals(array($provider1, $provider2), $provider->getProviders());
+        self::assertEquals([$provider1, $provider2], $provider->getProviders());
     }
 
     public function testNoAssignSelf()

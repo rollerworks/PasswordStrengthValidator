@@ -34,7 +34,7 @@ class PasswordStrength extends Constraint
 
     public function getRequiredOptions()
     {
-        return array('minStrength');
+        return ['minStrength'];
     }
 
     public function validatedBy()

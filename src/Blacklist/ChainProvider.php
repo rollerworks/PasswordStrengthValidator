@@ -28,7 +28,7 @@ class ChainProvider implements BlacklistProviderInterface
      *
      * @param BlacklistProviderInterface[] $providers
      */
-    public function __construct(array $providers = array())
+    public function __construct(array $providers = [])
     {
         foreach ($providers as $provider) {
             $this->addProvider($provider);

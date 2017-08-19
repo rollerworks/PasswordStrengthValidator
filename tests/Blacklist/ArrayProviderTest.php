@@ -18,7 +18,7 @@ class ArrayProviderTest extends TestCase
 {
     public function testBlackList()
     {
-        $provider = new ArrayProvider(array('test', 'foobar', 0));
+        $provider = new ArrayProvider(['test', 'foobar', 0]);
 
         self::assertTrue($provider->isBlacklisted('test'));
         self::assertTrue($provider->isBlacklisted('foobar'));

@@ -6,7 +6,7 @@ matrix:
         - php: 7.0
           env: DEPENDENCIES='dev'
         - php: 7.1
-          env: DEPENDENCIES='low'
+          env: DEPENDENCIES='low' lint=1
     fast_finish: true
 
 sudo: false
@@ -17,6 +17,10 @@ cache:
 
 before_install:
     - phpenv config-rm xdebug.ini || echo "xdebug not available"
+    - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    - if [[ $lint = 1 ]]; then wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.3.2/php-cs-fixer.phar; fi
+    - if [[ $lint = 1 ]]; then composer global require --dev 'phpstan/phpstan:^0.8'; fi
+    - export PATH="$PATH:$HOME/.composer/vendor/bin"
 
 install:
     - if [ "$DEPENDENCIES" == "dev" ]; then composer config minimum-stability dev; fi;
@@ -28,3 +32,5 @@ script:
     - export SYMFONY_PHPUNIT_REMOVE="symfony/yaml"
     - export SYMFONY_DEPRECATIONS_HELPER=strict
     - vendor/bin/simple-phpunit --verbose
+    - if [[ $lint = 1 ]]; then php php-cs-fixer.phar fix --dry-run --diff --no-ansi; fi
+    - if [[ $lint = 1 ]]; then phpstan analyse -c phpstan.neon -l5 --ansi src tests; fi

@@ -77,7 +77,7 @@ class SqliteProvider extends PdoProvider
     /**
      * {@inheritdoc}
      */
-    protected function exec($db, $query, array $args = array())
+    protected function exec($db, $query, array $args = [])
     {
         if ($db instanceof \SQLite3) {
             $stmt = $this->prepareStatement($db, $query);
@@ -98,12 +98,12 @@ class SqliteProvider extends PdoProvider
     /**
      * {@inheritdoc}
      */
-    protected function fetch($db, $query, array $args = array())
+    protected function fetch($db, $query, array $args = [])
     {
-        $return = array();
+        $return = [];
 
         if ($db instanceof \SQLite3) {
-            $stmt = $this->prepareStatement($db, $query, true);
+            $stmt = $this->prepareStatement($db, $query);
             foreach ($args as $arg => $val) {
                 $stmt->bindValue($arg, $val, is_int($val) ? \SQLITE3_INTEGER : \SQLITE3_TEXT);
             }

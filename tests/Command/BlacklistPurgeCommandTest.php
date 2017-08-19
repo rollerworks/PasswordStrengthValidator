@@ -13,8 +13,6 @@ namespace Rollerworks\Component\PasswordStrength\Tests\Command;
 
 use Rollerworks\Component\PasswordStrength\Command\BlacklistPurgeCommand;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Tester\CommandTester;
 
 class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
@@ -32,8 +30,8 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
         self::assertTrue(self::$blackListProvider->isBlacklisted('kaboom'));
 
         $commandTester = new CommandTester($command);
-        $commandTester->setInputs(array('no'));
-        $commandTester->execute(array('command' => $command->getName()), array('interactive' => true));
+        $commandTester->setInputs(['no']);
+        $commandTester->execute(['command' => $command->getName()], ['interactive' => true]);
 
         $display = $commandTester->getDisplay(true);
         self::assertRegExp('/This will remove all the passwords from your blacklist./', $display);
@@ -59,8 +57,8 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
         self::assertTrue(self::$blackListProvider->isBlacklisted('kaboom'));
 
         $commandTester = new CommandTester($command);
-        $commandTester->setInputs(array('y', 'yes'));
-        $commandTester->execute(array('command' => $command->getName()));
+        $commandTester->setInputs(['y', 'yes']);
+        $commandTester->execute(['command' => $command->getName()]);
 
         $display = $commandTester->getDisplay(true);
         self::assertRegExp('/This will remove all the passwords from your blacklist\./', $display);
@@ -86,7 +84,7 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
         self::assertTrue(self::$blackListProvider->isBlacklisted('kaboom'));
 
         $commandTester = new CommandTester($command);
-        $commandTester->execute(array('command' => $command->getName(), '--no-ask' => null));
+        $commandTester->execute(['command' => $command->getName(), '--no-ask' => null]);
 
         self::assertRegExp('/Successfully removed all passwords from your blacklist\./', $commandTester->getDisplay(true));
 
