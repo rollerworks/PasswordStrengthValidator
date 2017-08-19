@@ -17,7 +17,7 @@ or by configuring explicit requirements (needs letters, numbers etc).
 To install this package, add `rollerworks/password-strength-validator` to your composer.json:
 
 ```bash
-$ php composer.phar require rollerworks/search-uri-encoder
+$ php composer.phar require rollerworks/password-strength-validator
 ```
 
 Now, [Composer][2] will automatically download all required files, and install them
