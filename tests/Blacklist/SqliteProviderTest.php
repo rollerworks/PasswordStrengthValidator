@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the RollerworksPasswordStrengthBundle package.
+ * This file is part of the RollerworksPasswordStrengthValidator package.
  *
  * (c) Sebastiaan Stok <s.stok@rollerscapes.net>
  *

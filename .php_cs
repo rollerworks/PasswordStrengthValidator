@@ -1,7 +1,7 @@
 <?php
 
 $header = <<<EOF
-This file is part of the RollerworksPasswordStrengthBundle package.
+This file is part of the RollerworksPasswordStrengthValidator package.
 
 (c) Sebastiaan Stok <s.stok@rollerscapes.net>
 
@@ -16,6 +16,7 @@ return PhpCsFixer\Config::create()
         'array_syntax' => ['syntax' => 'short'],
         'no_unreachable_default_argument_value' => false,
         'braces' => ['allow_single_line_closure' => true],
+        'header_comment' => ['header' => $header],
         'heredoc_to_nowdoc' => false,
         'phpdoc_annotation_without_dot' => false,
     ))
