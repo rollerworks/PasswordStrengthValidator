@@ -19,12 +19,4 @@ use Symfony\Component\Validator\Constraint;
 class Blacklist extends Constraint
 {
     public $message = 'password_blacklisted';
-
-    /**
-     * {@inheritdoc}
-     */
-    public function validatedBy()
-    {
-        return 'rollerworks_password_strength.blacklist.validator';
-    }
 }

@@ -16,7 +16,6 @@ use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 /**
@@ -41,21 +40,14 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class PasswordStrengthValidator extends ConstraintValidator
 {
-    /**
-     * @var TranslatorInterface
-     */
     private $translator;
-
-    /**
-     * @var array
-     */
-    private static $levelToLabel = array(
+    private static $levelToLabel = [
         1 => 'very_weak',
         2 => 'weak',
         3 => 'medium',
         4 => 'strong',
         5 => 'very_strong',
-    );
+    ];
 
     public function __construct(TranslatorInterface $translator = null)
     {
@@ -71,7 +63,7 @@ class PasswordStrengthValidator extends ConstraintValidator
     }
 
     /**
-     * @param string                      $password
+     * @param string|null                 $password
      * @param PasswordStrength|Constraint $constraint
      */
     public function validate($password, Constraint $constraint)
@@ -80,7 +72,7 @@ class PasswordStrengthValidator extends ConstraintValidator
             return;
         }
 
-        if (null !== $password && !is_scalar($password) && !(is_object($password) && method_exists($password, '__toString'))) {
+        if (!is_scalar($password) && !(is_object($password) && method_exists($password, '__toString'))) {
             throw new UnexpectedTypeException($password, 'string');
         }
 
@@ -88,18 +80,14 @@ class PasswordStrengthValidator extends ConstraintValidator
         $passLength = mb_strlen($password);
 
         if ($passLength < $constraint->minLength) {
-            if ($this->context instanceof ExecutionContextInterface) {
-                $this->context->buildViolation($constraint->tooShortMessage)
-                    ->setParameters(array('{{length}}' => $constraint->minLength))
-                    ->addViolation();
-            } else {
-                $this->context->addViolation($constraint->tooShortMessage, array('{{length}}' => $constraint->minLength));
-            }
+            $this->context->buildViolation($constraint->tooShortMessage)
+                ->setParameters(array('{{length}}' => $constraint->minLength))
+                ->addViolation();
 
             return;
         }
 
-        $tips = array();
+        $tips = [];
 
         if ($constraint->unicodeEquality) {
             $passwordStrength = $this->calculateStrengthUnicode($password, $tips);
@@ -113,23 +101,20 @@ class PasswordStrengthValidator extends ConstraintValidator
             $tips[] = 'length';
         }
 
-        // No decrease strength on weak combinations
+        // There is no decrease of strength on weak combinations.
+        // Detecting this is tricky and requires a deep understanding of the syntax.
 
         if ($passwordStrength < $constraint->minStrength) {
             $parameters = array(
                 '{{ length }}' => $constraint->minLength,
-                '{{ min_strength }}' => $this->translator->trans('rollerworks_password.strength_level.'.self::$levelToLabel[$constraint->minStrength], array(), 'validators'),
-                '{{ current_strength }}' => $this->translator->trans('rollerworks_password.strength_level.'.self::$levelToLabel[$passwordStrength], array(), 'validators'),
+                '{{ min_strength }}' => $this->translator->trans('rollerworks_password.strength_level.'.self::$levelToLabel[$constraint->minStrength], [], 'validators'),
+                '{{ current_strength }}' => $this->translator->trans('rollerworks_password.strength_level.'.self::$levelToLabel[$passwordStrength], [], 'validators'),
                 '{{ strength_tips }}' => implode(', ', array_map(array($this, 'translateTips'), $tips)),
             );
 
-            if ($this->context instanceof ExecutionContextInterface) {
-                $this->context->buildViolation($constraint->message)
-                    ->setParameters($parameters)
-                    ->addViolation();
-            } else {
-                $this->context->addViolation($constraint->message, $parameters);
-            }
+            $this->context->buildViolation($constraint->message)
+                ->setParameters($parameters)
+                ->addViolation();
         }
     }
 
@@ -138,7 +123,7 @@ class PasswordStrengthValidator extends ConstraintValidator
      */
     public function translateTips($tip)
     {
-        return $this->translator->trans('rollerworks_password.tip.'.$tip, array(), 'validators');
+        return $this->translator->trans('rollerworks_password.tip.'.$tip, [], 'validators');
     }
 
     private function calculateStrength($password, &$tips)
