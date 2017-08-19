@@ -2,17 +2,6 @@ language: php
 
 matrix:
     include:
-        # Use the newer stack for HHVM as HHVM does not support Precise anymore since a long time and so Precise has an outdated version
-        - php: hhvm-3.15
-          sudo: required
-          dist: trusty
-          group: edge
-        - php: 5.3
-          env: SKIP_OEL=true
-        - php: 5.4
-          env: SKIP_OEL=true
-        - php: 5.5
-          env: SKIP_OEL=true
         - php: 5.6
         - php: 7.0
           env: DEPENDENCIES='dev'
@@ -27,22 +16,17 @@ cache:
         - $HOME/.composer/cache
 
 before_install:
-    # Matrix lines for OEL PHP versions are skipped for pull requests
-    - PHP=$TRAVIS_PHP_VERSION
-    - if [[ $SKIP_OEL && $TRAVIS_PULL_REQUEST != false ]]; then echo "Version ${PHP} is skipped for this pull request" && exit 0; fi
-    - if [[ ! $PHP = hhvm* ]]; then phpenv config-rm xdebug.ini || echo "xdebug not available"; fi
+    - phpenv config-rm xdebug.ini || echo "xdebug not available"
 
 install:
-    - export SYMFONY_PHPUNIT_REMOVE="symfony/yaml"
-    - export SYMFONY_DEPRECATIONS_HELPER=weak
     - if [ "$DEPENDENCIES" == "dev" ]; then composer config minimum-stability dev; fi;
     - if [ "$DEPENDENCIES" != "low" ]; then composer update --prefer-dist --no-progress --no-suggest --ansi; fi;
     - if [ "$DEPENDENCIES" == "low" ]; then composer update --prefer-dist --no-progress --no-suggest --ansi --prefer-lowest; fi;
 
 before_script:
     - if [ "$SYMFONY_PHPUNIT_VERSION" == "" ]; then export SYMFONY_PHPUNIT_VERSION=5.7.1; fi
-    - if [ $SKIP_OEL ]; then echo 'mbstring.internal_encoding = "UTF-8"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; fi
 
 script:
-    - if [ "$DEPENDENCIES" == "dev" ]; then vendor/bin/simple-phpunit --verbose --exclude-group legacy; fi
-    - if [ "$DEPENDENCIES" != "dev" ]; then vendor/bin/simple-phpunit --verbose; fi
+    - export SYMFONY_PHPUNIT_REMOVE="symfony/yaml"
+    - export SYMFONY_DEPRECATIONS_HELPER=strict
+    - vendor/bin/simple-phpunit --verbose
