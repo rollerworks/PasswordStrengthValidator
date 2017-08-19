@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Rollerworks\Bundle\PasswordStrengthBundle\Command;
+namespace Rollerworks\Component\PasswordStrength\Command;
 
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -37,7 +37,7 @@ class BlacklistPurgeCommand extends BlacklistCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var \Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\SqliteProvider $service */
+        /** @var \Rollerworks\Component\PasswordStrength\Blacklist\SqliteProvider $service */
         $service = $this->getContainer()->get('rollerworks_password_strength.blacklist.provider.sqlite');
 
         if (!$input->getOption('no-ask')) {

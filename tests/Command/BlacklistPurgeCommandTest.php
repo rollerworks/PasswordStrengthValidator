@@ -9,9 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Command;
+namespace Rollerworks\Component\PasswordStrength\Tests\Command;
 
-use Rollerworks\Bundle\PasswordStrengthBundle\Command\BlacklistPurgeCommand;
+use Rollerworks\Component\PasswordStrength\Command\BlacklistPurgeCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;

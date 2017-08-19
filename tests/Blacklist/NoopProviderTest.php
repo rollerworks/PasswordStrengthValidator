@@ -9,10 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Blacklist;
+namespace Rollerworks\Component\PasswordStrength\Tests\Blacklist;
 
 use PHPUnit\Framework\TestCase;
-use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\NoopProvider;
+use Rollerworks\Component\PasswordStrength\Blacklist\NoopProvider;
 
 class NoopProviderTest extends TestCase
 {

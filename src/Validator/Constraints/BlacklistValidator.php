@@ -9,9 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints;
+namespace Rollerworks\Component\PasswordStrength\Validator\Constraints;
 
-use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\BlacklistProviderInterface;
+use Rollerworks\Component\PasswordStrength\Blacklist\BlacklistProviderInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;

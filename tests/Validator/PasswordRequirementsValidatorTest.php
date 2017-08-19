@@ -9,10 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Validator;
+namespace Rollerworks\Component\PasswordStrength\Tests\Validator;
 
-use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordRequirements;
-use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordRequirementsValidator;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirements;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirementsValidator;
 use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 use Symfony\Component\Validator\Validation;
 

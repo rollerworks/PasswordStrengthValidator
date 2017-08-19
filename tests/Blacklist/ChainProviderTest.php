@@ -9,11 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Rollerworks\Bundle\PasswordStrengthBundle\Tests\Blacklist;
+namespace Rollerworks\Component\PasswordStrength\Tests\Blacklist;
 
 use PHPUnit\Framework\TestCase;
-use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ArrayProvider;
-use Rollerworks\Bundle\PasswordStrengthBundle\Blacklist\ChainProvider;
+use Rollerworks\Component\PasswordStrength\Blacklist\ArrayProvider;
+use Rollerworks\Component\PasswordStrength\Blacklist\ChainProvider;
 
 class ChainProviderTest extends TestCase
 {
