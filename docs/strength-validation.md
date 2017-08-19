@@ -1,16 +1,8 @@
 Strength validation
 ===================
 
-You can use the `Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints\PasswordStrength`
-constraint with the following options.
-
-* message: The validation message (default: password_too_weak)
-* minLength: Minimum length of the password, should be at least 6 (or 8 for better security)
-* minStrength: Minimum required strength of the password.
-* unicodeEquality: Consider characters from other scripts (unicode) as equal.
-  When set to false (default) `²` will seen as a special character rather then then 2 in another script.
-
-The strength is computed from various measures including length and usage of (special) characters.
+The PasswordStrength computes a password strength from various measures
+including length and usage of (special) characters.
 
 **Note:** A strength is measured by the presence of a character and total length.
 One can have a 'medium' password consisting of only a-z and A-Z, but with a length higher than 12 characters.
@@ -35,10 +27,25 @@ The strengths are listed as follows:
 *  4: Strong (at least one lower and capital and number) (recommended for most usages)
 *  5: Very Strong (recommended for admin or finance related services)
 
+## Options
+
+You can use the `Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordStrength`
+constraint with the following options.
+
+|     Option      |   Type   |                                       Description                                       |
+| --------------- | -------- | --------------------------------------------------------------------------------------- |
+| message         | `string` | The validation message (default: `password_too_weak`)                                   |
+| minLength       | `int`    | Minimum length of the password, should be at least 6 (or 8 for better security)         |
+| minStrength     | `int`    | Minimum required strength of the password.                                              |
+| unicodeEquality | `bool`   | Consider characters from other scripts (unicode) as equal (default: `false`).           |
+|                 |          | When set to false `²` will seen as a special character rather then 2 in another script. |
+
+## Annotations
+
 If you are using annotations for validation, include the constraints namespace:
 
 ```php
-use Rollerworks\Bundle\PasswordStrengthBundle\Validator\Constraints as RollerworksPassword;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints as RollerworksPassword;
 ```
 
 and then add the PasswordStrength constraint to the relevant field:
