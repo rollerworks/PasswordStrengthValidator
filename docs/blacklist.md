@@ -110,6 +110,18 @@ $blacklistProvider = new ChainProvider([
 ]);
 ```
 
+### LazyChainProvider
+
+Alternatively it's recommended to use the `Rollerworks\Component\PasswordStrength\Blacklist\LazyChainProvider`
+as this allows to load providers lazy (and thus preventing opening resources unneeded).
+
+```php
+$container = ...; // \Psr\Container\ContainerInterface
+$serviceIds = ['provider1']; // An array of service-id's to use for lazy loading providers. 
+
+$blacklistProvider = new LazyChainProvider($container, $serviceIds);
+```
+
 ## Updating the blacklist database
 
 To update your blacklist providers with new entries (or purge outdated outdated entries)

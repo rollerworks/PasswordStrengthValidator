@@ -11,10 +11,8 @@
 
 namespace Rollerworks\Component\PasswordStrength\Tests\Validator;
 
-use Prophecy\Argument;
-use Psr\Container\ContainerInterface;
 use Rollerworks\Component\PasswordStrength\Blacklist\ArrayProvider;
-use Rollerworks\Component\PasswordStrength\Blacklist\BlacklistProviderInterface;
+use Rollerworks\Component\PasswordStrength\Tests\BlackListMockProviderTrait;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\Blacklist;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\BlacklistValidator;
 use Symfony\Component\Validator\Exception\RuntimeException;
@@ -22,6 +20,8 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class BlacklistValidationTest extends ConstraintValidatorTestCase
 {
+    use BlackListMockProviderTrait;
+
     public function getMock($originalClassName, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $cloneArguments = false, $callOriginalMethods = false, $proxyTarget = null)
     {
         if (func_num_args() === 1 && preg_match('/^Symfony\\\\Component\\\\([a-z]+\\\\)+[a-z]+Interface$/i', $originalClassName)) {
@@ -136,27 +136,5 @@ class BlacklistValidationTest extends ConstraintValidatorTestCase
         $this->expectExceptionMessage('Unable to use blacklist provider "array", eg. no blacklists were configured or this provider is not supported.');
 
         $this->validator->validate('dope', new Blacklist(['message' => 'myMessage', 'provider' => 'array']));
-    }
-
-    private function createMockedProvider($blacklisted)
-    {
-        $mockProvider = $this->prophesize(BlacklistProviderInterface::class);
-        $mockProvider->isBlacklisted($blacklisted)->willReturn(true);
-        $mockProvider->isBlacklisted(Argument::any())->willReturn(false);
-
-        return $mockProvider->reveal();
-    }
-
-    private function createLoadersContainer(array $loaders)
-    {
-        $loadersProphecy = $this->prophesize(ContainerInterface::class);
-        $loadersProphecy->has(Argument::any())->willReturn(false);
-
-        foreach ($loaders as $name => $loader) {
-            $loadersProphecy->has($name)->willReturn(true);
-            $loadersProphecy->get($name)->willReturn($loader);
-        }
-
-        return $loadersProphecy->reveal();
     }
 }
