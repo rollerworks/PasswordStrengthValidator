@@ -19,4 +19,9 @@ use Symfony\Component\Validator\Constraint;
 class Blacklist extends Constraint
 {
     public $message = 'password_blacklisted';
+
+    /**
+     * @var string
+     */
+    public $provider;
 }
