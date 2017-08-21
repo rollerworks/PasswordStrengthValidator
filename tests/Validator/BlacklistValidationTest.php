@@ -11,9 +11,13 @@
 
 namespace Rollerworks\Component\PasswordStrength\Tests\Validator;
 
+use Prophecy\Argument;
+use Psr\Container\ContainerInterface;
 use Rollerworks\Component\PasswordStrength\Blacklist\ArrayProvider;
+use Rollerworks\Component\PasswordStrength\Blacklist\BlacklistProviderInterface;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\Blacklist;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\BlacklistValidator;
+use Symfony\Component\Validator\Exception\RuntimeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class BlacklistValidationTest extends ConstraintValidatorTestCase
@@ -86,5 +90,73 @@ class BlacklistValidationTest extends ConstraintValidatorTestCase
         $this->buildViolation('myMessage')
             ->setInvalidValue('test')
             ->assertRaised();
+    }
+
+    public function testUsesDifferentProvider()
+    {
+        $loaders = $this->createLoadersContainer(['array' => $this->createMockedProvider('dope')]);
+        $defaultProvider = new ArrayProvider(['test', 'foobar']);
+
+        $this->validator = new BlacklistValidator($defaultProvider, $loaders);
+        $this->validator->initialize($this->context);
+
+        $this->validator->validate('test', new Blacklist(['message' => 'from-default']));
+        $this->validator->validate('dope', new Blacklist(['message' => 'from-custom', 'provider' => 'array']));
+
+        $this
+            ->buildViolation('from-default')
+                ->setInvalidValue('test')
+            ->buildNextViolation('from-custom')
+                ->setInvalidValue('dope')
+            ->assertRaised();
+    }
+
+    public function testThrowsExceptionForUnsupportedProvider()
+    {
+        $loaders = $this->createLoadersContainer([]);
+        $defaultProvider = new ArrayProvider(['test', 'foobar']);
+
+        $this->validator = new BlacklistValidator($defaultProvider, $loaders);
+        $this->validator->initialize($this->context);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unable to use blacklist provider "array", eg. no blacklists were configured or this provider is not supported.');
+
+        $this->validator->validate('dope', new Blacklist(['message' => 'myMessage', 'provider' => 'array']));
+    }
+
+    public function testThrowsExceptionWhenNoProvidersWereGiven()
+    {
+        $defaultProvider = new ArrayProvider(['test', 'foobar']);
+
+        $this->validator = new BlacklistValidator($defaultProvider);
+        $this->validator->initialize($this->context);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Unable to use blacklist provider "array", eg. no blacklists were configured or this provider is not supported.');
+
+        $this->validator->validate('dope', new Blacklist(['message' => 'myMessage', 'provider' => 'array']));
+    }
+
+    private function createMockedProvider($blacklisted)
+    {
+        $mockProvider = $this->prophesize(BlacklistProviderInterface::class);
+        $mockProvider->isBlacklisted($blacklisted)->willReturn(true);
+        $mockProvider->isBlacklisted(Argument::any())->willReturn(false);
+
+        return $mockProvider->reveal();
+    }
+
+    private function createLoadersContainer(array $loaders)
+    {
+        $loadersProphecy = $this->prophesize(ContainerInterface::class);
+        $loadersProphecy->has(Argument::any())->willReturn(false);
+
+        foreach ($loaders as $name => $loader) {
+            $loadersProphecy->has($name)->willReturn(true);
+            $loadersProphecy->get($name)->willReturn($loader);
+        }
+
+        return $loadersProphecy->reveal();
     }
 }

@@ -11,9 +11,11 @@
 
 namespace Rollerworks\Component\PasswordStrength\Validator\Constraints;
 
+use Psr\Container\ContainerInterface;
 use Rollerworks\Component\PasswordStrength\Blacklist\BlacklistProviderInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\RuntimeException;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 /**
@@ -25,21 +27,23 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  */
 class BlacklistValidator extends ConstraintValidator
 {
-    /**
-     * @var BlacklistProviderInterface
-     */
-    private $provider;
+    private $defaultProvider;
+    private $providersLoader;
 
     /**
-     * @param BlacklistProviderInterface $provider
+     * @param BlacklistProviderInterface $defaultProvider
+     * @param ContainerInterface         $providersLoader Service-container for loading
+     *                                                    blacklist providers
      */
-    public function __construct(BlacklistProviderInterface $provider)
+    public function __construct(BlacklistProviderInterface $defaultProvider, ContainerInterface $providersLoader = null)
     {
-        $this->provider = $provider;
+        $this->defaultProvider = $defaultProvider;
+        $this->providersLoader = $providersLoader;
     }
 
     /**
-     * {@inheritdoc}
+     * @param string|null          $password
+     * @param Constraint|Blacklist $constraint
      */
     public function validate($password, Constraint $constraint)
     {
@@ -51,7 +55,22 @@ class BlacklistValidator extends ConstraintValidator
             throw new UnexpectedTypeException($password, 'string');
         }
 
-        if (true === $this->provider->isBlacklisted((string) $password)) {
+        if (null === $constraint->provider) {
+            $provider = $this->defaultProvider;
+        } else {
+            if (null === $this->providersLoader || !$this->providersLoader->has($constraint->provider)) {
+                throw new RuntimeException(
+                    sprintf(
+                        'Unable to use blacklist provider "%s", eg. no blacklists were configured or this provider is not supported.',
+                        $constraint->provider
+                    )
+                );
+            }
+
+            $provider = $this->providersLoader->get($constraint->provider);
+        }
+
+        if (true === $provider->isBlacklisted((string) $password)) {
             $this->context->buildViolation($constraint->message)
                 ->setInvalidValue($password)
                 ->addViolation();
