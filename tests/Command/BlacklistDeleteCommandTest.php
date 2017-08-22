@@ -171,7 +171,9 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
     private function getCommand()
     {
         $application = new Application();
-        $application->add(new BlacklistDeleteCommand(self::$blackListProvider));
+        $application->add(new BlacklistDeleteCommand(
+            $this->createLoadersContainer(['default' => self::$blackListProvider])
+        ));
 
         return $application->find('rollerworks-password:blacklist:delete');
     }

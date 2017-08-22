@@ -11,9 +11,13 @@
 
 namespace Rollerworks\Component\PasswordStrength\Command;
 
+use Psr\Container\ContainerInterface;
 use Rollerworks\Component\PasswordStrength\Blacklist\BlacklistProviderInterface;
 use Rollerworks\Component\PasswordStrength\Blacklist\UpdatableBlacklistProviderInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * @author Sebastiaan Stok <s.stok@rollerscapes.net>
@@ -25,15 +29,27 @@ abstract class BlacklistCommand extends Command
      */
     protected $blacklistProvider;
 
-    public function __construct(BlacklistProviderInterface $blacklistProvider)
+    /**
+     * @var ContainerInterface
+     */
+    private $providers;
+
+    public function __construct(ContainerInterface $providers)
     {
         parent::__construct(null);
 
-        $this->blacklistProvider = $blacklistProvider;
+        $this->addOption('provider', null, InputOption::VALUE_REQUIRED, 'Blacklist Provider name', 'default');
+        $this->providers = $providers;
     }
 
-    public function isEnabled()
+    protected function initialize(InputInterface $input, OutputInterface $output)
     {
-        return $this->blacklistProvider instanceof UpdatableBlacklistProviderInterface;
+        $this->blacklistProvider = $this->providers->get($input->getOption('provider'));
+
+        if (!$this->blacklistProvider instanceof UpdatableBlacklistProviderInterface) {
+            throw new \RuntimeException(
+                sprintf('Blacklist provider "%s" is not updatable.', $input->getOption('provider'))
+            );
+        }
     }
 }

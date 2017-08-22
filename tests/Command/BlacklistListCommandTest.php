@@ -20,7 +20,7 @@ class BlacklistListCommandTest extends BlacklistCommandTestCase
     public function testList()
     {
         $application = new Application();
-        $command = new BlacklistListCommand(self::$blackListProvider);
+        $command = new BlacklistListCommand($this->createLoadersContainer(['default' => self::$blackListProvider]));
         $application->add($command);
 
         $command = $application->find('rollerworks-password:blacklist:list');
