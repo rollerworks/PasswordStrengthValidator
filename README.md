@@ -97,7 +97,7 @@ This is an open source project. If you'd like to contribute,
 please read the [Contributing Guidelines][3]. If you're submitting
 a pull request, please follow the guidelines in the [Submitting a Patch][4] section.
 
-[1]: https://github.com/rollerworks/PasswordStrengthBundle]
+[1]: https://github.com/rollerworks/PasswordStrengthBundle
 [2]: https://getcomposer.org/doc/00-intro.md
 [3]: https://github.com/rollerworks/contributing
 [4]: https://contributing.readthedocs.org/en/latest/code/patches.html
