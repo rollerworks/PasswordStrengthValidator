@@ -13,9 +13,12 @@ namespace Rollerworks\Component\PasswordStrength\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
 use Rollerworks\Component\PasswordStrength\Blacklist\SqliteProvider;
+use Rollerworks\Component\PasswordStrength\Tests\BlackListMockProviderTrait;
 
 abstract class BlacklistCommandTestCase extends TestCase
 {
+    use BlackListMockProviderTrait;
+
     protected static $dbFile;
     protected static $storage;
 

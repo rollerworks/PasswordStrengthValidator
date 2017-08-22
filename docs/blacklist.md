@@ -130,7 +130,17 @@ this library provides a number of command-line commands which you can use.
 To use these commands you need to install the [Symfony Console component][2].
 And register these commands for usage (see the Symfony manual for details).
 
+Each command expects a PSR-11 compatible container with the service-id
+as the provider name. At least "default" is expected to exists.
+
 ### Commands
+
+```php
+$providersContainer = ...; // \Psr\Container\ContainerInterface
+
+$application->add(new Rollerworks\Component\PasswordStrength\Command\BlacklistListCommand($providersContainer));
+```
+
 
 To add new passwords to the blacklist:
 
@@ -155,20 +165,25 @@ $ bin/console rollerworks-password:blacklist:update --file="/tmp/passwords-black
 To remove the database completely (**this will remove all the blacklisted passwords from your database**).
 
 ```bash
-$ app/console rollerworks-password:blacklist:purge
+$ bin/console rollerworks-password:blacklist:purge
 ```
 
 To export the database (this will display all the blacklisted passwords (one per line)) use.
 
 ```bash
-$ app/console rollerworks-password:blacklist:list
+$ bin/console rollerworks-password:blacklist:list
 ```
 
 You can also forward the result to a text file.
 
 ```bash
-$ app/console rollerworks-password:blacklist:list > /tmp/exported-blacklist.txt
+$ bin/console rollerworks-password:blacklist:list > /tmp/exported-blacklist.txt
 ```
+
+### Use a different provider
+
+To use a different provider then the de "default" use the `--provider` option, eg.
+`bin/console rollerworks-password:blacklist:purge --provider=sqlite`
 
 ## Existing blacklists
 

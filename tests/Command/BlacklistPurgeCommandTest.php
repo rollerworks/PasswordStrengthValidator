@@ -96,7 +96,9 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
     private function getCommand()
     {
         $application = new Application();
-        $application->add(new BlacklistPurgeCommand(self::$blackListProvider));
+        $application->add(
+            new BlacklistPurgeCommand($this->createLoadersContainer(['default' => self::$blackListProvider]))
+        );
 
         return $application->find('rollerworks-password:blacklist:purge');
     }

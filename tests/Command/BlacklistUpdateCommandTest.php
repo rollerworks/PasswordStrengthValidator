@@ -166,7 +166,9 @@ class BlacklistUpdateCommandTest extends BlacklistCommandTestCase
     private function getCommand()
     {
         $application = new Application();
-        $application->add(new BlacklistUpdateCommand(self::$blackListProvider));
+        $application->add(
+            new BlacklistUpdateCommand($this->createLoadersContainer(['default' => self::$blackListProvider]))
+        );
 
         return $application->find('rollerworks-password:blacklist:update');
     }
