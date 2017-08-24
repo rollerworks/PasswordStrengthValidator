@@ -15,8 +15,9 @@ use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequire
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirementsValidator;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 use Symfony\Component\Validator\Test\ConstraintViolationAssertion;
+use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 
-class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCase
+class PasswordRequirementsValidatorTest extends AbstractConstraintValidatorTest
 {
     public function getMock($originalClassName, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $cloneArguments = false, $callOriginalMethods = false, $proxyTarget = null)
     {

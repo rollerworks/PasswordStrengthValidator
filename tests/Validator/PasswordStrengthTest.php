@@ -15,8 +15,9 @@ use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordStrengt
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordStrengthValidator;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
+use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 
-class PasswordStrengthTest extends ConstraintValidatorTestCase
+class PasswordStrengthTest extends AbstractConstraintValidatorTest
 {
     /**
      * @var array
