@@ -13,7 +13,6 @@ namespace Rollerworks\Component\PasswordStrength\Tests\Validator;
 
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirements;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirementsValidator;
-use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 use Symfony\Component\Validator\Test\ConstraintViolationAssertion;
 use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 
