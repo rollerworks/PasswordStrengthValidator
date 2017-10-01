@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Your password must be at least {{length}} characters long.</source>
+                <target>รหัสผ่านต้องมีความยาวอย่างน้อย {{length}} ตัวอักษร</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Your password must include at least one letter.</source>
+                <target>รหัสผ่านต้องมีตัวอักษรอย่างน้อยหนึ่งตัว</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Your password must include both upper and lower case letters.</source>
+                <target>รหัสผ่านต้องประกอบด้วยอักษรตัวเล็กและตัวใหญ่</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Your password must include at least one number.</source>
+                <target>รหัสผ่านต้องประกอบด้วยตัวเลขอย่างน้อยหนึ่งตัว</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Your password must contain at least one special character.</source>
+                <target>รหัสผ่านต้องประกอบด้วยอักขระพิเศษอย่างน้อยหนึ่งตัว</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>password_too_weak</source>
+                <target>ความปลอดภัยของรหัสผ่านต้องอยู่ในระดับ "{{ min_strength }}" เป็นอย่างน้อย, ระดับปัจจุบันคือ "{{ current_strength }}", คำแนะนำ {{ strength_tips }}.</target>
+            </trans-unit>
+
+            <!-- Strength levels -->
+            <trans-unit id="7">
+                <source>rollerworks_password.strength_level.very_weak</source>
+                <target>คาดเดาง่ายมาก</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>rollerworks_password.strength_level.weak</source>
+                <target>คาดเดาง่าย</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>rollerworks_password.strength_level.medium</source>
+                <target>พอใช้</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>rollerworks_password.strength_level.strong</source>
+                <target>เดายาก</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>rollerworks_password.strength_level.very_strong</source>
+                <target>ดีมาก</target>
+            </trans-unit>
+
+            <!-- Tip translations -->
+            <trans-unit id="12">
+                <source>rollerworks_password.tip.letters</source>
+                <target>เพิ่ม (อักษรตัวใหญ่/ตัวเล็ก)</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>rollerworks_password.tip.numbers</source>
+                <target>เพิ่ม ตัวเลข</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>rollerworks_password.tip.lowercase_letters</source>
+                <target>เพิ่ม อักษรตัวเล็ก</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>rollerworks_password.tip.uppercase_letters</source>
+                <target>เพิ่ม อักษรตัวใหญ่</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>rollerworks_password.tip.special_chars</source>
+                <target>เพิ่ม อักขระพิเศษ</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>rollerworks_password.tip.length</source>
+                <target>เพิ่มความยาวอีก</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
