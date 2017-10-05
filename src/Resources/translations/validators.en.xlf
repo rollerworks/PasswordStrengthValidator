@@ -24,7 +24,7 @@
             </trans-unit>
             <trans-unit id="6">
                 <source>password_too_weak</source>
-                <target>Password needs to be at least at strength level "{{ min_strength }}", current level is "{{ current_strength }}", try the following {{ strength_tips }}.</target>
+                <target>Password needs to be at least at strength level "{{ min_strength }}", current level is "{{ current_strength }}", try the following: {{ strength_tips }}.</target>
             </trans-unit>
 
             <!-- Strength levels -->
