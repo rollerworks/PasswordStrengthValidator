@@ -16,9 +16,9 @@ use Rollerworks\Component\PasswordStrength\Tests\BlackListMockProviderTrait;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\Blacklist;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\BlacklistValidator;
 use Symfony\Component\Validator\Exception\RuntimeException;
-use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
+use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
-class BlacklistValidationTest extends AbstractConstraintValidatorTest
+class BlacklistValidationTest extends ConstraintValidatorTestCase
 {
     use BlackListMockProviderTrait;
 

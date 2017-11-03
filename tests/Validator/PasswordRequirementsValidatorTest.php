@@ -13,10 +13,10 @@ namespace Rollerworks\Component\PasswordStrength\Tests\Validator;
 
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirements;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirementsValidator;
+use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 use Symfony\Component\Validator\Test\ConstraintViolationAssertion;
-use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 
-class PasswordRequirementsValidatorTest extends AbstractConstraintValidatorTest
+class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCase
 {
     public function getMock($originalClassName, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $cloneArguments = false, $callOriginalMethods = false, $proxyTarget = null)
     {
