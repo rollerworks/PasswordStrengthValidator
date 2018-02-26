@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Your password must be at least {{length}} characters long.</source>
+                <target>Паролата трябва да е с дължина най-малко {{length}} знака.</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Your password must include at least one letter.</source>
+                <target>Паролата трябва да съдържа поне една буква.</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Your password must include both upper and lower case letters.</source>
+                <target>Паролата трябва да съдържа главни и малки букви.</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Your password must include at least one number.</source>
+                <target>Паролата трябва да съдържа поне едно число.</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Your password must contain at least one special character.</source>
+                <target>Паролата трябва да съдържа поне един специален знак.</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>password_too_weak</source>
+                <target>Паролата трябва да е поне на ниво "{{min_strength}}", текущото ниво е "{{current_strength}}", опитайте това: {{strength_tips}}.</target>
+            </trans-unit>
+
+            <!-- Strength levels -->
+            <trans-unit id="7">
+                <source>rollerworks_password.strength_level.very_weak</source>
+                <target>Много слабо</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>rollerworks_password.strength_level.weak</source>
+                <target>Слабо</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>rollerworks_password.strength_level.medium</source>
+                <target>Средно</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>rollerworks_password.strength_level.strong</source>
+                <target>Силно</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>rollerworks_password.strength_level.very_strong</source>
+                <target>Много силно</target>
+            </trans-unit>
+
+            <!-- Tip translations -->
+            <trans-unit id="12">
+                <source>rollerworks_password.tip.letters</source>
+                <target>добавете букви (главни/малки)</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>rollerworks_password.tip.numbers</source>
+                <target>добавете цифри</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>rollerworks_password.tip.lowercase_letters</source>
+                <target>добавете малки букви</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>rollerworks_password.tip.uppercase_letters</source>
+                <target>добавете главни букви</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>rollerworks_password.tip.special_chars</source>
+                <target>добавете специални знаци</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>rollerworks_password.tip.length</source>
+                <target>добавете още знаци</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
