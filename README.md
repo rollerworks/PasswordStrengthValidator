@@ -69,6 +69,12 @@ But building your own is also possible.
 __Documentation on this is currently missing,
 see current providers for more information.__
 
+### PwnedPassword
+
+Validates that the requested password was not found in a trove of compromised passwords found at <https://haveibeenpwned.com/>.
+
+To enable this you must install the suggested package "guzzlehttp/psr7" as well as a HttpClient such as "php-http/guzzle6-adapter".
+
 ## Versioning
 
 For transparency and insight into the release cycle, and for striving
