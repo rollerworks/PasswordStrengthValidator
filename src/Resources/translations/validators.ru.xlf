@@ -8,7 +8,7 @@
             </trans-unit>
             <trans-unit id="2">
                 <source>Your password must include at least one letter.</source>
-                <target>Пароль должен содержать, по крайней мере, один специальный символ.</target>
+                <target>Пароль должен содержать, по крайней мере, одну букву.</target>
             </trans-unit>
             <trans-unit id="3">
                 <source>Your password must include both upper and lower case letters.</source>
@@ -68,7 +68,7 @@
             </trans-unit>
             <trans-unit id="16">
                 <source>rollerworks_password.tip.special_chars</source>
-                <target>добавить специальнгые символы</target>
+                <target>добавить специальные символы</target>
             </trans-unit>
             <trans-unit id="17">
                 <source>rollerworks_password.tip.length</source>
