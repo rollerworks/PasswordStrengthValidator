@@ -24,7 +24,7 @@
             </trans-unit>
             <trans-unit id="6">
                 <source>password_too_weak</source>
-                <target>Пароль должен быть как минимум "{{ min_strength }}" уровня сложности, текущий уровень сложности "{{ current_strength }}", обратите внимание на эти советы: {{strong_tips}}.</target>
+                <target>Пароль должен быть как минимум "{{ min_strength }}" уровня сложности, текущий уровень сложности "{{ current_strength }}", обратите внимание на эти советы: {{ strong_tips }}.</target>
             </trans-unit>
 
             <!-- Strength levels -->
