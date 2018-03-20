@@ -4,7 +4,7 @@
         <body>
             <trans-unit id="1">
                 <source>Your password must be at least {{length}} characters long.</source>
-                <target>A senha deve ter pelo menos {{comprimento}} caracteres de comprimento.</target>
+                <target>A senha deve ter pelo menos {{length}} caracteres de comprimento.</target>
             </trans-unit>
             <trans-unit id="2">
                 <source>Your password must include at least one letter.</source>
