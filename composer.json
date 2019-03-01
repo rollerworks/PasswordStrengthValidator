@@ -23,13 +23,13 @@
         "psr/container": "^1.0",
         "psr/log": "^1.0",
         "symfony/polyfill-mbstring": "^1.5.0",
+        "symfony/translation": "^2.8.9 || ^3.3.6 | ^4.0",
         "symfony/validator": "^2.8.9 || ^3.3.6 || ^4.0"
     },
     "require-dev": {
         "symfony/config": "^3.3.6 || ^4.0",
         "symfony/console": "^3.3.6 || ^4.0",
         "symfony/phpunit-bridge": "^3.3.6 || ^4.0",
-        "symfony/translation": "^3.3.6 | ^4.0",
         "php-http/httplug": "^1.1",
         "guzzlehttp/psr7": "^1.4"
     },
