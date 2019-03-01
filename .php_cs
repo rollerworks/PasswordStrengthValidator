@@ -19,7 +19,8 @@ return PhpCsFixer\Config::create()
         'header_comment' => ['header' => $header],
         'heredoc_to_nowdoc' => false,
         'phpdoc_annotation_without_dot' => false,
-        'yoda_style' => false
+        'yoda_style' => false,
+        'native_function_invocation' => false
     ))
     ->setRiskyAllowed(true)
     ->setFinder(
