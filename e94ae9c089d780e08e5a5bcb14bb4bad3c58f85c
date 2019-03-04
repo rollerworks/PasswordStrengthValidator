@@ -1,0 +1,17 @@
+---------------------------------------------------------------------------
+
+by vkhramtsov at 2019-02-28T18:17:14Z
+
+Unfortunately I have to add `symfony/translation` as dependency,  because `symfony/validator` 4.2.* does not require it anymore.
+
+---------------------------------------------------------------------------
+
+by vkhramtsov at 2019-03-04T07:22:12Z
+
+@sstok Would you be so kind to review/merge this fix?
+
+---------------------------------------------------------------------------
+
+by sstok at 2019-03-04T14:53:02Z
+
+Thank you @vkhramtsov
