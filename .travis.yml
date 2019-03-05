@@ -3,17 +3,20 @@ language: php
 matrix:
     include:
         - php: 7.1
-          env: DEPENDENCIES='dev' lint=1
+          env: DEPENDENCIES='dev'
         - php: 7.1
           env: DEPENDENCIES='low'
+        - php: 7.1
         - php: 7.2
-          env: DEPENDENCIES='dev' lint=1
+          env: DEPENDENCIES='dev'
         - php: 7.2
           env: DEPENDENCIES='low'
+        - php: 7.2
         - php: 7.3
           env: DEPENDENCIES='dev' lint=1
         - php: 7.3
           env: DEPENDENCIES='low'
+        - php: 7.3
     fast_finish: true
 
 sudo: false
