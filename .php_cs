@@ -10,7 +10,7 @@ with this source code in the file LICENSE.
 EOF;
 
 return PhpCsFixer\Config::create()
-    ->setRules(array(
+    ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
         'array_syntax' => ['syntax' => 'short'],
@@ -19,8 +19,13 @@ return PhpCsFixer\Config::create()
         'header_comment' => ['header' => $header],
         'heredoc_to_nowdoc' => false,
         'phpdoc_annotation_without_dot' => false,
-        'yoda_style' => false
-    ))
+        'yoda_style' => false,
+        'native_function_invocation' => false,
+        'phpdoc_types_order' => [
+            'null_adjustment' => 'none',
+            'sort_algorithm' => 'none',
+        ],
+    ])
     ->setRiskyAllowed(true)
     ->setFinder(
         PhpCsFixer\Finder::create()
