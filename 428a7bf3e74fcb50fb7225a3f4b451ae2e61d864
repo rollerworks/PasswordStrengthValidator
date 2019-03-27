@@ -1,0 +1,59 @@
+---------------------------------------------------------------------------
+
+by vkhramtsov at 2019-03-04T17:03:16Z
+
+@sstok Would you be do kind to review this PR?
+
+---------------------------------------------------------------------------
+
+by sstok at 2019-03-05T08:13:06Z
+
+@stof I know Symfony considers dropping support for older PHP and Symfony versions a BC break, do you consider it acceptable here? Or would this require a major release.
+
+Personally I don't mind dropping support for Symfony 2 as current API is already forward compatible and Symfony 2 is EOL. And anyone stuck on a older version can still use the older versions of this library.
+
+---------------------------------------------------------------------------
+
+by vkhramtsov at 2019-03-05T08:24:29Z
+
+@sstok After taking decision and merging (possibly) this PR, I'm going to do the same for bundle
+
+---------------------------------------------------------------------------
+
+by stof at 2019-03-05T14:09:08Z
+
+> I know Symfony considers dropping support for older PHP and Symfony versions a BC break, do you consider it acceptable here? Or would this require a major release.
+
+As long as your composer.json properly defines the constraints, that's not a BC break.
+
+Symfony decided to bump min PHP versions only in major versions due to other reasons (allowing predictable bumps there too), not due to it being a BC break.
+
+I would say that dropping support for older versions of deps puts some expectations on the maintenance of an older version of the lib:
+- if that older version is still maintained, users might still expect to get bugfixes in a version of your lib supporting it
+- if that older version is EOL, users might still expect a backport of your own security patches for *some* amount of time after you drop support, depending on the ease to upgrade.
+
+These expectations means that you should at least use a minor version for such bump (to still be able to make some patch releases in the previous minor). But nothing forces using a major version here.
+
+---------------------------------------------------------------------------
+
+by vkhramtsov at 2019-03-06T13:00:48Z
+
+@stof Would you be so kind to review this once again?
+
+---------------------------------------------------------------------------
+
+by vkhramtsov at 2019-03-26T13:54:47Z
+
+@stof @sstok Any news here?
+
+---------------------------------------------------------------------------
+
+by stof at 2019-03-27T11:10:11Z
+
+@vkhramtsov this is fine with me. But I'm not a maintainer of this library, so you still need to have @sstok looking at it to merge it.
+
+---------------------------------------------------------------------------
+
+by sstok at 2019-03-27T12:18:04Z
+
+Thank you @vkhramtsov
