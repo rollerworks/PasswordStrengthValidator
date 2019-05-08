@@ -78,7 +78,7 @@
             <!-- P0wnedPasswordValidator -->
             <trans-unit id="18">
                 <source>This password was found in a database of compromised passwords. It has been used {{ used }} times. For security purposes you must use something else.</source>
-                <target>Ce mot de passe a été trouvé dans une base de données de mots de passe erronés. Il a été utilisé {{used}} fois. Pour des raisons de sécurité, veuillez choisir un autre mot de passe.</target>
+                <target>Ce mot de passe a été trouvé dans une base de données de mots de passe erronés. Il a été utilisé {{ used }} fois. Pour des raisons de sécurité, veuillez choisir un autre mot de passe.</target>
             </trans-unit>
         </body>
     </file>
