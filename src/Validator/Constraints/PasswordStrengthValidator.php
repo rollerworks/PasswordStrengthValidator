@@ -107,8 +107,8 @@ class PasswordStrengthValidator extends ConstraintValidator
         if ($passwordStrength < $constraint->minStrength) {
             $parameters = [
                 '{{ length }}' => $constraint->minLength,
-                '{{ min_strength }}' => $this->translator->trans('rollerworks_password.strength_level.'.self::$levelToLabel[$constraint->minStrength], [], 'validators'),
-                '{{ current_strength }}' => $this->translator->trans('rollerworks_password.strength_level.'.self::$levelToLabel[$passwordStrength], [], 'validators'),
+                '{{ min_strength }}' => $this->translator->trans(/** @Ignore */'rollerworks_password.strength_level.'.self::$levelToLabel[$constraint->minStrength], [], 'validators'),
+                '{{ current_strength }}' => $this->translator->trans(/** @Ignore */'rollerworks_password.strength_level.'.self::$levelToLabel[$passwordStrength], [], 'validators'),
                 '{{ strength_tips }}' => implode(', ', array_map([$this, 'translateTips'], $tips)),
             ];
 
@@ -123,7 +123,7 @@ class PasswordStrengthValidator extends ConstraintValidator
      */
     public function translateTips($tip)
     {
-        return $this->translator->trans('rollerworks_password.tip.'.$tip, [], 'validators');
+        return $this->translator->trans(/** @Ignore */'rollerworks_password.tip.'.$tip, [], 'validators');
     }
 
     private function calculateStrength($password, &$tips)
