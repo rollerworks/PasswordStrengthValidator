@@ -23,7 +23,7 @@ The strengths are listed as follows:
 
 *  1: Very Weak (any character)
 *  2: Weak (at least one lower and capital)
-*  3: Medium (at least one lower and capital and number)
+*  3: Medium (at least one lower or capital and number)
 *  4: Strong (at least one lower and capital and number) (recommended for most usages)
 *  5: Very Strong (recommended for admin or finance related services)
 
