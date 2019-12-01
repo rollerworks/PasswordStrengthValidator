@@ -8,11 +8,11 @@
             </trans-unit>
             <trans-unit id="2">
                 <source>Your password must include at least one letter.</source>
-                <target>La contraseña debe tener por lo menos {{length}} caracteres.</target>
+                <target>La contraseña debe tener por lo menos una letra.</target>
             </trans-unit>
             <trans-unit id="3">
                 <source>Your password must include both upper and lower case letters.</source>
-                <target>La contraseña debe contener mayúsculas y minúsculas.</target>
+                <target>La contraseña debe tener mayúsculas y minúsculas.</target>
             </trans-unit>
             <trans-unit id="4">
                 <source>Your password must include at least one number.</source>
