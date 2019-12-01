@@ -1,39 +1,55 @@
 language: php
 
+dist: xenial
+
+env:
+    global:
+        - SYMFONY_PHPUNIT_DISABLE_RESULT_CACHE=1
+        - SYMFONY_PHPUNIT_REMOVE="symfony/yaml"
+        - SYMFONY_PHPUNIT_VERSION=7.5.6
+        - QA_DOCKER_IMAGE=jakzal/phpqa:1.25.0-php7.2-alpine
+
 matrix:
     include:
         - php: 7.1
+          env: SYMFONY_REQUIRE='^3.4'
         - php: 7.2
-          env: DEPENDENCIES='dev'
-        - php: 7.2
-          env: DEPENDENCIES='low'
-        - php: 7.2
+          env: SYMFONY_REQUIRE='^4.4'
         - php: 7.3
+          env: SYMFONY_REQUIRE='^5.0'
+#        - php: 7.4
+#          env: SYMFONY_REQUIRE='^5.0'
+        - php: 7.2
           env: lint=1
+          services:
+              - docker
     fast_finish: true
 
 sudo: false
 
 cache:
     directories:
-        - $HOME/.composer/cache
+        - $HOME/.composer/cache/files
 
 before_install:
     - phpenv config-rm xdebug.ini || echo "xdebug not available"
     - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-    - if [[ $lint = 1 ]]; then wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.14.2/php-cs-fixer.phar; fi
-    - if [[ $lint = 1 ]]; then composer global require --dev 'phpstan/phpstan:^0.8'; fi
+    - composer global require symfony/flex
+
+    - if [[ $lint = 1 ]]; then docker pull ${QA_DOCKER_IMAGE}; fi
     - export PATH="$PATH:$HOME/.composer/vendor/bin"
 
 install:
-    - if [ "$DEPENDENCIES" == "dev" ]; then composer config minimum-stability dev; fi;
-    - if [ "$DEPENDENCIES" != "low" ]; then composer update --prefer-dist --no-progress --no-suggest --ansi; fi;
-    - if [ "$DEPENDENCIES" == "low" ]; then composer update --prefer-dist --no-progress --no-suggest --ansi --prefer-lowest; fi;
+    - composer install --prefer-dist --no-progress --no-suggest --ansi
 
 script:
-    - export SYMFONY_PHPUNIT_VERSION=7.5.6
-    - export SYMFONY_PHPUNIT_REMOVE="symfony/yaml"
-    - export SYMFONY_DEPRECATIONS_HELPER=strict
     - vendor/bin/simple-phpunit --verbose
-    - if [[ $lint = 1 ]]; then php php-cs-fixer.phar fix --dry-run --diff --no-ansi; fi
-    #- if [[ $lint = 1 ]]; then phpstan analyse -c phpstan.neon -l5 --ansi src tests; fi # temporarily disabled
+    - |
+        if [[ $lint = 1 ]]
+        then
+            mkdir /tmp/tmp-phpqa-$(id -u)
+            export QA_DOCKER_COMMAND="docker run --init --interactive --tty --rm --user "$(id -u):$(id -g)" --volume /tmp/tmp-phpqa-$(id -u):/tmp --volume "$(pwd):/project" --workdir /project ${QA_DOCKER_IMAGE}"
+            sh -c "${QA_DOCKER_COMMAND} php-cs-fixer fix -vvv --diff --dry-run"
+            #sh -c "${QA_DOCKER_COMMAND} phpstan analyse"
+            #sh -c "${QA_DOCKER_COMMAND} vendor/bin/psalm --show-info=false"
+        fi

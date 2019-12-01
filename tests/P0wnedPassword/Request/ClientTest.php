@@ -14,10 +14,10 @@ namespace Rollerworks\Component\PasswordStrength\Tests\P0wnedPassword\Request;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Http\Client\HttpClient;
-use Rollerworks\Component\PasswordStrength\P0wnedPassword\Request\Client;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
+use Rollerworks\Component\PasswordStrength\P0wnedPassword\Request\Client;
 use Rollerworks\Component\PasswordStrength\P0wnedPassword\Request\Result;
 
 class ClientTest extends TestCase

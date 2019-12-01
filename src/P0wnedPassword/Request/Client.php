@@ -12,8 +12,8 @@
 namespace Rollerworks\Component\PasswordStrength\P0wnedPassword\Request;
 
 use GuzzleHttp\Psr7\Request;
-use Http\Client\Exception\HttpException;
 use Http\Client\Exception as HttpException2;
+use Http\Client\Exception\HttpException;
 use Http\Client\HttpClient;
 use Psr\Log\LoggerInterface;
 

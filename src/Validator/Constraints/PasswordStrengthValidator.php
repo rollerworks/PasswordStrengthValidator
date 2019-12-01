@@ -13,10 +13,11 @@ namespace Rollerworks\Component\PasswordStrength\Validator\Constraints;
 
 use Symfony\Component\Translation\Loader\XliffFileLoader;
 use Symfony\Component\Translation\Translator;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Password strength Validation.
@@ -49,14 +50,18 @@ class PasswordStrengthValidator extends ConstraintValidator
         5 => 'very_strong',
     ];
 
-    public function __construct(TranslatorInterface $translator = null)
+    public function __construct($translator = null)
     {
+        if (null !== $translator && !$translator instanceof LegacyTranslatorInterface && !$translator instanceof TranslatorInterface) {
+            throw new \TypeError(sprintf('Argument 1 passed to %s() must be an instance of %s, %s given.', __METHOD__, TranslatorInterface::class, \is_object($translator) ? \get_class($translator) : \gettype($translator)));
+        }
+
         // If translator is missing create a new translator.
         // With the 'en' locale and 'validators' domain.
         if (null === $translator) {
             $translator = new Translator('en');
             $translator->addLoader('xlf', new XliffFileLoader());
-            $translator->addResource('xlf', dirname(dirname(__DIR__)).'/Resources/translations/validators.en.xlf', 'en', 'validators');
+            $translator->addResource('xlf', dirname(__DIR__, 2).'/Resources/translations/validators.en.xlf', 'en', 'validators');
         }
 
         $this->translator = $translator;
@@ -107,8 +112,8 @@ class PasswordStrengthValidator extends ConstraintValidator
         if ($passwordStrength < $constraint->minStrength) {
             $parameters = [
                 '{{ length }}' => $constraint->minLength,
-                '{{ min_strength }}' => $this->translator->trans(/** @Ignore */'rollerworks_password.strength_level.'.self::$levelToLabel[$constraint->minStrength], [], 'validators'),
-                '{{ current_strength }}' => $this->translator->trans(/** @Ignore */'rollerworks_password.strength_level.'.self::$levelToLabel[$passwordStrength], [], 'validators'),
+                '{{ min_strength }}' => $this->translator->trans(/* @Ignore */'rollerworks_password.strength_level.'.self::$levelToLabel[$constraint->minStrength], [], 'validators'),
+                '{{ current_strength }}' => $this->translator->trans(/* @Ignore */'rollerworks_password.strength_level.'.self::$levelToLabel[$passwordStrength], [], 'validators'),
                 '{{ strength_tips }}' => implode(', ', array_map([$this, 'translateTips'], $tips)),
             ];
 
@@ -123,7 +128,7 @@ class PasswordStrengthValidator extends ConstraintValidator
      */
     public function translateTips($tip)
     {
-        return $this->translator->trans(/** @Ignore */'rollerworks_password.tip.'.$tip, [], 'validators');
+        return $this->translator->trans(/* @Ignore */'rollerworks_password.tip.'.$tip, [], 'validators');
     }
 
     private function calculateStrength($password, &$tips)

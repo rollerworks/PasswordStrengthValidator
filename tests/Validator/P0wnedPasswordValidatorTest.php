@@ -11,11 +11,11 @@
 
 namespace Rollerworks\Component\PasswordStrength\Tests\Validator;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Rollerworks\Component\PasswordStrength\P0wnedPassword\Request\Client;
 use Rollerworks\Component\PasswordStrength\P0wnedPassword\Request\Result;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\P0wnedPassword;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\P0wnedPasswordValidator;
-use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class P0wnedPasswordValidatorTest extends ConstraintValidatorTestCase
@@ -26,7 +26,7 @@ class P0wnedPasswordValidatorTest extends ConstraintValidatorTestCase
     /** @var P0wnedPasswordValidator */
     protected $validator;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = $this->createMock(Client::class);
         parent::setUp();

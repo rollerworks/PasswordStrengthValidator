@@ -38,8 +38,6 @@ class ChainProvider implements BlacklistProviderInterface
     /**
      * Adds a new blacklist provider.
      *
-     * @param BlacklistProviderInterface $provider
-     *
      * @throws \RuntimeException
      *
      * @return self

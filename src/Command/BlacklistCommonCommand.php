@@ -20,7 +20,7 @@ abstract class BlacklistCommonCommand extends BlacklistCommand
 {
     const MESSAGE = '%d';
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -57,6 +57,8 @@ abstract class BlacklistCommonCommand extends BlacklistCommand
         }
 
         $output->writeln(sprintf(static::MESSAGE, $count));
+
+        return 0;
     }
 
     abstract protected function attemptAction(UpdatableBlacklistProviderInterface $service, $password);

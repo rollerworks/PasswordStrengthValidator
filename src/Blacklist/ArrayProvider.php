@@ -22,9 +22,6 @@ class ArrayProvider implements BlacklistProviderInterface
 {
     private $blacklist = [];
 
-    /**
-     * @param array $blacklist
-     */
     public function __construct(array $blacklist)
     {
         $this->blacklist = $blacklist;

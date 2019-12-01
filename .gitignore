@@ -3,3 +3,4 @@
 *.phar
 /vendor/
 /.php_cs.cache
+symfony.lock
