@@ -31,9 +31,8 @@ class BlacklistValidator extends ConstraintValidator
     private $providersLoader;
 
     /**
-     * @param BlacklistProviderInterface $defaultProvider
-     * @param ContainerInterface         $providersLoader Service-container for loading
-     *                                                    blacklist providers
+     * @param ContainerInterface $providersLoader Service-container for loading
+     *                                            blacklist providers
      */
     public function __construct(BlacklistProviderInterface $defaultProvider, ContainerInterface $providersLoader = null)
     {
@@ -59,12 +58,7 @@ class BlacklistValidator extends ConstraintValidator
             $provider = $this->defaultProvider;
         } else {
             if (null === $this->providersLoader || !$this->providersLoader->has($constraint->provider)) {
-                throw new RuntimeException(
-                    sprintf(
-                        'Unable to use blacklist provider "%s", eg. no blacklists were configured or this provider is not supported.',
-                        $constraint->provider
-                    )
-                );
+                throw new RuntimeException(sprintf('Unable to use blacklist provider "%s", eg. no blacklists were configured or this provider is not supported.', $constraint->provider));
             }
 
             $provider = $this->providersLoader->get($constraint->provider);

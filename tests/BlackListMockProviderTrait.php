@@ -33,8 +33,6 @@ trait BlackListMockProviderTrait
     }
 
     /**
-     * @param array $loaders
-     *
      * @return ContainerInterface|object
      */
     protected function createLoadersContainer(array $loaders)

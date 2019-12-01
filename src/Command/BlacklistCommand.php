@@ -47,9 +47,7 @@ abstract class BlacklistCommand extends Command
         $this->blacklistProvider = $this->providers->get($input->getOption('provider'));
 
         if (!$this->blacklistProvider instanceof UpdatableBlacklistProviderInterface) {
-            throw new \RuntimeException(
-                sprintf('Blacklist provider "%s" is not updatable.', $input->getOption('provider'))
-            );
+            throw new \RuntimeException(sprintf('Blacklist provider "%s" is not updatable.', $input->getOption('provider')));
         }
     }
 }

@@ -60,8 +60,7 @@ class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCase
     /**
      * @dataProvider provideValidConstraints
      *
-     * @param string               $value
-     * @param PasswordRequirements $constraint
+     * @param string $value
      */
     public function testValidValueConstraints($value, PasswordRequirements $constraint)
     {
@@ -75,9 +74,7 @@ class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCase
     /**
      * @dataProvider provideViolationConstraints
      *
-     * @param string               $value
-     * @param PasswordRequirements $constraint
-     * @param array                $violations
+     * @param string $value
      */
     public function testViolationValueConstraints($value, PasswordRequirements $constraint, array $violations = [])
     {

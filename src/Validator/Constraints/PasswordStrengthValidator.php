@@ -14,10 +14,10 @@ namespace Rollerworks\Component\PasswordStrength\Validator\Constraints;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Password strength Validation.
@@ -61,7 +61,7 @@ class PasswordStrengthValidator extends ConstraintValidator
         if (null === $translator) {
             $translator = new Translator('en');
             $translator->addLoader('xlf', new XliffFileLoader());
-            $translator->addResource('xlf', dirname(__DIR__, 2) . '/Resources/translations/validators.en.xlf', 'en', 'validators');
+            $translator->addResource('xlf', dirname(__DIR__, 2).'/Resources/translations/validators.en.xlf', 'en', 'validators');
         }
 
         $this->translator = $translator;
@@ -112,8 +112,8 @@ class PasswordStrengthValidator extends ConstraintValidator
         if ($passwordStrength < $constraint->minStrength) {
             $parameters = [
                 '{{ length }}' => $constraint->minLength,
-                '{{ min_strength }}' => $this->translator->trans(/** @Ignore */'rollerworks_password.strength_level.'.self::$levelToLabel[$constraint->minStrength], [], 'validators'),
-                '{{ current_strength }}' => $this->translator->trans(/** @Ignore */'rollerworks_password.strength_level.'.self::$levelToLabel[$passwordStrength], [], 'validators'),
+                '{{ min_strength }}' => $this->translator->trans(/* @Ignore */'rollerworks_password.strength_level.'.self::$levelToLabel[$constraint->minStrength], [], 'validators'),
+                '{{ current_strength }}' => $this->translator->trans(/* @Ignore */'rollerworks_password.strength_level.'.self::$levelToLabel[$passwordStrength], [], 'validators'),
                 '{{ strength_tips }}' => implode(', ', array_map([$this, 'translateTips'], $tips)),
             ];
 
@@ -128,7 +128,7 @@ class PasswordStrengthValidator extends ConstraintValidator
      */
     public function translateTips($tip)
     {
-        return $this->translator->trans(/** @Ignore */'rollerworks_password.tip.'.$tip, [], 'validators');
+        return $this->translator->trans(/* @Ignore */'rollerworks_password.tip.'.$tip, [], 'validators');
     }
 
     private function calculateStrength($password, &$tips)

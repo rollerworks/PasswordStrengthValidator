@@ -23,8 +23,6 @@ class P0wnedPasswordValidator extends ConstraintValidator
 
     /**
      * P0wnedPasswordValidator constructor.
-     *
-     * @param Client $client
      */
     public function __construct(Client $client)
     {

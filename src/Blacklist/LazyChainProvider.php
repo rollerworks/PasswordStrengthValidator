@@ -26,8 +26,7 @@ final class LazyChainProvider implements BlacklistProviderInterface
     /**
      * Constructor.
      *
-     * @param ContainerInterface $container
-     * @param string[]           $providers
+     * @param string[] $providers
      */
     public function __construct(ContainerInterface $container, array $providers)
     {

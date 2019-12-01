@@ -9,8 +9,8 @@
  * with this source code in the file LICENSE.
  */
 
-use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
+use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
 
 if (!class_exists(ConstraintValidatorTestCase::class)) {
     class_alias(AbstractConstraintValidatorTest::class, ConstraintValidatorTestCase::class);

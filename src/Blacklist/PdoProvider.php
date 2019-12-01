@@ -147,7 +147,6 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
     /**
      * @param object $db
      * @param string $query
-     * @param array  $args
      *
      * @return mixed
      */
@@ -166,7 +165,6 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
     /**
      * @param object $db
      * @param string $query
-     * @param array  $args
      *
      * @throws \RuntimeException
      */
