@@ -50,6 +50,6 @@ script:
             mkdir /tmp/tmp-phpqa-$(id -u)
             export QA_DOCKER_COMMAND="docker run --init --interactive --tty --rm --user "$(id -u):$(id -g)" --volume /tmp/tmp-phpqa-$(id -u):/tmp --volume "$(pwd):/project" --workdir /project ${QA_DOCKER_IMAGE}"
             sh -c "${QA_DOCKER_COMMAND} php-cs-fixer fix -vvv --diff --dry-run"
-            sh -c "${QA_DOCKER_COMMAND} phpstan analyse"
+            #sh -c "${QA_DOCKER_COMMAND} phpstan analyse"
             #sh -c "${QA_DOCKER_COMMAND} vendor/bin/psalm --show-info=false"
         fi
