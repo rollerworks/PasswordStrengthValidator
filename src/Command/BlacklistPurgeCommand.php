@@ -33,7 +33,7 @@ class BlacklistPurgeCommand extends BlacklistCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -48,5 +48,7 @@ class BlacklistPurgeCommand extends BlacklistCommand
         $this->blacklistProvider->purge();
 
         $io->success('Successfully removed all passwords from your blacklist.');
+
+        return 0;
     }
 }

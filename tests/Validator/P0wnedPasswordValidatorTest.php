@@ -26,7 +26,7 @@ class P0wnedPasswordValidatorTest extends ConstraintValidatorTestCase
     /** @var P0wnedPasswordValidator */
     protected $validator;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = $this->createMock(Client::class);
         parent::setUp();

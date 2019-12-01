@@ -27,10 +27,12 @@ class BlacklistListCommand extends BlacklistCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         foreach ($this->blacklistProvider->all() as $password) {
             $output->writeln($password, OutputInterface::OUTPUT_RAW);
         }
+
+        return 0;
     }
 }
