@@ -1,31 +1,25 @@
 Strength validation
 ===================
 
-The PasswordStrength computes a password strength from various measures
-including length and usage of (special) characters.
-
-**Note:** A strength is measured by the presence of a character and total length.
-One can have a 'medium' password consisting of only a-z and A-Z, but with a length higher than 12 characters.
-
-The strength is calculated using the following rules:
+The PasswordStrength constraint computes a password strength based on the following rules: 
 
 * Does the password contain an alpha character?
 * Does the password contain both lowercase and uppercase alpha characters?
 * Does the password contain a digit?
-* Does the password contain a special character?
+* Does the password contain a special character (non-alpha/digit)?
 * Does the password have a length of at least 13 characters.
 
-Each of these rules will add 1 point to the password strength. The minimum strength is 1 and the maximum strength is 5.
+When a rules matches with the supplied password, 1 point is added to the total password strength. The minimum strength is 1 and the maximum strength is 5.
 
-If the password consists of only numbers or a-z/A-Z the final strength decreases.
+The textual representation of the strength levels are as follows:
 
-The strengths are listed as follows:
+*  1: Very Weak (matches one rule)
+*  2: Weak
+*  3: Medium
+*  4: Strong (recommended for most usages)
+*  5: Very Strong (matches all rules, recommended for admin or finance related services)
 
-*  1: Very Weak (any character)
-*  2: Weak (at least one lower and capital)
-*  3: Medium (at least one lower or capital and number)
-*  4: Strong (at least one lower and capital and number) (recommended for most usages)
-*  5: Very Strong (recommended for admin or finance related services)
+The validator adds tips as parameter to the validation message. See the [translation files](https://github.com/rollerworks/PasswordStrengthValidator/tree/master/src/Resources/translations) for the available tips.
 
 ## Options
 
