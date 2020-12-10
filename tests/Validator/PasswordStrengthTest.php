@@ -163,7 +163,7 @@ class PasswordStrengthTest extends ConstraintValidatorTestCase
         $this->validator->validate('foo', $constraint);
 
         $parameters = [
-            '{{length}}' => 6,
+            '{{length}}' => 5,
         ];
 
         $this->buildViolation('Your password must be at least {{length}} characters long.')
@@ -178,7 +178,7 @@ class PasswordStrengthTest extends ConstraintValidatorTestCase
         $this->validator->validate('foöled', $constraint);
 
         $parameters = [
-            '{{length}}' => 7,
+            '{{length}}' => 6,
         ];
 
         $this->buildViolation('Your password must be at least {{length}} characters long.')
@@ -196,7 +196,7 @@ class PasswordStrengthTest extends ConstraintValidatorTestCase
         $this->validator->validate($value, $constraint);
 
         $parameters = [
-            '{{ length }}' => 6,
+            '{{ length }}' => 5,
             '{{ min_strength }}' => 'rollerworks_password.strength_level.'.self::$levelToLabel[$minStrength],
             '{{ current_strength }}' => 'rollerworks_password.strength_level.'.self::$levelToLabel[$currentStrength],
             '{{ strength_tips }}' => $tips,

@@ -84,7 +84,7 @@ class PasswordStrengthValidator extends ConstraintValidator
         $password = (string) $password;
         $passLength = mb_strlen($password);
 
-        if ($passLength < $constraint->minLength) {
+        if ($passLength <= $constraint->minLength) {
             $this->context->buildViolation($constraint->tooShortMessage)
                 ->setParameters(['{{length}}' => $constraint->minLength])
                 ->addViolation();
