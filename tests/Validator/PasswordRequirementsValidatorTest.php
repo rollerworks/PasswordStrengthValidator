@@ -116,6 +116,7 @@ class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCase
             ['®', new PasswordRequirements(['minLength' => 1, 'requireLetters' => false, 'requireSpecialCharacter' => true])],
             ['»', new PasswordRequirements(['minLength' => 1, 'requireLetters' => false, 'requireSpecialCharacter' => true])],
             ['<>', new PasswordRequirements(['minLength' => 1, 'requireLetters' => false, 'requireSpecialCharacter' => true])],
+            ['{}', new PasswordRequirements(['minLength' => 1, 'requireLetters' => false, 'requireSpecialCharacter' => true])],
         ];
     }
 

@@ -56,7 +56,7 @@ class PasswordRequirementsValidator extends ConstraintValidator
                 ->addViolation();
         }
 
-        if ($constraint->requireSpecialCharacter && !preg_match('/[^p{Ll}\p{Lu}\pL\pN]/u', $value)) {
+        if ($constraint->requireSpecialCharacter && !preg_match('/[^\p{Ll}\p{Lu}\pL\pN]/u', $value)) {
             $this->context->buildViolation($constraint->missingSpecialCharacterMessage)
                 ->setInvalidValue($value)
                 ->addViolation();
