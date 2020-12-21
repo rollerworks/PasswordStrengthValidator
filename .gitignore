@@ -4,3 +4,4 @@
 /vendor/
 /.php_cs.cache
 symfony.lock
+.phpunit.result.cache

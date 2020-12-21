@@ -1,0 +1,97 @@
+name: Full CI process
+on:
+    push:
+        branches:
+            - master
+    pull_request:
+        branches:
+            - master
+
+jobs:
+    test:
+        name: PHP ${{ matrix.php-versions }}
+        runs-on: ubuntu-18.04
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - PHP_VERSION: '7.1'
+                      SYMFONY_REQUIRE: '^3.4'
+                    - PHP_VERSION: '7.2'
+                      SYMFONY_REQUIRE: '^4.4'
+                    - PHP_VERSION: '7.3'
+                      SYMFONY_REQUIRE: '^5.0'
+                    - PHP_VERSION: '7.4'
+
+        steps:
+            # —— Setup Github actions 🐙 —————————————————————————————————————————————
+            # https://github.com/actions/checkout (official)
+            -
+                name: Checkout
+                uses: actions/checkout@v2
+
+            # https://github.com/shivammathur/setup-php (community)
+            -
+                name: Setup PHP, extensions and composer with shivammathur/setup-php
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.PHP_VERSION }}
+                    extensions: mbstring, ctype, iconv, bcmath, filter, json
+                    coverage: none
+                env:
+                    update: true
+
+            # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
+            -
+                name: Install Composer dependencies
+                env:
+                    SYMFONY_REQUIRE: ${{ matrix.SYMFONY_REQUIRE }}
+                    SYMFONY_PHPUNIT_DISABLE_RESULT_CACHE: 1
+                    SYMFONY_PHPUNIT_REMOVE: "symfony/yaml"
+                    SYMFONY_PHPUNIT_VERSION: '7.5.6'
+                run: |
+                    git config --global author.name Sebastiaan Stok
+                    git config --global author.email s.stok@rollerscapes.net
+                    git config --global user.name Sebastiaan Stok
+                    git config --global user.email s.stok@rollerscapes.net
+
+                    rm -f composer.lock
+                    composer global require symfony/flex
+                    composer install --no-progress --no-interaction --no-suggest --optimize-autoloader --ansi
+
+            ## —— Tests ✅ ———————————————————————————————————————————————————————————
+            -
+                name: Run Tests
+                run: |
+                    make test
+    lint:
+        name: PHP-QA
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+        steps:
+            -
+                name: Checkout
+                uses: actions/checkout@v2
+
+            # https://github.com/shivammathur/setup-php (community)
+            -
+                name: Setup PHP, extensions and composer with shivammathur/setup-php
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '7.4'
+                    extensions: mbstring, ctype, iconv, bcmath, filter, json
+                    coverage: none
+
+            # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
+            -
+                name: Install Composer dependencies
+                run: |
+                    rm -f composer.lock
+                    composer global require symfony/flex
+                    composer install --no-progress --no-interaction --no-suggest --optimize-autoloader --ansi
+
+            -
+                name: Run PHP-QA
+                run: |
+                    make cs-full

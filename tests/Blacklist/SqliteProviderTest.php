@@ -13,9 +13,12 @@ namespace Rollerworks\Component\PasswordStrength\Tests\Blacklist;
 
 use PHPUnit\Framework\TestCase;
 use Rollerworks\Component\PasswordStrength\Blacklist\SqliteProvider;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
 class SqliteProviderTest extends TestCase
 {
+    use SetUpTearDownTrait;
+
     /**
      * @var string
      */
@@ -26,7 +29,7 @@ class SqliteProviderTest extends TestCase
      */
     protected static $provider;
 
-    public static function setUpBeforeClass()
+    public static function doSetUpBeforeClass()
     {
         if (!class_exists('SQLite3') && (!class_exists('PDO') || !in_array('sqlite', \PDO::getAvailableDrivers(), true))) {
             self::markTestSkipped('This test requires SQLite support in your environment');
@@ -40,7 +43,7 @@ class SqliteProviderTest extends TestCase
         self::$provider = new SqliteProvider('sqlite:'.self::$dbFile);
     }
 
-    public static function tearDownAfterClass()
+    public static function doTearDownAfterClass()
     {
         @unlink(self::$dbFile);
     }
@@ -84,7 +87,7 @@ class SqliteProviderTest extends TestCase
         self::assertTrue(self::$provider->isBlacklisted('test'));
     }
 
-    protected function setUp()
+    protected function doSetUp()
     {
         if (!class_exists('SQLite3') && (!class_exists('PDO') || !in_array('sqlite', \PDO::getAvailableDrivers(), true))) {
             $this->markTestSkipped('This test requires SQLite support in your environment');
