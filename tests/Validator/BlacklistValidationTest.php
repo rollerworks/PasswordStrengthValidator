@@ -16,6 +16,7 @@ use Rollerworks\Component\PasswordStrength\Tests\BlackListMockProviderTrait;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\Blacklist;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\BlacklistValidator;
 use Symfony\Component\Validator\Exception\RuntimeException;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class BlacklistValidationTest extends ConstraintValidatorTestCase
@@ -63,11 +64,10 @@ class BlacklistValidationTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    /**
-     * @expectedException \Symfony\Component\Validator\Exception\UnexpectedTypeException
-     */
     public function testExpectsStringCompatibleType()
     {
+        $this->expectException(UnexpectedTypeException::class);
+
         $this->validator->validate(new \stdClass(), new Blacklist());
     }
 

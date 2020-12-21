@@ -16,17 +16,20 @@ use Rollerworks\Component\PasswordStrength\P0wnedPassword\Request\Client;
 use Rollerworks\Component\PasswordStrength\P0wnedPassword\Request\Result;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\P0wnedPassword;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\P0wnedPasswordValidator;
+use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class P0wnedPasswordValidatorTest extends ConstraintValidatorTestCase
 {
+    use SetUpTearDownTrait;
+
     /** @var Client|MockObject */
     private $client;
 
     /** @var P0wnedPasswordValidator */
     protected $validator;
 
-    public function setUp(): void
+    public function doSetUp(): void
     {
         $this->client = $this->createMock(Client::class);
         parent::setUp();

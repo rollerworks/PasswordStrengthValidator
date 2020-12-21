@@ -14,6 +14,7 @@ namespace Rollerworks\Component\PasswordStrength\Tests\Validator;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordStrength;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordStrengthValidator;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class PasswordStrengthTest extends ConstraintValidatorTestCase
@@ -68,11 +69,10 @@ class PasswordStrengthTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    /**
-     * @expectedException \Symfony\Component\Validator\Exception\UnexpectedTypeException
-     */
     public function testExpectsStringCompatibleType()
     {
+        $this->expectException(UnexpectedTypeException::class);
+
         $this->validator->validate(new \stdClass(), new PasswordStrength(5));
     }
 
