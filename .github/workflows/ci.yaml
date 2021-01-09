@@ -9,7 +9,7 @@ on:
 
 jobs:
     test:
-        name: PHP ${{ matrix.php-versions }}
+        name: PHP ${{ matrix.PHP_VERSION }}
         runs-on: ubuntu-18.04
         strategy:
             fail-fast: false
@@ -22,6 +22,8 @@ jobs:
                     - PHP_VERSION: '7.3'
                       SYMFONY_REQUIRE: '^5.0'
                     - PHP_VERSION: '7.4'
+                      SYMFONY_REQUIRE: '^5.2'
+                    - PHP_VERSION: '8.0'
 
         steps:
             # —— Setup Github actions 🐙 —————————————————————————————————————————————
