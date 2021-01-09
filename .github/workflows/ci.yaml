@@ -9,7 +9,7 @@ on:
 
 jobs:
     test:
-        name: PHP ${{ matrix.php-versions }}
+        name: PHP ${{ matrix.PHP_VERSION }}
         runs-on: ubuntu-18.04
         strategy:
             fail-fast: false
