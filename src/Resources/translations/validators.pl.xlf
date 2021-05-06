@@ -8,7 +8,7 @@
             </trans-unit>
             <trans-unit id="2">
                 <source>Your password must include at least one letter.</source>
-                <target>Hasło musi składać się z przynajmniej jednego znaku.</target>
+                <target>Hasło musi zawierać przynajmniej jedną literę.</target>
             </trans-unit>
             <trans-unit id="3">
                 <source>Your password must include both upper and lower case letters.</source>
