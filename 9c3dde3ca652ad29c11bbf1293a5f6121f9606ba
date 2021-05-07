@@ -1,0 +1,57 @@
+---------------------------------------------------------------------------
+
+by michalbiarda at 2021-05-06T20:48:12Z
+
+@piotrgradzinski You will not believe this, but I just started translating the same file and then thought "meh, maybe someone already did it". Thanks! :-)
+
+---------------------------------------------------------------------------
+
+by michalbiarda at 2021-05-06T20:54:56Z
+
+@piotrgradzinski BTW. There is one bug in your translation:
+
+`<source>Your password must include at least one letter.</source>`
+`<target>Hasło musi składać się z przynajmniej jednego znaku.</target>`
+
+It should be "Hasło musi zawierać przynajmniej jedną literę."
+
+---------------------------------------------------------------------------
+
+by piotrgradzinski at 2021-05-06T21:01:21Z
+
+@michalbiarda - thank you very much for this! I've fixed that. On the other hand it would be great if you could take a look on the whole file. Just in case... It would be very valuable! Thank you!
+
+---------------------------------------------------------------------------
+
+by michalbiarda at 2021-05-06T21:07:40Z
+
+@piotrgradzinski I did! The only thing that I would change is:
+
+`<source>Your password must be at least {{length}} characters long.</source>`
+`<target>Hasło musi składać się z przynajmniej {{length}} znaków.</target>`
+
+"Hasło musi zawierać przynajmniej {{length}} znaków." would be IMO much more consistent with other sentences :-).
+
+---------------------------------------------------------------------------
+
+by piotrgradzinski at 2021-05-07T07:53:38Z
+
+@michalbiarda - thank you once again. I was thinking about the point you've raised and I would stay with the initial proposition - I've consulted this as well with polish philologist to make sure. This particular sentence relates to the password as a whole, thats why I've used `składać się`, whereas the other ones refer more to what password should contain (`zawierać`). Like the whole password must have at least X characters vs. within the whole password we need to have characters from the specific character class. Hope this makes sense :)
+
+---------------------------------------------------------------------------
+
+by michalbiarda at 2021-05-07T09:10:43Z
+
+@piotrgradzinski Sounds legit! :+1:
+
+---------------------------------------------------------------------------
+
+by piotrgradzinski at 2021-05-07T09:17:05Z
+
+@sstok just wanted to say that the PR looks good and can be merged if you don't mind. Thank you!
+
+---------------------------------------------------------------------------
+
+by sstok at 2021-05-07T10:45:17Z
+
+Thank you @piotrgradzinski
