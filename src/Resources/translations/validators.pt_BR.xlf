@@ -74,6 +74,12 @@
                 <source>rollerworks_password.tip.length</source>
                 <target>adicionar mais caracteres</target>
             </trans-unit>
+
+            <!-- P0wnedPassword -->
+            <trans-unit id="18">
+                <source>This password was found in a database of compromised passwords. It has been used {{ used }} times. For security purposes you must use something else.</source>
+                <target>Esta senha foi encontrada em um banco de dados de senhas comprometidas. Foi usado {{used}} vezes. Por motivos de segurança, você deve usar outra coisa.</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
