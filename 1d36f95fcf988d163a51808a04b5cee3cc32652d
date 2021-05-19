@@ -1,0 +1,26 @@
+---------------------------------------------------------------------------
+
+by sstok at 2018-03-26T09:20:07Z
+
+What do think of `Password was found {{ used }} times in a database of compromised passwords. Use a different a password.` as translated string?
+
+The original message was personalized which was a mistake as the password may not be the password of the actual user (Administrator changing a user's password for example).
+We need leave the original translator strings though as this is considered a BC break 😞
+
+---------------------------------------------------------------------------
+
+by stof at 2018-04-26T13:57:30Z
+
+It would be even better if the validator could provide the number of usages as the pluralization number, to allow proper pluralization. In English or French, always using a plural may seem fine as numbers may likely be `>= 2`, but other locales may have much more complex rules (look at Russian for instance).
+
+---------------------------------------------------------------------------
+
+by sstok at 2019-12-01T11:23:48Z
+
+Given this is now supported by Symfony itself should this pr be closed, and the validator in this repository be deprecated in favor of the Symfony one?
+
+---------------------------------------------------------------------------
+
+by sstok at 2021-05-19T08:50:31Z
+
+Sorry for the late merge. I'm merging this so we can move forward, as this feature is now part of the Symfony core it will be deprecated in another pr. Thanks for working on this.
