@@ -69,7 +69,10 @@ But building your own is also possible.
 __Documentation on this is currently missing,
 see current providers for more information.__
 
-### PwnedPassword
+### PwnedPassword (deprecated)
+
+⚠️ **This validator is deprecated in favor of the Symfony [NotCompromisedPassword](https://symfony.com/doc/current/reference/constraints/NotCompromisedPassword.html)
+validator.**
 
 Validates that the requested password was not found in a trove of compromised passwords found at <https://haveibeenpwned.com/>.
 

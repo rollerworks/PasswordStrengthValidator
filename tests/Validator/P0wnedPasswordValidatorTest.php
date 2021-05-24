@@ -19,6 +19,9 @@ use Rollerworks\Component\PasswordStrength\Validator\Constraints\P0wnedPasswordV
 use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
+/**
+ * @group legacy
+ */
 class P0wnedPasswordValidatorTest extends ConstraintValidatorTestCase
 {
     use SetUpTearDownTrait;

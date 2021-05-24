@@ -17,6 +17,9 @@ use Http\Client\Exception\HttpException;
 use Http\Client\HttpClient;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @internal
+ */
 class Client
 {
     /** @var HttpClient */
