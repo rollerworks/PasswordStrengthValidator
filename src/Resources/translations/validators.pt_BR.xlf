@@ -12,7 +12,7 @@
             </trans-unit>
             <trans-unit id="3">
                 <source>Your password must include both upper and lower case letters.</source>
-                <target>A senha deve incluir letras maiúsculas e minúsculas.</target>
+                <target>A senha deve conter letras maiúsculas e minúsculas.</target>
             </trans-unit>
             <trans-unit id="4">
                 <source>Your password must include at least one number.</source>
@@ -20,11 +20,11 @@
             </trans-unit>
             <trans-unit id="5">
                 <source>Your password must contain at least one special character.</source>
-                <target>Password must contain at least one special character.</target>
+                <target>A senha deve conter pelo menos um caractere especial.</target>
             </trans-unit>
             <trans-unit id="6">
                 <source>password_too_weak</source>
-                <target>A senha deve ter pelo menos o nível de intensidade "{{ min_strength }}", o nível atual é "{{ current_strength }}", tente o seguinte: {{ strength_tips }}.</target>
+                <target>A senha deve ter pelo menos o nível de intensidade "{{ min_strength }}" e o nível atual é "{{ current_strength }}". Tente o seguinte: {{ strength_tips }}.</target>
             </trans-unit>
 
             <!-- Strength levels -->
@@ -64,11 +64,11 @@
             </trans-unit>
             <trans-unit id="15">
                 <source>rollerworks_password.tip.uppercase_letters</source>
-                <target>adicionar caracteres especiais</target>
+                <target>adicionar letras maiúsculas</target>
             </trans-unit>
             <trans-unit id="16">
                 <source>rollerworks_password.tip.special_chars</source>
-                <target>adicionar letras maiúsculas</target>
+                <target>adicionar caracteres especiais</target>
             </trans-unit>
             <trans-unit id="17">
                 <source>rollerworks_password.tip.length</source>
@@ -78,7 +78,7 @@
             <!-- P0wnedPassword -->
             <trans-unit id="18">
                 <source>This password was found in a database of compromised passwords. It has been used {{ used }} times. For security purposes you must use something else.</source>
-                <target>Esta senha foi encontrada em um banco de dados de senhas comprometidas. Foi usado {{used}} vezes. Por motivos de segurança, você deve usar outra coisa.</target>
+                <target>Esta senha foi encontrada em um banco de dados de senhas comprometidas. Foi usada {{used}} vezes. Por motivos de segurança, você deve usar outra senha.</target>
             </trans-unit>
         </body>
     </file>
