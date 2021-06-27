@@ -44,7 +44,7 @@ class BlacklistListCommandTest extends BlacklistCommandTestCase
 
         // Words may be displayed in any order, so check each of them
         foreach ($blackListedWords as $word) {
-            self::assertRegExp("/([\n]|^){$word}[\n]/s", $display);
+            self::assertMatchesRegularExpression("/([\n]|^){$word}[\n]/s", $display);
             self::$blackListProvider->add($word);
         }
     }

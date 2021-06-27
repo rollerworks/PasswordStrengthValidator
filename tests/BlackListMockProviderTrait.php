@@ -12,17 +12,14 @@
 namespace Rollerworks\Component\PasswordStrength\Tests;
 
 use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 use Rollerworks\Component\PasswordStrength\Blacklist\BlacklistProviderInterface;
 
-/**
- * Trait BlackListMockProviderTrait.
- *
- * @method ObjectProphecy prophesize($class)
- */
 trait BlackListMockProviderTrait
 {
+    use ProphecyTrait;
+
     protected function createMockedProvider($blacklisted)
     {
         $mockProvider = $this->prophesize(BlacklistProviderInterface::class);
