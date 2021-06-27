@@ -19,12 +19,9 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use Rollerworks\Component\PasswordStrength\P0wnedPassword\Request\Client;
 use Rollerworks\Component\PasswordStrength\P0wnedPassword\Request\Result;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
 class ClientTest extends TestCase
 {
-    use SetUpTearDownTrait;
-
     /** @var HttpClient|MockObject */
     private $client;
 
@@ -59,7 +56,7 @@ class ClientTest extends TestCase
 0C341F894BD4EE961AE874ACD3BC8157825:4
 ';
 
-    public function doSetUp()
+    protected function setUp(): void
     {
         $this->client = $this->createMock(HttpClient::class);
         $this->checker = new Client($this->client, new NullLogger());

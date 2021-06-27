@@ -33,7 +33,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
         self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
 
-        self::assertRegExp('/Successfully removed 1 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully removed 1 password\(s\) from your blacklist database/', $commandTester->getDisplay());
     }
 
     public function testDeleteNoneExistingWord()
@@ -46,7 +46,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         $commandTester->execute(['command' => $command->getName(), 'passwords' => 'test']);
 
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
-        self::assertRegExp('/Successfully removed 0 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully removed 0 password\(s\) from your blacklist database/', $commandTester->getDisplay());
     }
 
     public function testDeleteTwoWords()
@@ -64,7 +64,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         self::assertFalse(self::$blackListProvider->isBlacklisted('foobar'));
         self::assertTrue(self::$blackListProvider->isBlacklisted('kaboom'));
 
-        self::assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
     }
 
     public function testNoInput()
@@ -74,8 +74,8 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(['command' => $command->getName()]);
 
-        self::assertNotRegExp('/Successfully removed \d+ password\(s\) from your blacklist database/', $commandTester->getDisplay());
-        self::assertRegExp('/No passwords or file-option given/', $commandTester->getDisplay());
+        self::assertDoesNotMatchRegularExpression('/Successfully removed \d+ password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/No passwords or file-option given/', $commandTester->getDisplay());
     }
 
     public function testReadFromFile()
@@ -89,7 +89,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         $commandTester = new CommandTester($command);
 
         $commandTester->execute(['command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt']);
-        self::assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
 
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
         self::assertFalse(self::$blackListProvider->isBlacklisted('foobar'));
@@ -107,14 +107,14 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         $commandTester = new CommandTester($command);
 
         $commandTester->execute(['command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt']);
-        self::assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
 
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
         self::assertFalse(self::$blackListProvider->isBlacklisted('foobar'));
         self::assertTrue(self::$blackListProvider->isBlacklisted('kaboom'));
 
         $commandTester->execute(['command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list1.txt']);
-        self::assertRegExp('/Successfully removed 0 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully removed 0 password\(s\) from your blacklist database/', $commandTester->getDisplay());
     }
 
     public function testImportFromRelFile()
@@ -131,7 +131,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
         chdir(__DIR__);
 
         $commandTester->execute(['command' => $command->getName(), '--file' => '../fixtures/passwords-list1.txt']);
-        self::assertRegExp('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully removed 2 password\(s\) from your blacklist database/', $commandTester->getDisplay());
 
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
         self::assertFalse(self::$blackListProvider->isBlacklisted('foobar'));
@@ -150,7 +150,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
             ['command' => $command->getName(), '--file' => '../fixtures/unknown.txt']
         );
 
-        self::assertRegExp('#Unable to read passwords list. No such file: \.\./fixtures/unknown\.txt#', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('#Unable to read passwords list. No such file: \.\./fixtures/unknown\.txt#', $commandTester->getDisplay());
     }
 
     public function testImportFromEmptyFile()
@@ -165,7 +165,7 @@ class BlacklistDeleteCommandTest extends BlacklistCommandTestCase
             ['command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list2.txt']
         );
 
-        self::assertRegExp('/Passwords list seems empty, are you sure this is the correct file\?/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Passwords list seems empty, are you sure this is the correct file\?/', $commandTester->getDisplay());
     }
 
     private function getCommand()

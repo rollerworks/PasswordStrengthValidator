@@ -34,10 +34,10 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
         $commandTester->execute(['command' => $command->getName()], ['interactive' => true]);
 
         $display = $commandTester->getDisplay(true);
-        self::assertRegExp('/This will remove all the passwords from your blacklist./', $display);
-        self::assertRegExp('/Are you sure you want to purge the blacklist\?/', $display);
+        self::assertMatchesRegularExpression('/This will remove all the passwords from your blacklist./', $display);
+        self::assertMatchesRegularExpression('/Are you sure you want to purge the blacklist\?/', $display);
 
-        self::assertNotRegExp('/Successfully removed all passwords from your blacklist\./', $commandTester->getDisplay(true));
+        self::assertDoesNotMatchRegularExpression('/Successfully removed all passwords from your blacklist\./', $commandTester->getDisplay(true));
 
         self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
         self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
@@ -61,10 +61,10 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
         $commandTester->execute(['command' => $command->getName()]);
 
         $display = $commandTester->getDisplay(true);
-        self::assertRegExp('/This will remove all the passwords from your blacklist\./', $display);
-        self::assertRegExp('/Are you sure you want to purge the blacklist\?/', $display);
+        self::assertMatchesRegularExpression('/This will remove all the passwords from your blacklist\./', $display);
+        self::assertMatchesRegularExpression('/Are you sure you want to purge the blacklist\?/', $display);
 
-        self::assertRegExp('/Successfully removed all passwords from your blacklist\./', $commandTester->getDisplay(true));
+        self::assertMatchesRegularExpression('/Successfully removed all passwords from your blacklist\./', $commandTester->getDisplay(true));
 
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
         self::assertFalse(self::$blackListProvider->isBlacklisted('foobar'));
@@ -86,7 +86,7 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(['command' => $command->getName(), '--no-ask' => null]);
 
-        self::assertRegExp('/Successfully removed all passwords from your blacklist\./', $commandTester->getDisplay(true));
+        self::assertMatchesRegularExpression('/Successfully removed all passwords from your blacklist\./', $commandTester->getDisplay(true));
 
         self::assertFalse(self::$blackListProvider->isBlacklisted('test'));
         self::assertFalse(self::$blackListProvider->isBlacklisted('foobar'));

@@ -27,7 +27,7 @@ class BlacklistUpdateCommandTest extends BlacklistCommandTestCase
         $commandTester->execute(['command' => $command->getName(), 'passwords' => 'test']);
 
         self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
-        self::assertRegExp('/Successfully added 1 password\(s\) to your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully added 1 password\(s\) to your blacklist database/', $commandTester->getDisplay());
     }
 
     public function testAddExistingWord()
@@ -40,13 +40,13 @@ class BlacklistUpdateCommandTest extends BlacklistCommandTestCase
         $commandTester->execute(['command' => $command->getName(), 'passwords' => 'test']);
 
         self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
-        self::assertRegExp('/Successfully added 1 password\(s\) to your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully added 1 password\(s\) to your blacklist database/', $commandTester->getDisplay());
 
         self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
         $commandTester->execute(['command' => $command->getName(), 'passwords' => 'test']);
 
         self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
-        self::assertRegExp('/Successfully added 0 password\(s\) to your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully added 0 password\(s\) to your blacklist database/', $commandTester->getDisplay());
     }
 
     public function testAddTwoWords()
@@ -61,7 +61,7 @@ class BlacklistUpdateCommandTest extends BlacklistCommandTestCase
 
         self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
         self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
-        self::assertRegExp('/Successfully added 2 password\(s\) to your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully added 2 password\(s\) to your blacklist database/', $commandTester->getDisplay());
     }
 
     public function testNoInput()
@@ -71,8 +71,8 @@ class BlacklistUpdateCommandTest extends BlacklistCommandTestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(['command' => $command->getName()]);
 
-        self::assertNotRegExp('/Successfully added \d+ password\(s\) to your blacklist database/', $commandTester->getDisplay());
-        self::assertRegExp('/No passwords or file-option given/', $commandTester->getDisplay());
+        self::assertDoesNotMatchRegularExpression('/Successfully added \d+ password\(s\) to your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/No passwords or file-option given/', $commandTester->getDisplay());
     }
 
     public function testImportFromFile()
@@ -87,7 +87,7 @@ class BlacklistUpdateCommandTest extends BlacklistCommandTestCase
 
         self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
         self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
-        self::assertRegExp('/Successfully added 2 password\(s\) to your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully added 2 password\(s\) to your blacklist database/', $commandTester->getDisplay());
     }
 
     public function testImportExistingFromFile()
@@ -102,7 +102,7 @@ class BlacklistUpdateCommandTest extends BlacklistCommandTestCase
 
         self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
         self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
-        self::assertRegExp('/Successfully added 2 password\(s\) to your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully added 2 password\(s\) to your blacklist database/', $commandTester->getDisplay());
 
         self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
         self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
@@ -110,7 +110,7 @@ class BlacklistUpdateCommandTest extends BlacklistCommandTestCase
 
         self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
         self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
-        self::assertRegExp('/Successfully added 0 password\(s\) to your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully added 0 password\(s\) to your blacklist database/', $commandTester->getDisplay());
     }
 
     public function testImportFromRelFile()
@@ -128,7 +128,7 @@ class BlacklistUpdateCommandTest extends BlacklistCommandTestCase
             ['command' => $command->getName(), '--file' => '../fixtures/passwords-list1.txt']
         );
 
-        self::assertRegExp('/Successfully added 2 password\(s\) to your blacklist database/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Successfully added 2 password\(s\) to your blacklist database/', $commandTester->getDisplay());
         self::assertTrue(self::$blackListProvider->isBlacklisted('test'));
         self::assertTrue(self::$blackListProvider->isBlacklisted('foobar'));
     }
@@ -145,7 +145,7 @@ class BlacklistUpdateCommandTest extends BlacklistCommandTestCase
             ['command' => $command->getName(), '--file' => '../fixtures/unknown.txt']
         );
 
-        self::assertRegExp('#Unable to read passwords list. No such file: \.\./fixtures/unknown\.txt#', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('#Unable to read passwords list. No such file: \.\./fixtures/unknown\.txt#', $commandTester->getDisplay());
     }
 
     public function testImportFromEmptyFile()
@@ -160,7 +160,7 @@ class BlacklistUpdateCommandTest extends BlacklistCommandTestCase
             ['command' => $command->getName(), '--file' => __DIR__.'/../fixtures/passwords-list2.txt']
         );
 
-        self::assertRegExp('/Passwords list seems empty, are you sure this is the correct file\?/', $commandTester->getDisplay());
+        self::assertMatchesRegularExpression('/Passwords list seems empty, are you sure this is the correct file\?/', $commandTester->getDisplay());
     }
 
     private function getCommand()
