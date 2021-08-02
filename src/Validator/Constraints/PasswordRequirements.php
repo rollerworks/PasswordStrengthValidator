@@ -32,4 +32,70 @@ class PasswordRequirements extends Constraint
     public $requireCaseDiff = false;
     public $requireNumbers = false;
     public $requireSpecialCharacter = false;
+
+    /**
+     * PasswordRequirements constructor.
+     *
+     * @param array|null  $options
+     * @param string|null $tooShortMessage
+     * @param string|null $missingLettersMessage
+     * @param string|null $requireCaseDiffMessage
+     * @param string|null $missingNumbersMessage
+     * @param string|null $missingSpecialCharacterMessage
+     * @param int|null    $minLength
+     * @param bool        $requireLetters
+     * @param bool        $requireCaseDiff
+     * @param bool        $requireNumbers
+     * @param bool        $requireSpecialCharacter
+     * @param array|null  $groups
+     * @param null        $payload
+     */
+    public function __construct(
+        array $options = null,
+        string $tooShortMessage = null,
+        string $missingLettersMessage = null,
+        string $requireCaseDiffMessage = null,
+        string $missingNumbersMessage = null,
+        string $missingSpecialCharacterMessage = null,
+        int $minLength = null,
+        bool $requireLetters = null,
+        bool $requireCaseDiff = null,
+        bool $requireNumbers = null,
+        bool $requireSpecialCharacter = null,
+        array $groups = null,
+        $payload = null
+    ) {
+        if ($tooShortMessage) {
+            $options['tooShortMessage'] = $tooShortMessage;
+        }
+        if ($missingLettersMessage) {
+            $options['missingLettersMessage'] = $missingLettersMessage;
+        }
+        if ($requireCaseDiffMessage) {
+            $options['requireCaseDiffMessage'] = $requireCaseDiffMessage;
+        }
+        if ($missingNumbersMessage) {
+            $options['missingNumbersMessage'] = $missingNumbersMessage;
+        }
+        if ($missingSpecialCharacterMessage) {
+            $options['missingSpecialCharacterMessage'] = $missingSpecialCharacterMessage;
+        }
+        if ($minLength) {
+            $options['minLength'] = $minLength;
+        }
+        if ($requireLetters) {
+            $options['requireLetters'] = $requireLetters;
+        }
+        if ($requireCaseDiff) {
+            $options['requireCaseDiff'] = $requireCaseDiff;
+        }
+        if ($requireNumbers) {
+            $options['requireNumbers'] = $requireNumbers;
+        }
+        if ($requireSpecialCharacter) {
+            $options['requireSpecialCharacter'] = $requireSpecialCharacter;
+        }
+
+        parent::__construct($options ?? [], $groups, $payload);
+    }
 }
