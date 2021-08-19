@@ -24,7 +24,7 @@
             </trans-unit>
             <trans-unit id="6">
                 <source>password_too_weak</source>
-                <target>Wachtwoord moet minstens aan sterkte niveau "{{ min_strength }}" voldoen, huidig niveau is “{{ current_strength }}” probeer het volgende: {{ strength_tips }}.</target>
+                <target>Wachtwoord moet ten minste aan veiligheidsniveau "{{ min_strength }}" voldoen, maar het huidige niveau is "{{ current_strength }}". Probeer het volgende: {{ strength_tips }}.</target>
             </trans-unit>
 
             <!-- Strength levels -->
