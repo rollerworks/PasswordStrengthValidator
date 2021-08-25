@@ -32,4 +32,34 @@ class PasswordRequirements extends Constraint
     public $requireCaseDiff = false;
     public $requireNumbers = false;
     public $requireSpecialCharacter = false;
+
+    public function __construct(
+        $options = null,
+        ?array $groups = null,
+               $payload = null,
+        ?int $minLength = null,
+        ?bool $requireLetters = null,
+        ?bool $requireCaseDiff = null,
+        ?bool $requireNumbers = null,
+        ?bool $requireSpecialCharacter = null,
+        ?string $tooShortMessage = null,
+        ?string $missingLettersMessage = null,
+        ?string $requireCaseDiffMessage = null,
+        ?string $missingNumbersMessage = null,
+        ?string $missingSpecialCharacterMessage = null
+    ) {
+        parent::__construct($options ?? [], $groups, $payload);
+
+        $this->tooShortMessage = $tooShortMessage ?? $this->tooShortMessage;
+        $this->missingLettersMessage = $missingLettersMessage ?? $this->missingLettersMessage;
+        $this->requireCaseDiffMessage = $requireCaseDiffMessage ?? $this->requireCaseDiffMessage;
+        $this->missingNumbersMessage = $missingNumbersMessage ?? $this->missingNumbersMessage;
+        $this->missingSpecialCharacterMessage = $missingSpecialCharacterMessage ?? $this->missingSpecialCharacterMessage;
+
+        $this->minLength = $minLength ?? $this->minLength;
+        $this->requireLetters = $requireLetters ?? $this->requireLetters;
+        $this->requireCaseDiff = $requireCaseDiff ?? $this->requireCaseDiff;
+        $this->requireNumbers = $requireNumbers ?? $this->requireNumbers;
+        $this->requireSpecialCharacter = $requireSpecialCharacter ?? $this->requireSpecialCharacter;
+    }
 }

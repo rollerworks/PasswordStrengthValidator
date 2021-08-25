@@ -25,6 +25,7 @@ return PhpCsFixer\Config::create()
             'null_adjustment' => 'none',
             'sort_algorithm' => 'none',
         ],
+        'single_line_comment_style' => false, // PHP 8 compatibility (for now)
     ])
     ->setRiskyAllowed(true)
     ->setFinder(

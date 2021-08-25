@@ -27,15 +27,31 @@ class PasswordStrength extends Constraint
     public $minStrength;
     public $unicodeEquality = false;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefaultOption()
+    public function __construct(
+        $options = null,
+        array $groups = null,
+              $payload = null,
+        ?int $minStrength = null,
+        int $minLength = null,
+        bool $unicodeEquality = null,
+        string $message = null,
+        string $tooShortMessage = null
+    ) {
+        parent::__construct($options ?? [], $groups, $payload);
+
+        $this->minStrength = $minStrength ?? $this->minStrength;
+        $this->minLength = $minLength ?? $this->minLength;
+        $this->unicodeEquality = $unicodeEquality ?? $this->unicodeEquality;
+        $this->message = $message ?? $this->message;
+        $this->tooShortMessage = $tooShortMessage ?? $this->tooShortMessage;
+    }
+
+    public function getDefaultOption(): string
     {
         return 'minStrength';
     }
 
-    public function getRequiredOptions()
+    public function getRequiredOptions(): array
     {
         return ['minStrength'];
     }
