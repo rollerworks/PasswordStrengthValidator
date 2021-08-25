@@ -5,3 +5,4 @@
 /.php_cs.cache
 symfony.lock
 .phpunit.result.cache
+.php-cs-fixer.cache

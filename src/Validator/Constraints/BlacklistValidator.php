@@ -22,8 +22,6 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
  * Password Blacklist Validation.
  *
  * Validates if the password is blacklisted/blocked for usage.
- *
- * @author Sebastiaan Stok <s.stok@rollerscapes.net>
  */
 class BlacklistValidator extends ConstraintValidator
 {
@@ -46,28 +44,29 @@ class BlacklistValidator extends ConstraintValidator
      */
     public function validate($password, Constraint $constraint)
     {
-        if (null === $password) {
+        if ($password === null) {
             return;
         }
 
-        if (!is_scalar($password) && !(is_object($password) && method_exists($password, '__toString'))) {
+        if (! is_scalar($password) && ! (\is_object($password) && method_exists($password, '__toString'))) {
             throw new UnexpectedTypeException($password, 'string');
         }
 
-        if (null === $constraint->provider) {
+        if ($constraint->provider === null) {
             $provider = $this->defaultProvider;
         } else {
-            if (null === $this->providersLoader || !$this->providersLoader->has($constraint->provider)) {
+            if ($this->providersLoader === null || ! $this->providersLoader->has($constraint->provider)) {
                 throw new RuntimeException(sprintf('Unable to use blacklist provider "%s", eg. no blacklists were configured or this provider is not supported.', $constraint->provider));
             }
 
             $provider = $this->providersLoader->get($constraint->provider);
         }
 
-        if (true === $provider->isBlacklisted((string) $password)) {
+        if ($provider->isBlacklisted((string) $password) === true) {
             $this->context->buildViolation($constraint->message)
                 ->setInvalidValue($password)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 }

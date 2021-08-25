@@ -15,9 +15,15 @@ use Rollerworks\Component\PasswordStrength\Command\BlacklistPurgeCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
+/**
+ * @internal
+ */
+final class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
 {
-    public function testWithAsk()
+    /**
+     * @test
+     */
+    public function with_ask()
     {
         $command = $this->getCommand();
 
@@ -44,7 +50,10 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
         self::assertTrue(self::$blackListProvider->isBlacklisted('kaboom'));
     }
 
-    public function testWithAskConfirm()
+    /**
+     * @test
+     */
+    public function with_ask_confirm()
     {
         $command = $this->getCommand();
 
@@ -71,7 +80,10 @@ class BlacklistPurgeCommandTest extends BlacklistCommandTestCase
         self::assertFalse(self::$blackListProvider->isBlacklisted('kaboom'));
     }
 
-    public function testNoAsk()
+    /**
+     * @test
+     */
+    public function no_ask()
     {
         $command = $this->getCommand();
 

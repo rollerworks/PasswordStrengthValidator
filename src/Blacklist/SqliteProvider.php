@@ -13,15 +13,9 @@ namespace Rollerworks\Component\PasswordStrength\Blacklist;
 
 /**
  * Sqlite Blacklist Provider.
- *
- * @author Sebastiaan Stok <s.stok@rollerscapes.net>
- * @author Fabien Potencier
  */
 class SqliteProvider extends PdoProvider
 {
-    /**
-     * {@inheritdoc}
-     */
     public function all()
     {
         $db = $this->initDb();
@@ -33,9 +27,6 @@ class SqliteProvider extends PdoProvider
         return $this->exec($db, 'SELECT passwd FROM rollerworks_passdbl');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function close($db)
     {
         if ($db instanceof \SQLite3) {
@@ -45,20 +36,19 @@ class SqliteProvider extends PdoProvider
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws \RuntimeException When neither of SQLite3 or PDO_SQLite extension is enabled
      */
     protected function initDb()
     {
-        if (null === $this->db || $this->db instanceof \SQLite3) {
-            if (0 !== strpos($this->dsn, 'sqlite')) {
+        if ($this->db === null || $this->db instanceof \SQLite3) {
+            if (mb_strpos($this->dsn, 'sqlite') !== 0) {
                 throw new \RuntimeException(sprintf('Please check your configuration. You are trying to use Sqlite with an invalid dsn "%s". The expected format is "sqlite:/path/to/the/db/file".', $this->dsn));
             }
+
             if (class_exists('SQLite3')) {
-                $db = new \SQLite3(substr($this->dsn, 7, strlen($this->dsn)), \SQLITE3_OPEN_READWRITE | \SQLITE3_OPEN_CREATE);
+                $db = new \SQLite3(mb_substr($this->dsn, 7, \mb_strlen($this->dsn)), \SQLITE3_OPEN_READWRITE | \SQLITE3_OPEN_CREATE);
                 $db->busyTimeout(1000);
-            } elseif (class_exists('PDO') && in_array('sqlite', \PDO::getAvailableDrivers(), true)) {
+            } elseif (class_exists('PDO') && \in_array('sqlite', \PDO::getAvailableDrivers(), true)) {
                 $db = new \PDO($this->dsn);
             } else {
                 throw new \RuntimeException('You need to enable either the SQLite3 or PDO_SQLite extension for the profiler to run properly.');
@@ -74,19 +64,18 @@ class SqliteProvider extends PdoProvider
         return $this->db;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function exec($db, $query, array $args = [])
     {
         if ($db instanceof \SQLite3) {
             $stmt = $this->prepareStatement($db, $query);
+
             foreach ($args as $arg => $val) {
-                $stmt->bindValue($arg, $val, is_int($val) ? \SQLITE3_INTEGER : \SQLITE3_TEXT);
+                $stmt->bindValue($arg, $val, \is_int($val) ? \SQLITE3_INTEGER : \SQLITE3_TEXT);
             }
 
             $res = $stmt->execute();
-            if (false === $res) {
+
+            if ($res === false) {
                 throw new \RuntimeException(sprintf('Error executing SQLite query "%s".', $query));
             }
             $res->finalize();
@@ -95,19 +84,18 @@ class SqliteProvider extends PdoProvider
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function fetch($db, $query, array $args = [])
     {
         $return = [];
 
         if ($db instanceof \SQLite3) {
             $stmt = $this->prepareStatement($db, $query);
+
             foreach ($args as $arg => $val) {
-                $stmt->bindValue($arg, $val, is_int($val) ? \SQLITE3_INTEGER : \SQLITE3_TEXT);
+                $stmt->bindValue($arg, $val, \is_int($val) ? \SQLITE3_INTEGER : \SQLITE3_TEXT);
             }
             $res = $stmt->execute();
+
             while ($row = $res->fetchArray(\SQLITE3_ASSOC)) {
                 $return[] = $row;
             }

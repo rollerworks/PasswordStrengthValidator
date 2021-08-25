@@ -20,8 +20,10 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 /**
  * @group legacy
+ *
+ * @internal
  */
-class P0wnedPasswordValidatorTest extends ConstraintValidatorTestCase
+final class P0wnedPasswordValidatorTest extends ConstraintValidatorTestCase
 {
     /** @var Client|MockObject */
     private $client;
@@ -41,27 +43,35 @@ class P0wnedPasswordValidatorTest extends ConstraintValidatorTestCase
         return new P0wnedPasswordValidator($this->client);
     }
 
-    public function testFound()
+    /**
+     * @test
+     */
+    public function found()
     {
         $result = new Result(4031);
         $this->client
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('check')
             ->with('correcthorsebattery')
-            ->willReturn($result);
+            ->willReturn($result)
+        ;
 
         $this->validator->validate('correcthorsebattery', $this->constraint);
-        $this->assertCount(1, $this->context->getViolations());
+        self::assertCount(1, $this->context->getViolations());
     }
 
-    public function testNotFound()
+    /**
+     * @test
+     */
+    public function not_found()
     {
         $result = new Result(0);
         $this->client
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('check')
             ->with('correcthorsebattery')
-            ->willReturn($result);
+            ->willReturn($result)
+        ;
 
         $this->validator->validate('correcthorsebattery', $this->constraint);
 

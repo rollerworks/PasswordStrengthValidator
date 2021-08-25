@@ -17,11 +17,8 @@ use Symfony\Component\Console\Input\InputOption;
 
 class BlacklistDeleteCommand extends BlacklistCommonCommand
 {
-    const MESSAGE = '<info>Successfully removed %d password(s) from your blacklist database.</info>';
+    public const MESSAGE = '<info>Successfully removed %d password(s) from your blacklist database.</info>';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -34,6 +31,6 @@ class BlacklistDeleteCommand extends BlacklistCommonCommand
 
     protected function attemptAction(UpdatableBlacklistProviderInterface $service, $password)
     {
-        return $service->isBlacklisted($password) && true === $service->delete($password);
+        return $service->isBlacklisted($password) && $service->delete($password) === true;
     }
 }

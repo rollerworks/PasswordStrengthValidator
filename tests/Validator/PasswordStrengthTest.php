@@ -17,7 +17,10 @@ use Symfony\Component\Translation\Translator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
-class PasswordStrengthTest extends ConstraintValidatorTestCase
+/**
+ * @internal
+ */
+final class PasswordStrengthTest extends ConstraintValidatorTestCase
 {
     /**
      * @var array
@@ -30,46 +33,35 @@ class PasswordStrengthTest extends ConstraintValidatorTestCase
         5 => 'very_strong',
     ];
 
-    public function getMock($originalClassName, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $cloneArguments = false, $callOriginalMethods = false, $proxyTarget = null)
-    {
-        if (func_num_args() === 1 && preg_match('/^Symfony\\\\Component\\\\([a-z]+\\\\)+[a-z]+Interface$/i', $originalClassName)) {
-            return $this->getMockBuilder($originalClassName)->getMock();
-        }
-
-        return parent::getMock(
-            $originalClassName,
-            $methods,
-            $arguments,
-            $mockClassName,
-            $callOriginalConstructor,
-            $callOriginalClone,
-            $callAutoload,
-            $cloneArguments,
-            $callOriginalMethods,
-            $proxyTarget
-        );
-    }
-
     protected function createValidator()
     {
         return new PasswordStrengthValidator(new Translator('en'));
     }
 
-    public function testNullIsValid()
+    /**
+     * @test
+     */
+    public function null_is_valid()
     {
         $this->validator->validate(null, new PasswordStrength(6));
 
         $this->assertNoViolation();
     }
 
-    public function testEmptyIsValid()
+    /**
+     * @test
+     */
+    public function empty_is_valid()
     {
         $this->validator->validate('', new PasswordStrength(6));
 
         $this->assertNoViolation();
     }
 
-    public function testExpectsStringCompatibleType()
+    /**
+     * @test
+     */
+    public function expects_string_compatible_type()
     {
         $this->expectException(UnexpectedTypeException::class);
 
@@ -156,7 +148,10 @@ class PasswordStrengthTest extends ConstraintValidatorTestCase
         ];
     }
 
-    public function testShortPasswordWillNotPass()
+    /**
+     * @test
+     */
+    public function short_password_will_not_pass()
     {
         $constraint = new PasswordStrength(['minStrength' => 5, 'minLength' => 6]);
 
@@ -168,10 +163,14 @@ class PasswordStrengthTest extends ConstraintValidatorTestCase
 
         $this->buildViolation('Your password must be at least {{length}} characters long.')
             ->setParameters($parameters)
-            ->assertRaised();
+            ->assertRaised()
+        ;
     }
 
-    public function testShortPasswordInMultiByteWillNotPass()
+    /**
+     * @test
+     */
+    public function short_password_in_multi_byte_will_not_pass()
     {
         $constraint = new PasswordStrength(['minStrength' => 5, 'minLength' => 7]);
 
@@ -183,13 +182,16 @@ class PasswordStrengthTest extends ConstraintValidatorTestCase
 
         $this->buildViolation('Your password must be at least {{length}} characters long.')
             ->setParameters($parameters)
-            ->assertRaised();
+            ->assertRaised()
+        ;
     }
 
     /**
      * @dataProvider getWeakPasswords
+     *
+     * @test
      */
-    public function testWeakPasswordsWillNotPass($minStrength, $value, $currentStrength, $tips = '')
+    public function weak_passwords_will_not_pass($minStrength, $value, $currentStrength, $tips = '')
     {
         $constraint = new PasswordStrength(['minStrength' => $minStrength, 'minLength' => 6]);
 
@@ -197,20 +199,23 @@ class PasswordStrengthTest extends ConstraintValidatorTestCase
 
         $parameters = [
             '{{ length }}' => 6,
-            '{{ min_strength }}' => 'rollerworks_password.strength_level.'.self::$levelToLabel[$minStrength],
-            '{{ current_strength }}' => 'rollerworks_password.strength_level.'.self::$levelToLabel[$currentStrength],
+            '{{ min_strength }}' => 'rollerworks_password.strength_level.' . self::$levelToLabel[$minStrength],
+            '{{ current_strength }}' => 'rollerworks_password.strength_level.' . self::$levelToLabel[$currentStrength],
             '{{ strength_tips }}' => $tips,
         ];
 
         $this->buildViolation('password_too_weak')
             ->setParameters($parameters)
-            ->assertRaised();
+            ->assertRaised()
+        ;
     }
 
     /**
      * @dataProvider getWeakPasswordsUnicode
+     *
+     * @test
      */
-    public function testWeakPasswordsWithUnicodeWillNotPass($minStrength, $value, $currentStrength, $tips = '')
+    public function weak_passwords_with_unicode_will_not_pass($minStrength, $value, $currentStrength, $tips = '')
     {
         $constraint = new PasswordStrength(['minStrength' => $minStrength, 'minLength' => 6, 'unicodeEquality' => true]);
 
@@ -218,20 +223,23 @@ class PasswordStrengthTest extends ConstraintValidatorTestCase
 
         $parameters = [
             '{{ length }}' => 6,
-            '{{ min_strength }}' => 'rollerworks_password.strength_level.'.self::$levelToLabel[$minStrength],
-            '{{ current_strength }}' => 'rollerworks_password.strength_level.'.self::$levelToLabel[$currentStrength],
+            '{{ min_strength }}' => 'rollerworks_password.strength_level.' . self::$levelToLabel[$minStrength],
+            '{{ current_strength }}' => 'rollerworks_password.strength_level.' . self::$levelToLabel[$currentStrength],
             '{{ strength_tips }}' => $tips,
         ];
 
         $this->buildViolation('password_too_weak')
             ->setParameters($parameters)
-            ->assertRaised();
+            ->assertRaised()
+        ;
     }
 
     /**
      * @dataProvider getVeryStrongPasswords
+     *
+     * @test
      */
-    public function testStrongPasswordsWillPass($value)
+    public function strong_passwords_will_pass($value)
     {
         $constraint = new PasswordStrength(5);
 
@@ -240,14 +248,20 @@ class PasswordStrengthTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testConstraintGetDefaultOption()
+    /**
+     * @test
+     */
+    public function constraint_get_default_option()
     {
         $constraint = new PasswordStrength(5);
 
-        $this->assertEquals(5, $constraint->minStrength);
+        self::assertEquals(5, $constraint->minStrength);
     }
 
-    public function testParametersAreTranslatedWhenTranslatorIsMissing()
+    /**
+     * @test
+     */
+    public function parameters_are_translated_when_translator_is_missing()
     {
         $this->validator = new PasswordStrengthValidator();
         $this->validator->initialize($this->context);
@@ -265,6 +279,7 @@ class PasswordStrengthTest extends ConstraintValidatorTestCase
 
         $this->buildViolation('password_too_weak')
             ->setParameters($parameters)
-            ->assertRaised();
+            ->assertRaised()
+        ;
     }
 }

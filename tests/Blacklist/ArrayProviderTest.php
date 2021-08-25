@@ -14,9 +14,15 @@ namespace Rollerworks\Component\PasswordStrength\Tests\Blacklist;
 use PHPUnit\Framework\TestCase;
 use Rollerworks\Component\PasswordStrength\Blacklist\ArrayProvider;
 
-class ArrayProviderTest extends TestCase
+/**
+ * @internal
+ */
+final class ArrayProviderTest extends TestCase
 {
-    public function testBlackList()
+    /**
+     * @test
+     */
+    public function black_list()
     {
         $provider = new ArrayProvider(['test', 'foobar', 0]);
 

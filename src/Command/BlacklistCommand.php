@@ -19,9 +19,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * @author Sebastiaan Stok <s.stok@rollerscapes.net>
- */
 abstract class BlacklistCommand extends Command
 {
     /**
@@ -46,7 +43,7 @@ abstract class BlacklistCommand extends Command
     {
         $this->blacklistProvider = $this->providers->get($input->getOption('provider'));
 
-        if (!$this->blacklistProvider instanceof UpdatableBlacklistProviderInterface) {
+        if (! $this->blacklistProvider instanceof UpdatableBlacklistProviderInterface) {
             throw new \RuntimeException(sprintf('Blacklist provider "%s" is not updatable.', $input->getOption('provider')));
         }
     }

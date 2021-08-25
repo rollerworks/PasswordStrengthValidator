@@ -15,14 +15,9 @@ namespace Rollerworks\Component\PasswordStrength\Blacklist;
  * Noop Blacklist Provider.
  *
  * Always returns false.
- *
- * @author Sebastiaan Stok <s.stok@rollerscapes.net>
  */
 class NoopProvider implements BlacklistProviderInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function isBlacklisted($password)
     {
         return false;

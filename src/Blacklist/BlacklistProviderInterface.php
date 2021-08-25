@@ -13,8 +13,6 @@ namespace Rollerworks\Component\PasswordStrength\Blacklist;
 
 /**
  * Blacklist Provider Interface.
- *
- * @author Sebastiaan Stok <s.stok@rollerscapes.net>
  */
 interface BlacklistProviderInterface
 {

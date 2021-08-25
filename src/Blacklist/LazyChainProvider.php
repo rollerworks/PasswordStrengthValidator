@@ -15,8 +15,6 @@ use Psr\Container\ContainerInterface;
 
 /**
  * Chained blacklist provider.
- *
- * @author Sebastiaan Stok <s.stok@rollerscapes.net>
  */
 final class LazyChainProvider implements BlacklistProviderInterface
 {
@@ -42,7 +40,7 @@ final class LazyChainProvider implements BlacklistProviderInterface
     public function isBlacklisted($password)
     {
         foreach ($this->providers as $provider) {
-            if (true === $this->container->get($provider)->isBlacklisted($password)) {
+            if ($this->container->get($provider)->isBlacklisted($password) === true) {
                 return true;
             }
         }

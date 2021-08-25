@@ -13,8 +13,6 @@ namespace Rollerworks\Component\PasswordStrength\Blacklist;
 
 /**
  * Sqlite Blacklist Provider.
- *
- * @author Sebastiaan Stok <s.stok@rollerscapes.net>
  */
 abstract class PdoProvider implements UpdatableBlacklistProviderInterface
 {
@@ -37,16 +35,13 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
         $this->password = $password;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function add($password)
     {
-        if (!is_scalar($password)) {
+        if (! is_scalar($password)) {
             throw new \InvalidArgumentException('Only scalar values are accepted.');
         }
 
-        if ('' === $password) {
+        if ($password === '') {
             return -1;
         }
 
@@ -67,19 +62,16 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
             $status = false;
         }
 
-        if (!$status) {
+        if (! $status) {
             $this->close($db);
         }
 
         return $status;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete($password)
     {
-        if (!is_scalar($password)) {
+        if (! is_scalar($password)) {
             throw new \InvalidArgumentException('Only scalar values are accepted.');
         }
 
@@ -95,16 +87,13 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
             $status = false;
         }
 
-        if (!$status) {
+        if (! $status) {
             $this->close($db);
         }
 
         return $status;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function all()
     {
         $db = $this->initDb();
@@ -112,9 +101,6 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
         return $this->exec($db, 'SELECT passwd FROM rollerworks_passdbl');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function purge()
     {
         $db = $this->initDb();
@@ -122,19 +108,16 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
         $this->close($db);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isBlacklisted($password)
     {
-        if (!is_scalar($password)) {
+        if (! is_scalar($password)) {
             throw new \InvalidArgumentException('Only scalar values are accepted.');
         }
 
         $db = $this->initDb();
         $tokenExists = $this->fetch($db, 'SELECT 1 FROM rollerworks_passdbl WHERE passwd = :password LIMIT 1', [':password' => $password]);
 
-        return !empty($tokenExists);
+        return ! empty($tokenExists);
     }
 
     /**
@@ -147,15 +130,13 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
     /**
      * @param object $db
      * @param string $query
-     *
-     * @return mixed
      */
     protected function fetch($db, $query, array $args = [])
     {
         $stmt = $this->prepareStatement($db, $query);
 
         foreach ($args as $arg => $val) {
-            $stmt->bindValue($arg, $val, is_int($val) ? \PDO::PARAM_INT : \PDO::PARAM_STR);
+            $stmt->bindValue($arg, $val, \is_int($val) ? \PDO::PARAM_INT : \PDO::PARAM_STR);
         }
         $stmt->execute();
 
@@ -173,11 +154,12 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
         $stmt = $this->prepareStatement($db, $query);
 
         foreach ($args as $arg => $val) {
-            $stmt->bindValue($arg, $val, is_int($val) ? \PDO::PARAM_INT : \PDO::PARAM_STR);
+            $stmt->bindValue($arg, $val, \is_int($val) ? \PDO::PARAM_INT : \PDO::PARAM_STR);
         }
 
         $success = $stmt->execute();
-        if (!$success) {
+
+        if (! $success) {
             throw new \RuntimeException(sprintf('Error executing query "%s".', $query));
         }
     }
@@ -198,7 +180,7 @@ abstract class PdoProvider implements UpdatableBlacklistProviderInterface
             $stmt = false;
         }
 
-        if (false === $stmt) {
+        if ($stmt === false) {
             throw new \RuntimeException('The database cannot successfully prepare the statement.');
         }
 

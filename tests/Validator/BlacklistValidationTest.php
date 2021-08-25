@@ -19,7 +19,10 @@ use Symfony\Component\Validator\Exception\RuntimeException;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
-class BlacklistValidationTest extends ConstraintValidatorTestCase
+/**
+ * @internal
+ */
+final class BlacklistValidationTest extends ConstraintValidatorTestCase
 {
     use BlackListMockProviderTrait;
 
@@ -30,28 +33,40 @@ class BlacklistValidationTest extends ConstraintValidatorTestCase
         return new BlacklistValidator($provider);
     }
 
-    public function testNullIsValid()
+    /**
+     * @test
+     */
+    public function null_is_valid()
     {
         $this->validator->validate(null, new Blacklist());
 
         $this->assertNoViolation();
     }
 
-    public function testEmptyStringIsValid()
+    /**
+     * @test
+     */
+    public function empty_string_is_valid()
     {
         $this->validator->validate('', new Blacklist());
 
         $this->assertNoViolation();
     }
 
-    public function testExpectsStringCompatibleType()
+    /**
+     * @test
+     */
+    public function expects_string_compatible_type()
     {
         $this->expectException(UnexpectedTypeException::class);
 
         $this->validator->validate(new \stdClass(), new Blacklist());
     }
 
-    public function testNotBlackListed()
+    /**
+     * @test
+     */
+    public function not_black_listed()
     {
         $constraint = new Blacklist();
         $this->validator->validate('weak', $constraint);
@@ -60,7 +75,10 @@ class BlacklistValidationTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    public function testBlackListed()
+    /**
+     * @test
+     */
+    public function black_listed()
     {
         $constraint = new Blacklist([
             'message' => 'myMessage',
@@ -69,10 +87,14 @@ class BlacklistValidationTest extends ConstraintValidatorTestCase
 
         $this->buildViolation('myMessage')
             ->setInvalidValue('test')
-            ->assertRaised();
+            ->assertRaised()
+        ;
     }
 
-    public function testUsesDifferentProvider()
+    /**
+     * @test
+     */
+    public function uses_different_provider()
     {
         $loaders = $this->createLoadersContainer(['array' => $this->createMockedProvider('dope')]);
         $defaultProvider = new ArrayProvider(['test', 'foobar']);
@@ -88,10 +110,14 @@ class BlacklistValidationTest extends ConstraintValidatorTestCase
                 ->setInvalidValue('test')
             ->buildNextViolation('from-custom')
                 ->setInvalidValue('dope')
-            ->assertRaised();
+            ->assertRaised()
+        ;
     }
 
-    public function testThrowsExceptionForUnsupportedProvider()
+    /**
+     * @test
+     */
+    public function throws_exception_for_unsupported_provider()
     {
         $loaders = $this->createLoadersContainer([]);
         $defaultProvider = new ArrayProvider(['test', 'foobar']);
@@ -105,7 +131,10 @@ class BlacklistValidationTest extends ConstraintValidatorTestCase
         $this->validator->validate('dope', new Blacklist(['message' => 'myMessage', 'provider' => 'array']));
     }
 
-    public function testThrowsExceptionWhenNoProvidersWereGiven()
+    /**
+     * @test
+     */
+    public function throws_exception_when_no_providers_were_given()
     {
         $defaultProvider = new ArrayProvider(['test', 'foobar']);
 
