@@ -27,4 +27,17 @@ class Blacklist extends Constraint
      * @var string
      */
     public $provider;
+
+    public function __construct(
+        $options = null,
+        array $groups = null,
+        $payload = null,
+        string $provider = null,
+        string $message = null
+    ) {
+        parent::__construct($options ?? [], $groups, $payload);
+
+        $this->provider = $provider ?? $this->provider;
+        $this->message = $message ?? $this->message;
+    }
 }
