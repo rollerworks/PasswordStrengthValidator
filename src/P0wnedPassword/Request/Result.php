@@ -14,7 +14,7 @@ namespace Rollerworks\Component\PasswordStrength\P0wnedPassword\Request;
 /**
  * @internal
  */
-class Result
+final class Result
 {
     /**
      * @var int

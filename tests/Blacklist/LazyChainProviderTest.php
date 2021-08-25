@@ -16,11 +16,17 @@ use Rollerworks\Component\PasswordStrength\Blacklist\BlacklistProviderInterface;
 use Rollerworks\Component\PasswordStrength\Blacklist\LazyChainProvider;
 use Rollerworks\Component\PasswordStrength\Tests\BlackListMockProviderTrait;
 
+/**
+ * @internal
+ */
 final class LazyChainProviderTest extends TestCase
 {
     use BlackListMockProviderTrait;
 
-    public function testBlackList()
+    /**
+     * @test
+     */
+    public function black_list()
     {
         $loader1 = $this->createMockedProvider('foobar');
         $loader2 = $this->createMockedProvider('god');
@@ -40,7 +46,10 @@ final class LazyChainProviderTest extends TestCase
         self::assertFalse($provider->isBlacklisted(false));
     }
 
-    public function testStopsLoadingOnFirstHit()
+    /**
+     * @test
+     */
+    public function stops_loading_on_first_hit()
     {
         $loader1 = $this->createMockedProvider('foobar');
         $loader2 = $this->createNotExpectedMockedProvider();

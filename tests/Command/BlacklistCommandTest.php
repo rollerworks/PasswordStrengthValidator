@@ -15,9 +15,15 @@ use Rollerworks\Component\PasswordStrength\Command\BlacklistListCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class BlacklistCommandTest extends BlacklistCommandTestCase
+/**
+ * @internal
+ */
+final class BlacklistCommandTest extends BlacklistCommandTestCase
 {
-    public function testValidatesProviderMustBeUpdatable()
+    /**
+     * @test
+     */
+    public function validates_provider_must_be_updatable()
     {
         $container = $this->createLoadersContainer([
             'default' => self::$blackListProvider,
@@ -35,9 +41,13 @@ class BlacklistCommandTest extends BlacklistCommandTestCase
         $commandTester->execute(['command' => $application->find('rollerworks-password:blacklist:list')->getName(), '--provider' => 'second']);
     }
 
-    public function testSecondProviderIsUsed()
+    /**
+     * @test
+     */
+    public function second_provider_is_used()
     {
         $blackListedWords = ['test', 'foobar', 'kaboom'];
+
         foreach ($blackListedWords as $word) {
             self::$blackListProvider->add($word);
         }

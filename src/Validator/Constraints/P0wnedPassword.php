@@ -24,9 +24,6 @@ class P0wnedPassword extends Constraint
 {
     public $message = 'This password was found in a database of compromised passwords. It has been used {{ used }} times. For security purposes you must use something else.';
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTargets()
     {
         return self::PROPERTY_CONSTRAINT;

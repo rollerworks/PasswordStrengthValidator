@@ -14,9 +14,15 @@ namespace Rollerworks\Component\PasswordStrength\Tests\Blacklist;
 use PHPUnit\Framework\TestCase;
 use Rollerworks\Component\PasswordStrength\Blacklist\NoopProvider;
 
-class NoopProviderTest extends TestCase
+/**
+ * @internal
+ */
+final class NoopProviderTest extends TestCase
 {
-    public function testBlackList()
+    /**
+     * @test
+     */
+    public function black_list()
     {
         $provider = new NoopProvider();
 

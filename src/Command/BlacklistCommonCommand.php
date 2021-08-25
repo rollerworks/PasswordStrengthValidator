@@ -18,13 +18,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 abstract class BlacklistCommonCommand extends BlacklistCommand
 {
-    const MESSAGE = '%d';
+    public const MESSAGE = '%d';
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        if (!$input->getArgument('passwords') && !$input->getOption('file')) {
+        if (! $input->getArgument('passwords') && ! $input->getOption('file')) {
             $io->error('No passwords or file-option given.');
 
             return 1;
@@ -33,14 +33,14 @@ abstract class BlacklistCommonCommand extends BlacklistCommand
         if ($input->getOption('file')) {
             $file = realpath($input->getOption('file'));
 
-            if (!file_exists($file)) {
-                $io->error('Unable to read passwords list. No such file: '.$input->getOption('file'));
+            if (! file_exists($file)) {
+                $io->error('Unable to read passwords list. No such file: ' . $input->getOption('file'));
 
                 return 1;
             }
 
-            if (!is_readable($file)) {
-                $io->error('Unable to read passwords list. Access denied: '.$input->getOption('file'));
+            if (! is_readable($file)) {
+                $io->error('Unable to read passwords list. Access denied: ' . $input->getOption('file'));
 
                 return 1;
             }
@@ -70,6 +70,7 @@ abstract class BlacklistCommonCommand extends BlacklistCommand
 
         foreach ($file as $password) {
             $password = trim($password, "\n\r");
+
             if ($this->attemptAction($service, $password)) {
                 ++$count;
             }
@@ -84,6 +85,7 @@ abstract class BlacklistCommonCommand extends BlacklistCommand
     private function doFromArray(UpdatableBlacklistProviderInterface $service, array $passwords)
     {
         $count = 0;
+
         foreach ($passwords as $password) {
             if ($this->attemptAction($service, $password)) {
                 ++$count;

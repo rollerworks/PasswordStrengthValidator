@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class BlacklistUpdateCommand extends BlacklistCommonCommand
 {
-    const MESSAGE = '<info>Successfully added %d password(s) to your blacklist database.</info>';
+    public const MESSAGE = '<info>Successfully added %d password(s) to your blacklist database.</info>';
 
     protected function configure()
     {
@@ -31,6 +31,6 @@ class BlacklistUpdateCommand extends BlacklistCommonCommand
 
     protected function attemptAction(UpdatableBlacklistProviderInterface $service, $password)
     {
-        return true === $service->add($password);
+        return $service->add($password) === true;
     }
 }

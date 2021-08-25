@@ -18,16 +18,16 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class PasswordRequirementsValidator extends ConstraintValidator
 {
     /**
-     * @param null|string                     $value
+     * @param string|null                     $value
      * @param PasswordRequirements|Constraint $constraint
      */
     public function validate($value, Constraint $constraint)
     {
-        if (null === $value || '' === $value) {
+        if ($value === null || $value === '') {
             return;
         }
 
-        if (!is_scalar($value) && !(is_object($value) && method_exists($value, '__toString'))) {
+        if (! is_scalar($value) && ! (\is_object($value) && method_exists($value, '__toString'))) {
             throw new UnexpectedTypeException($value, 'string');
         }
 
@@ -35,31 +35,36 @@ class PasswordRequirementsValidator extends ConstraintValidator
             $this->context->buildViolation($constraint->tooShortMessage)
                 ->setParameters(['{{length}}' => $constraint->minLength])
                 ->setInvalidValue($value)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
 
-        if ($constraint->requireLetters && !preg_match('/\pL/u', $value)) {
+        if ($constraint->requireLetters && ! preg_match('/\pL/u', $value)) {
             $this->context->buildViolation($constraint->missingLettersMessage)
                 ->setInvalidValue($value)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
 
-        if ($constraint->requireCaseDiff && !preg_match('/(\p{Ll}+.*\p{Lu})|(\p{Lu}+.*\p{Ll})/u', $value)) {
+        if ($constraint->requireCaseDiff && ! preg_match('/(\p{Ll}+.*\p{Lu})|(\p{Lu}+.*\p{Ll})/u', $value)) {
             $this->context->buildViolation($constraint->requireCaseDiffMessage)
                 ->setInvalidValue($value)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
 
-        if ($constraint->requireNumbers && !preg_match('/\pN/u', $value)) {
+        if ($constraint->requireNumbers && ! preg_match('/\pN/u', $value)) {
             $this->context->buildViolation($constraint->missingNumbersMessage)
                 ->setInvalidValue($value)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
 
-        if ($constraint->requireSpecialCharacter && !preg_match('/[^\p{Ll}\p{Lu}\pL\pN]/u', $value)) {
+        if ($constraint->requireSpecialCharacter && ! preg_match('/[^\p{Ll}\p{Lu}\pL\pN]/u', $value)) {
             $this->context->buildViolation($constraint->missingSpecialCharacterMessage)
                 ->setInvalidValue($value)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 }

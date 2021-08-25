@@ -16,11 +16,14 @@ use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequire
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 use Symfony\Component\Validator\Test\ConstraintViolationAssertion;
 
-class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCase
+/**
+ * @internal
+ */
+final class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCase
 {
     public function getMock($originalClassName, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $cloneArguments = false, $callOriginalMethods = false, $proxyTarget = null)
     {
-        if (func_num_args() === 1 && preg_match('/^Symfony\\\\Component\\\\([a-z]+\\\\)+[a-z]+Interface$/i', $originalClassName)) {
+        if (\func_num_args() === 1 && preg_match('/^Symfony\\\\Component\\\\([a-z]+\\\\)+[a-z]+Interface$/i', $originalClassName)) {
             return $this->getMockBuilder($originalClassName)->getMock();
         }
 
@@ -43,14 +46,20 @@ class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCase
         return new PasswordRequirementsValidator();
     }
 
-    public function testNullIsValid()
+    /**
+     * @test
+     */
+    public function null_is_valid()
     {
         $this->validator->validate(null, new PasswordRequirements());
 
         $this->assertNoViolation();
     }
 
-    public function testEmptyIsValid()
+    /**
+     * @test
+     */
+    public function empty_is_valid()
     {
         $this->validator->validate('', new PasswordRequirements());
 
@@ -61,8 +70,10 @@ class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCase
      * @dataProvider provideValidConstraints
      *
      * @param string $value
+     *
+     * @test
      */
-    public function testValidValueConstraints($value, PasswordRequirements $constraint)
+    public function valid_value_constraints($value, PasswordRequirements $constraint)
     {
         $this->value = $value;
 
@@ -75,8 +86,10 @@ class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCase
      * @dataProvider provideViolationConstraints
      *
      * @param string $value
+     *
+     * @test
      */
-    public function testViolationValueConstraints($value, PasswordRequirements $constraint, array $violations = [])
+    public function violation_value_constraints($value, PasswordRequirements $constraint, array $violations = [])
     {
         $this->value = $value;
         /** @var ConstraintViolationAssertion $constraintViolationAssertion */
@@ -87,14 +100,17 @@ class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCase
         foreach ($violations as $i => $violation) {
             if ($i === 0) {
                 $constraintViolationAssertion = $this->buildViolation($violation[0])
-                    ->setParameters(isset($violation[1]) ? $violation[1] : [])
-                    ->setInvalidValue($value);
+                    ->setParameters($violation[1] ?? [])
+                    ->setInvalidValue($value)
+                ;
             } else {
                 $constraintViolationAssertion = $constraintViolationAssertion->buildNextViolation($violation[0])
-                    ->setParameters(isset($violation[1]) ? $violation[1] : [])
-                    ->setInvalidValue($value);
+                    ->setParameters($violation[1] ?? [])
+                    ->setInvalidValue($value)
+                ;
             }
-            if ($i == count($violations) - 1) {
+
+            if ($i == \count($violations) - 1) {
                 $constraintViolationAssertion->assertRaised();
             }
         }

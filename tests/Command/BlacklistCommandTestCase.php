@@ -29,16 +29,17 @@ abstract class BlacklistCommandTestCase extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        if (!class_exists('SQLite3') && (!class_exists('PDO') || !in_array('sqlite', \PDO::getAvailableDrivers(), true))) {
-            self::markTestSkipped('This test requires SQLite support in your environment');
+        if (! class_exists('SQLite3') && (! class_exists('PDO') || ! \in_array('sqlite', \PDO::getAvailableDrivers(), true))) {
+            static::markTestSkipped('This test requires SQLite support in your environment');
         }
 
         self::$dbFile = tempnam(sys_get_temp_dir(), 'rw_sqlite_storage');
+
         if (file_exists(self::$dbFile)) {
             @unlink(self::$dbFile);
         }
 
-        self::$blackListProvider = new SqliteProvider('sqlite:'.self::$dbFile);
+        self::$blackListProvider = new SqliteProvider('sqlite:' . self::$dbFile);
     }
 
     public static function tearDownAfterClass(): void

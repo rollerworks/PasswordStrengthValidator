@@ -18,9 +18,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class BlacklistPurgeCommand extends BlacklistCommand
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configure()
     {
         $this
@@ -30,17 +27,14 @@ class BlacklistPurgeCommand extends BlacklistCommand
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        if (!$input->getOption('no-ask')) {
+        if (! $input->getOption('no-ask')) {
             $io->warning('This will remove all the passwords from your blacklist.');
 
-            if (!$io->confirm('Are you sure you want to purge the blacklist?', false)) {
+            if (! $io->confirm('Are you sure you want to purge the blacklist?', false)) {
                 return 1;
             }
         }

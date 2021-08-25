@@ -13,8 +13,6 @@ namespace Rollerworks\Component\PasswordStrength\Blacklist;
 
 /**
  * Chained blacklist provider.
- *
- * @author Sebastiaan Stok <s.stok@rollerscapes.net>
  */
 class ChainProvider implements BlacklistProviderInterface
 {
@@ -71,7 +69,7 @@ class ChainProvider implements BlacklistProviderInterface
     public function isBlacklisted($password)
     {
         foreach ($this->providers as $provider) {
-            if (true === $provider->isBlacklisted($password)) {
+            if ($provider->isBlacklisted($password) === true) {
                 return true;
             }
         }

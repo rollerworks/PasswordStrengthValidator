@@ -20,7 +20,10 @@ use Psr\Log\NullLogger;
 use Rollerworks\Component\PasswordStrength\P0wnedPassword\Request\Client;
 use Rollerworks\Component\PasswordStrength\P0wnedPassword\Request\Result;
 
-class ClientTest extends TestCase
+/**
+ * @internal
+ */
+final class ClientTest extends TestCase
 {
     /** @var HttpClient|MockObject */
     private $client;
@@ -62,57 +65,69 @@ class ClientTest extends TestCase
         $this->checker = new Client($this->client, new NullLogger());
     }
 
-    public function testResponseWithFoundResult()
+    /**
+     * @test
+     */
+    public function response_with_found_result()
     {
         $password = 'correctbatteryhorse';
         $responseMock = $this->createMock(Response::class);
-        $responseMock->expects($this->once())->method('getStatusCode')->willReturn(200);
-        $responseMock->expects($this->once())->method('getBody')->willReturn($this->foundResult);
+        $responseMock->expects(self::once())->method('getStatusCode')->willReturn(200);
+        $responseMock->expects(self::once())->method('getBody')->willReturn($this->foundResult);
         $request = new Request('GET', 'https://api.pwnedpasswords.com/range/C4FA0');
-        $this->client->expects($this->once())
+        $this->client->expects(self::once())
             ->method('sendRequest')
             ->with($request)
-            ->willReturn($responseMock);
+            ->willReturn($responseMock)
+        ;
 
         $result = $this->checker->check($password);
-        $this->assertInstanceOf(Result::class, $result);
-        $this->assertTrue($result->wasFound());
-        $this->assertEquals(4031, $result->getUseCount());
+        self::assertInstanceOf(Result::class, $result);
+        self::assertTrue($result->wasFound());
+        self::assertEquals(4031, $result->getUseCount());
     }
 
-    public function testResponseWithoutFoundResult()
+    /**
+     * @test
+     */
+    public function response_without_found_result()
     {
         $password = 'correctbatteryhorse';
         $responseMock = $this->createMock(Response::class);
-        $responseMock->expects($this->once())->method('getStatusCode')->willReturn(200);
-        $responseMock->expects($this->once())->method('getBody')->willReturn($this->notFoundResult);
+        $responseMock->expects(self::once())->method('getStatusCode')->willReturn(200);
+        $responseMock->expects(self::once())->method('getBody')->willReturn($this->notFoundResult);
         $request = new Request('GET', 'https://api.pwnedpasswords.com/range/C4FA0');
-        $this->client->expects($this->once())
+        $this->client->expects(self::once())
             ->method('sendRequest')
             ->with($request)
-            ->willReturn($responseMock);
+            ->willReturn($responseMock)
+        ;
 
         $result = $this->checker->check($password);
-        $this->assertInstanceOf(Result::class, $result);
-        $this->assertFalse($result->wasFound());
-        $this->assertEquals(0, $result->getUseCount());
+        self::assertInstanceOf(Result::class, $result);
+        self::assertFalse($result->wasFound());
+        self::assertEquals(0, $result->getUseCount());
     }
 
-    public function testNon200Response()
+    /**
+     * @test
+     */
+    public function non200_response()
     {
         $password = 'correctbatteryhorse';
         $responseMock = $this->createMock(Response::class);
-        $responseMock->expects($this->once())->method('getStatusCode')->willReturn(404);
-        $responseMock->expects($this->never())->method('getBody');
+        $responseMock->expects(self::once())->method('getStatusCode')->willReturn(404);
+        $responseMock->expects(self::never())->method('getBody');
         $request = new Request('GET', 'https://api.pwnedpasswords.com/range/C4FA0');
-        $this->client->expects($this->once())
+        $this->client->expects(self::once())
             ->method('sendRequest')
             ->with($request)
-            ->willReturn($responseMock);
+            ->willReturn($responseMock)
+        ;
 
         $result = $this->checker->check($password);
-        $this->assertInstanceOf(Result::class, $result);
-        $this->assertFalse($result->wasFound());
-        $this->assertEquals(0, $result->getUseCount());
+        self::assertInstanceOf(Result::class, $result);
+        self::assertFalse($result->wasFound());
+        self::assertEquals(0, $result->getUseCount());
     }
 }

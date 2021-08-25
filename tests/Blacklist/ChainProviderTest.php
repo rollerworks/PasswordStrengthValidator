@@ -15,9 +15,15 @@ use PHPUnit\Framework\TestCase;
 use Rollerworks\Component\PasswordStrength\Blacklist\ArrayProvider;
 use Rollerworks\Component\PasswordStrength\Blacklist\ChainProvider;
 
-class ChainProviderTest extends TestCase
+/**
+ * @internal
+ */
+final class ChainProviderTest extends TestCase
 {
-    public function testBlackList()
+    /**
+     * @test
+     */
+    public function black_list()
     {
         $provider = new ChainProvider();
         $provider->addProvider(new ArrayProvider(['test', 'foobar', 0]));
@@ -35,7 +41,10 @@ class ChainProviderTest extends TestCase
         self::assertFalse($provider->isBlacklisted(false));
     }
 
-    public function testProvidersByConstruct()
+    /**
+     * @test
+     */
+    public function providers_by_construct()
     {
         $provider1 = new ArrayProvider(['test', 'foobar', 0]);
         $provider2 = new ArrayProvider(['weak', 'god']);
@@ -45,7 +54,10 @@ class ChainProviderTest extends TestCase
         self::assertEquals([$provider1, $provider2], $provider->getProviders());
     }
 
-    public function testGetProviders()
+    /**
+     * @test
+     */
+    public function get_providers()
     {
         $provider = new ChainProvider();
 
@@ -58,7 +70,10 @@ class ChainProviderTest extends TestCase
         self::assertEquals([$provider1, $provider2], $provider->getProviders());
     }
 
-    public function testNoAssignSelf()
+    /**
+     * @test
+     */
+    public function no_assign_self()
     {
         $provider = new ChainProvider();
 

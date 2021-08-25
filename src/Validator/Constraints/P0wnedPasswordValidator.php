@@ -29,27 +29,26 @@ class P0wnedPasswordValidator extends ConstraintValidator
         $this->client = $client;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function validate($password, Constraint $constraint)
     {
-        if (null === $password) {
+        if ($password === null) {
             return;
         }
 
-        if (!is_scalar($password) && !(is_object($password) && method_exists($password, '__toString'))) {
+        if (! is_scalar($password) && ! (\is_object($password) && method_exists($password, '__toString'))) {
             throw new UnexpectedTypeException($password, 'string');
         }
 
         $password = (string) $password;
 
         $result = $this->client->check($password);
+
         if ($result->wasFound()) {
             $this->context
                 ->buildViolation($constraint->message)
                 ->setParameter('{{ used }}', number_format($result->getUseCount()))
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 }

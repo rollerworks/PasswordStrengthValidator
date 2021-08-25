@@ -14,9 +14,6 @@ namespace Rollerworks\Component\PasswordStrength\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * @author Sebastiaan Stok <s.stok@rollerscapes.net>
- */
 class BlacklistListCommand extends BlacklistCommand
 {
     protected function configure()

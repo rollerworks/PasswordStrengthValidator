@@ -13,8 +13,6 @@ namespace Rollerworks\Component\PasswordStrength\Blacklist;
 
 /**
  * Updatable Blacklist Provider marks the blacklist provider is updatable.
- *
- * @author Sebastiaan Stok <s.stok@rollerscapes.net>
  */
 interface UpdatableBlacklistProviderInterface extends BlacklistProviderInterface
 {
@@ -53,8 +51,6 @@ interface UpdatableBlacklistProviderInterface extends BlacklistProviderInterface
      *
      * This depends on the implementation.
      * Used for closing a stream resource or database connection.
-     *
-     * @param mixed $db
      */
     public function close($db);
 }

@@ -15,9 +15,15 @@ use Rollerworks\Component\PasswordStrength\Command\BlacklistListCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class BlacklistListCommandTest extends BlacklistCommandTestCase
+/**
+ * @internal
+ */
+final class BlacklistListCommandTest extends BlacklistCommandTestCase
 {
-    public function testList()
+    /**
+     * @test
+     */
+    public function list()
     {
         $application = new Application();
         $command = new BlacklistListCommand($this->createLoadersContainer(['default' => self::$blackListProvider]));
