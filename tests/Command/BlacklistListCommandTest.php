@@ -17,6 +17,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 /**
  * @internal
+ * @group legacy
  */
 final class BlacklistListCommandTest extends BlacklistCommandTestCase
 {

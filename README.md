@@ -48,14 +48,23 @@ Validates the passwords strength-level (weak, medium, strong etc).
 
 Validates the passwords using explicitly configured requirements (letters, caseDiff, numbers, requireSpecialCharacter).
 
-### [Password blacklisting](docs/blacklist.md)
+### [Password blacklisting](docs/blacklist.md) (deprecated)
+
+⚠️ **DEPRECATED**
+
+> This validator is deprecated in favor of the [PasswordCommonList Validator](https://github.com/rollerworks/password-common-list).
+> 
+> The PasswordCommonList validator contains a big list of commonly used passwords, many that are known to be insecure.
+> As updating the list of forbidden passwords is not something done regularly this is recommended over manually updating.
+> 
+> Alternatively the Symfony [NotCompromisedPassword] validator can be used for a more regularly updated list.
 
 There are times you want forbid (blacklist) a password from usage.
 
 Passwords are blacklisted using providers which can either be an array or
 (flat-file) database (which you can update regularly).
 
-With the default installation the following providers can be used.
+With the default installation the following providers can be used:
 
 * Noop: Default provider, does nothing.
 
@@ -65,14 +74,9 @@ With the default installation the following providers can be used.
 
 * Pdo: Provides the blacklist using the PDO extension.
 
-But building your own is also possible.
-__Documentation on this is currently missing,
-see current providers for more information.__
-
 ### PwnedPassword (deprecated)
 
-⚠️ **This validator is deprecated in favor of the Symfony [NotCompromisedPassword](https://symfony.com/doc/current/reference/constraints/NotCompromisedPassword.html)
-validator.**
+⚠️ **This validator is deprecated in favor of the Symfony [NotCompromisedPassword] validator.**
 
 Validates that the requested password was not found in a trove of compromised passwords found at <https://haveibeenpwned.com/>.
 
@@ -107,6 +111,7 @@ please read the [Contributing Guidelines][3]. If you're submitting
 a pull request, please follow the guidelines in the [Submitting a Patch][4] section.
 
 [1]: https://github.com/rollerworks/PasswordStrengthBundle
+[NotCompromisedPassword]: https://symfony.com/doc/current/reference/constraints/NotCompromisedPassword.html
 [2]: https://getcomposer.org/doc/00-intro.md
 [3]: https://github.com/rollerworks/contributing
 [4]: https://contributing.readthedocs.org/en/latest/code/patches.html

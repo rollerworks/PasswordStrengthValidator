@@ -14,9 +14,13 @@ namespace Rollerworks\Component\PasswordStrength\Validator\Constraints;
 use Attribute;
 use Symfony\Component\Validator\Constraint;
 
+trigger_deprecation('rollerworks/password-strength-validator', '1.7', 'The Blacklist validator is deprecated and will be removed in the next major version. Use the NotInPasswordCommonList from rollerworks/password-common-list package instead, or use the NotCompromisedPassword validator from the symfony/validator package instead.', Blacklist::class);
+
 /**
  * @Annotation
  * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
+ *
+ * @deprecated since rollerworks/password-strength-validator 1.7 The Blacklist validator is deprecated and will be removed in the next major version. Use the NotInPasswordCommonList from rollerworks/password-common-list package instead, or use the NotCompromisedPassword validator from the symfony/validator package instead.
  */
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 class Blacklist extends Constraint

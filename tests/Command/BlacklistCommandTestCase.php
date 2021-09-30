@@ -15,6 +15,10 @@ use PHPUnit\Framework\TestCase;
 use Rollerworks\Component\PasswordStrength\Blacklist\SqliteProvider;
 use Rollerworks\Component\PasswordStrength\Tests\BlackListMockProviderTrait;
 
+/**
+ * @internal
+ * @group legacy
+ */
 abstract class BlacklistCommandTestCase extends TestCase
 {
     use BlackListMockProviderTrait;

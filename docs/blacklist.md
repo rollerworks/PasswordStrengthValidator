@@ -1,6 +1,15 @@
 Password blacklisting
 =====================
 
+⚠️ **DEPRECATED**
+
+> This validator is deprecated in favor of the [PasswordCommonList Validator](https://github.com/rollerworks/password-common-list).
+>
+> The PasswordCommonList validator contains a big list of commonly used passwords, many that are known to be insecure.
+> As updating the list of forbidden passwords is not something done regularly this is recommended over manually updating.
+>
+> Alternatively the Symfony [NotCompromisedPassword] validator can be used for a more regularly updated list.
+
 Usage of the `Rollerworks\Component\PasswordStrength\Validator\Constraints\Blacklist`
 constraint works different then other strength validators.
 
@@ -192,3 +201,5 @@ To get started you can use the bad/leaked passwords databases provider by
 
 Its recommended to use at least the 500-worst-passwords database.
 Especially when not enforcing strong passwords using the [PasswordStrengthValidator](strength-validation.md).
+
+[NotCompromisedPassword]: https://symfony.com/doc/current/reference/constraints/NotCompromisedPassword.html

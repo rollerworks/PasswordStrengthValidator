@@ -16,6 +16,7 @@ use Rollerworks\Component\PasswordStrength\Blacklist\SqliteProvider;
 
 /**
  * @internal
+ * @group legacy
  */
 final class SqliteProviderTest extends TestCase
 {
