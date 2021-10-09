@@ -56,7 +56,7 @@
             </trans-unit>
             <trans-unit id="13">
                 <source>rollerworks_password.tip.numbers</source>
-                <target>voeg nummers toe</target>
+                <target>voeg cijfers toe</target>
             </trans-unit>
             <trans-unit id="14">
                 <source>rollerworks_password.tip.lowercase_letters</source>
@@ -68,7 +68,7 @@
             </trans-unit>
             <trans-unit id="16">
                 <source>rollerworks_password.tip.special_chars</source>
-                <target>voeg speciaal tekens of leestekens toe</target>
+                <target>voeg speciale tekens of leestekens toe</target>
             </trans-unit>
             <trans-unit id="17">
                 <source>rollerworks_password.tip.length</source>
