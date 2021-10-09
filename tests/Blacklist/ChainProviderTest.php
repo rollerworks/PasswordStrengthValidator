@@ -17,6 +17,7 @@ use Rollerworks\Component\PasswordStrength\Blacklist\ChainProvider;
 
 /**
  * @internal
+ * @group legacy
  */
 final class ChainProviderTest extends TestCase
 {

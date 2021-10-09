@@ -18,6 +18,7 @@ use Rollerworks\Component\PasswordStrength\Tests\BlackListMockProviderTrait;
 
 /**
  * @internal
+ * @group legacy
  */
 final class LazyChainProviderTest extends TestCase
 {

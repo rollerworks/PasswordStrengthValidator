@@ -16,6 +16,7 @@ use Rollerworks\Component\PasswordStrength\Blacklist\NoopProvider;
 
 /**
  * @internal
+ * @group legacy
  */
 final class NoopProviderTest extends TestCase
 {

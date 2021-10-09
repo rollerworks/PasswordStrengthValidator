@@ -16,6 +16,7 @@ use Rollerworks\Component\PasswordStrength\Blacklist\ArrayProvider;
 
 /**
  * @internal
+ * @group legacy
  */
 final class ArrayProviderTest extends TestCase
 {

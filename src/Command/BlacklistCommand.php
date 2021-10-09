@@ -14,6 +14,7 @@ namespace Rollerworks\Component\PasswordStrength\Command;
 use Psr\Container\ContainerInterface;
 use Rollerworks\Component\PasswordStrength\Blacklist\BlacklistProviderInterface;
 use Rollerworks\Component\PasswordStrength\Blacklist\UpdatableBlacklistProviderInterface;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints\Blacklist;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -41,6 +42,8 @@ abstract class BlacklistCommand extends Command
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
+        trigger_deprecation('rollerworks/password-strength-validator', '1.7', 'The Blacklist validator is deprecated and will be removed in the next major version. Use the NotInPasswordCommonList from rollerworks/password-common-list package instead, or use the NotCompromisedPassword validator from the symfony/validator package instead.', Blacklist::class);
+
         $this->blacklistProvider = $this->providers->get($input->getOption('provider'));
 
         if (! $this->blacklistProvider instanceof UpdatableBlacklistProviderInterface) {

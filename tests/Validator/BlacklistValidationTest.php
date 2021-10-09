@@ -21,6 +21,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 /**
  * @internal
+ * @group legacy
  */
 final class BlacklistValidationTest extends ConstraintValidatorTestCase
 {
