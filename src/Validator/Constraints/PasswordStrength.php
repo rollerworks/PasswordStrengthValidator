@@ -37,9 +37,21 @@ class PasswordStrength extends Constraint
         string $message = null,
         string $tooShortMessage = null
     ) {
-        parent::__construct($options ?? [], $groups, $payload);
+        $finalOptions = [];
 
-        $this->minStrength = $minStrength ?? $this->minStrength;
+        if (is_array($options)) {
+            $finalOptions = $options;
+        } else {
+            $finalOptions['minStrength'] = $options;
+        }
+
+        // The minStrength option is required.
+        if ($minStrength !== null) {
+            $finalOptions['minStrength'] = $minStrength;
+        }
+
+        parent::__construct($finalOptions ?? [], $groups, $payload);
+
         $this->minLength = $minLength ?? $this->minLength;
         $this->unicodeEquality = $unicodeEquality ?? $this->unicodeEquality;
         $this->message = $message ?? $this->message;

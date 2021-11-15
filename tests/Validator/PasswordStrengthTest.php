@@ -38,6 +38,22 @@ final class PasswordStrengthTest extends ConstraintValidatorTestCase
         return new PasswordStrengthValidator(new Translator('en'));
     }
 
+    /** @test */
+    public function constraints_options_are_properly_resolved(): void
+    {
+        // Default option
+        $constraint = new PasswordStrength(3);
+        self::assertEquals(3, $constraint->minStrength);
+
+        // By option
+        $constraint = new PasswordStrength(['minStrength' => 3]);
+        self::assertEquals(3, $constraint->minStrength);
+
+        // Specific argument
+        $constraint = new PasswordStrength(null, null, null, 3);
+        self::assertEquals(3, $constraint->minStrength);
+    }
+
     /**
      * @test
      */
