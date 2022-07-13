@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Your password must be at least {{length}} characters long.</source>
+                <target>Heslo musí obsahovať aspoň {{length}} znakov.</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Your password must include at least one letter.</source>
+                <target>Heslo musí obsahovať písmeno.</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Your password must include both upper and lower case letters.</source>
+                <target>Heslo musí obsahovať veľké aj malé písmená.</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Your password must include at least one number.</source>
+                <target>Heslo musí obsahovať číslicu.</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Your password must contain at least one special character.</source>
+                <target>Heslo musí obsahovať špeciálny znak.</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>password_too_weak</source>
+                <target>Úroveň hesla musí být aspoň "{{ min_strength }}", súčasná úroveň je "{{ current_strength }}", skúste {{ strength_tips }}.</target>
+            </trans-unit>
+
+            <!-- Strength levels -->
+            <trans-unit id="7">
+                <source>rollerworks_password.strength_level.very_weak</source>
+                <target>veľmi slabé</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>rollerworks_password.strength_level.weak</source>
+                <target>slabé</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>rollerworks_password.strength_level.medium</source>
+                <target>priemerné</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>rollerworks_password.strength_level.strong</source>
+                <target>silné</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>rollerworks_password.strength_level.very_strong</source>
+                <target>veľmi silné</target>
+            </trans-unit>
+
+            <!-- Tip translations -->
+            <trans-unit id="12">
+                <source>rollerworks_password.tip.letters</source>
+                <target>pridať malé/veľké písmená</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>rollerworks_password.tip.numbers</source>
+                <target>pridať číslicu</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>rollerworks_password.tip.lowercase_letters</source>
+                <target>pridať malé písmeno</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>rollerworks_password.tip.uppercase_letters</source>
+                <target>pridať veľké písmeno</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>rollerworks_password.tip.special_chars</source>
+                <target>pridať špeciálny znak</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>rollerworks_password.tip.length</source>
+                <target>dlhšie heslo</target>
+            </trans-unit>
+
+            <!-- P0wnedPassword -->
+            <trans-unit id="18">
+                <source>This password was found in a database of compromised passwords. It has been used {{ used }} times. For security purposes you must use something else.</source>
+                <target>Toto heslo bolo nájdené v databázi ohrozených hesiel. Bolo použité {{used}} krát. Z bezpečnostných dôvodov musíte použiť iné heslo.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
