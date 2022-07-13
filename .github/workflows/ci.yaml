@@ -58,6 +58,7 @@ jobs:
                     git config --global user.email s.stok@rollerscapes.net
 
                     rm -f composer.lock
+                    composer config --no-plugins allow-plugins.symfony/flex true
                     composer global require symfony/flex
                     composer install --no-progress --no-interaction --no-suggest --optimize-autoloader --ansi
 
@@ -90,6 +91,7 @@ jobs:
                 name: Install Composer dependencies
                 run: |
                     rm -f composer.lock
+                    composer config --no-plugins allow-plugins.symfony/flex true
                     composer global require symfony/flex
                     composer install --no-progress --no-interaction --no-suggest --optimize-autoloader --ansi
 
