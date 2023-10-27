@@ -17,19 +17,21 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class PasswordRequirementsValidator extends ConstraintValidator
 {
-    /**
-     * @param string|null                     $value
-     * @param PasswordRequirements|Constraint $constraint
-     */
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if ($value === null || $value === '') {
             return;
         }
 
-        if (! is_scalar($value) && ! (\is_object($value) && method_exists($value, '__toString'))) {
+        if (! $constraint instanceof PasswordRequirements) {
+            throw new UnexpectedTypeException($constraint, PasswordRequirements::class);
+        }
+
+        if (! \is_scalar($value) && ! (\is_object($value) && method_exists($value, '__toString'))) {
             throw new UnexpectedTypeException($value, 'string');
         }
+
+        $value = (string) $value;
 
         if ($constraint->minLength > 0 && (mb_strlen($value) < $constraint->minLength)) {
             $this->context->buildViolation($constraint->tooShortMessage)

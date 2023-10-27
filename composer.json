@@ -1,9 +1,13 @@
 {
     "name": "rollerworks/password-strength-validator",
     "description": "Password-strength validator for Symfony",
-    "keywords": ["password", "validator", "symfony"],
-    "type": "library",
     "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "password",
+        "validator",
+        "symfony"
+    ],
     "authors": [
         {
             "name": "Sebastiaan Stok",
@@ -15,42 +19,40 @@
         }
     ],
     "require": {
-        "php": ">=7.3",
-        "symfony/deprecation-contracts": "^2.4 || ^3.0",
+        "php": ">=8.2",
+        "symfony/config": "^6.0 || ^7.0",
         "symfony/polyfill-mbstring": "^1.5.0",
-        "symfony/translation": "^4.4 || ^5.0 || ^6.0",
-        "symfony/validator": "^4.4 || ^5.0 || ^6.0"
+        "symfony/translation": "^6.0 || ^7.0",
+        "symfony/validator": "^6.0 || ^7.0"
     },
     "require-dev": {
-        "phpspec/prophecy": "^1.10.3",
-        "phpspec/prophecy-phpunit": "^2.0",
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-phpunit": "^1.1",
+        "phpstan/phpstan-symfony": "^1.2",
         "phpunit/phpunit": "^9.5",
-        "psr/log": "^1.0 || ^2.0",
-        "symfony/config": "^4.4 || ^5.0 || ^6.0",
-        "symfony/phpunit-bridge": "^5.3 || ^6.0"
+        "symfony/phpunit-bridge": "^6.0 || ^7.0"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Rollerworks\\Component\\PasswordStrength\\": "src/"
         },
-        "exclude-from-classmap": ["test/"]
+        "exclude-from-classmap": [
+            "test/"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
             "Rollerworks\\Component\\PasswordStrength\\Tests\\": "tests/"
         }
     },
+    "config": {
+        "sort-packages": true
+    },
     "extra": {
         "branch-alias": {
             "dev-main": "2.0-dev"
         }
-    },
-    "config": {
-        "preferred-install": {
-            "*": "dist"
-        },
-        "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }

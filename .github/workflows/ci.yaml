@@ -1,4 +1,5 @@
-name: Full CI process
+name: 'CI'
+
 on:
     push:
         branches:
@@ -8,92 +9,154 @@ on:
             - main
 
 jobs:
-    test:
-        name: PHP ${{ matrix.PHP_VERSION }}
-        runs-on: ubuntu-18.04
+    cs-fixer:
+        name: 'PHP CS Fixer'
+
+        runs-on: 'ubuntu-latest'
+
         strategy:
-            fail-fast: false
+            matrix:
+                php-version:
+                    - '8.2'
+
+        steps:
+            -
+                name: 'Check out'
+                uses: 'actions/checkout@v2'
+
+            -
+                name: 'Set up PHP'
+                uses: 'shivammathur/setup-php@v2'
+                with:
+                    php-version: '${{ matrix.php-version }}'
+                    coverage: 'none'
+
+            -
+                name: 'Get Composer cache directory'
+                id: 'composer-cache'
+                run: 'echo "::set-output name=cache-dir::$(composer config cache-files-dir)"'
+
+            -
+                name: 'Cache dependencies'
+                uses: 'actions/cache@v2'
+                with:
+                    path: '${{ steps.composer-cache.outputs.cache-dir }}'
+                    key: "php-${{ matrix.php-version }}-composer-locked-${{ hashFiles('composer.lock') }}"
+                    restore-keys: 'php-${{ matrix.php-version }}-composer-locked-'
+
+            -
+                name: 'Install dependencies'
+                run: 'composer update --no-progress --prefer-stable'
+
+            -
+                name: 'Check the code style'
+                run: 'make cs-full'
+
+    phpstan:
+        name: 'PhpStan'
+
+        runs-on: 'ubuntu-latest'
+
+        strategy:
+            matrix:
+                php-version:
+                    - '8.2'
+
+        steps:
+            -
+                name: 'Check out'
+                uses: 'actions/checkout@v2'
+
+            -
+                name: 'Set up PHP'
+                uses: 'shivammathur/setup-php@v2'
+                with:
+                    php-version: '${{ matrix.php-version }}'
+                    coverage: 'none'
+
+            -
+                name: 'Get Composer cache directory'
+                id: 'composer-cache'
+                run: 'echo "::set-output name=cache-dir::$(composer config cache-files-dir)"'
+
+            -
+                name: 'Cache dependencies'
+                uses: 'actions/cache@v2'
+                with:
+                    path: '${{ steps.composer-cache.outputs.cache-dir }}'
+                    key: "php-${{ matrix.php-version }}-composer-locked-${{ hashFiles('composer.lock') }}"
+                    restore-keys: 'php-${{ matrix.php-version }}-composer-locked-'
+
+            -
+                name: 'Install dependencies'
+                run: 'composer update --no-progress --prefer-stable'
+
+            -
+                name: 'Run PhpStan'
+                run: 'vendor/bin/phpstan analyze --no-progress'
+
+    tests:
+        name: 'PHPUnit'
+
+        runs-on: 'ubuntu-latest'
+
+        strategy:
             matrix:
                 include:
-                    - PHP_VERSION: '7.3'
-                      SYMFONY_REQUIRE: '^4.4'
-                    - PHP_VERSION: '7.3'
-                      SYMFONY_REQUIRE: '^5.0'
-                    - PHP_VERSION: '7.4'
-                      SYMFONY_REQUIRE: '^5.2'
-                    - PHP_VERSION: '8.0'
-                    - PHP_VERSION: '8.0'
-                      SYMFONY_REQUIRE: '^6.0'
+                    -
+                        php-version: '8.2'
+                        composer-options: '--prefer-stable'
+                        symfony-version: '6.3'
+                    -
+                        php-version: '8.2'
+                        composer-options: '--prefer-stable'
+                        symfony-version: '^6.4'
+
+                    -
+                        php-version: '8.2'
+                        composer-options: '--prefer-stable'
+                        symfony-version: '^7.0'
 
         steps:
-            # —— Setup Github actions 🐙 —————————————————————————————————————————————
-            # https://github.com/actions/checkout (official)
             -
-                name: Checkout
-                uses: actions/checkout@v2
+                name: 'Check out'
+                uses: 'actions/checkout@v2'
 
-            # https://github.com/shivammathur/setup-php (community)
             -
-                name: Setup PHP, extensions and composer with shivammathur/setup-php
-                uses: shivammathur/setup-php@v2
+                name: 'Set up PHP'
+                uses: 'shivammathur/setup-php@v2'
                 with:
-                    php-version: ${{ matrix.PHP_VERSION }}
-                    extensions: mbstring, ctype, iconv, bcmath, filter, json
-                    coverage: none
-                env:
-                    update: true
+                    php-version: '${{ matrix.php-version }}'
+                    coverage: 'none'
 
-            # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
             -
-                name: Install Composer dependencies
-                env:
-                    SYMFONY_REQUIRE: ${{ matrix.SYMFONY_REQUIRE }}
-                    SYMFONY_PHPUNIT_DISABLE_RESULT_CACHE: 1
-                run: |
-                    git config --global author.name Sebastiaan Stok
-                    git config --global author.email s.stok@rollerscapes.net
-                    git config --global user.name Sebastiaan Stok
-                    git config --global user.email s.stok@rollerscapes.net
+                name: 'Get Composer cache directory'
+                id: 'composer-cache'
+                run: 'echo "::set-output name=cache-dir::$(composer config cache-files-dir)"'
 
-                    rm -f composer.lock
-                    composer config --no-plugins allow-plugins.symfony/flex true
-                    composer global require symfony/flex
-                    composer install --no-progress --no-interaction --no-suggest --optimize-autoloader --ansi
-
-            ## —— Tests ✅ ———————————————————————————————————————————————————————————
             -
-                name: Run Tests
-                run: |
-                    make test
-    lint:
-        name: PHP-QA
-        runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
-        steps:
-            -
-                name: Checkout
-                uses: actions/checkout@v2
-
-            # https://github.com/shivammathur/setup-php (community)
-            -
-                name: Setup PHP, extensions and composer with shivammathur/setup-php
-                uses: shivammathur/setup-php@v2
+                name: 'Cache dependencies'
+                uses: 'actions/cache@v2'
                 with:
-                    php-version: '7.4'
-                    extensions: mbstring, ctype, iconv, bcmath, filter, json
-                    coverage: none
-
-            # —— Composer 🧙‍️ —————————————————————————————————————————————————————————
-            -
-                name: Install Composer dependencies
-                run: |
-                    rm -f composer.lock
-                    composer config --no-plugins allow-plugins.symfony/flex true
-                    composer global require symfony/flex
-                    composer install --no-progress --no-interaction --no-suggest --optimize-autoloader --ansi
+                    path: '${{ steps.composer-cache.outputs.cache-dir }}'
+                    key: "php-${{ matrix.php-version }}-composer-locked-${{ hashFiles('composer.lock') }}"
+                    restore-keys: 'php-${{ matrix.php-version }}-composer-locked-'
 
             -
-                name: Run PHP-QA
+                name: 'Install dependencies'
+                env:
+                    COMPOSER_OPTIONS: '${{ matrix.composer-options }}'
+                    SYMFONY_REQUIRE: '${{ matrix.symfony-version }}'
                 run: |
-                    make cs-full
+                    composer global config --no-plugins allow-plugins.symfony/flex true
+                    composer global require --no-progress --no-scripts --no-plugins symfony/flex
+                    composer update --no-progress $COMPOSER_OPTIONS
+
+            -
+                name: 'Install PHPUnit'
+                run: 'vendor/bin/simple-phpunit install'
+
+            -
+                name: 'Run tests'
+                run: |
+                    vendor/bin/simple-phpunit

@@ -1,4 +1,4 @@
-RollerworksPasswordStrength Validator
+Rollerworks PasswordStrengthValidator
 =====================================
 
 This package provides various password strength validators for the [Symfony Validator
@@ -25,7 +25,7 @@ for you.
 
 ## Requirements
 
-You need at least PHP 5.6 or PHP 7.0, mbstring is recommended but not required.
+You need at least PHP PHP 8.2 and Symfony 6, mbstring is recommended but not required.
 
 ## Basic Usage
 

@@ -13,53 +13,32 @@ namespace Rollerworks\Component\PasswordStrength\Tests\Validator;
 
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirements;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirementsValidator;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 use Symfony\Component\Validator\Test\ConstraintViolationAssertion;
 
 /**
  * @internal
+ *
+ * @template-extends ConstraintValidatorTestCase<PasswordRequirementsValidator>
  */
 final class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCase
 {
-    public function getMock($originalClassName, $methods = [], array $arguments = [], $mockClassName = '', $callOriginalConstructor = true, $callOriginalClone = true, $callAutoload = true, $cloneArguments = false, $callOriginalMethods = false, $proxyTarget = null)
-    {
-        if (\func_num_args() === 1 && preg_match('/^Symfony\\\\Component\\\\([a-z]+\\\\)+[a-z]+Interface$/i', $originalClassName)) {
-            return $this->getMockBuilder($originalClassName)->getMock();
-        }
-
-        return parent::getMock(
-            $originalClassName,
-            $methods,
-            $arguments,
-            $mockClassName,
-            $callOriginalConstructor,
-            $callOriginalClone,
-            $callAutoload,
-            $cloneArguments,
-            $callOriginalMethods,
-            $proxyTarget
-        );
-    }
-
-    protected function createValidator()
+    protected function createValidator(): ConstraintValidatorInterface
     {
         return new PasswordRequirementsValidator();
     }
 
-    /**
-     * @test
-     */
-    public function null_is_valid()
+    /** @test */
+    public function null_is_valid(): void
     {
         $this->validator->validate(null, new PasswordRequirements());
 
         $this->assertNoViolation();
     }
 
-    /**
-     * @test
-     */
-    public function empty_is_valid()
+    /** @test */
+    public function empty_is_valid(): void
     {
         $this->validator->validate('', new PasswordRequirements());
 
@@ -67,13 +46,11 @@ final class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCas
     }
 
     /**
-     * @dataProvider provideValidConstraints
-     *
-     * @param string $value
+     * @dataProvider provideValid_value_constraintsCases
      *
      * @test
      */
-    public function valid_value_constraints($value, PasswordRequirements $constraint)
+    public function valid_value_constraints(string $value, PasswordRequirements $constraint): void
     {
         $this->value = $value;
 
@@ -83,13 +60,13 @@ final class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCas
     }
 
     /**
-     * @dataProvider provideViolationConstraints
-     *
-     * @param string $value
+     * @dataProvider provideViolation_value_constraintsCases
      *
      * @test
+     *
+     * @param array<int, array{0: string, 1: PasswordRequirements, 2: array<array-key, mixed>}> $violations
      */
-    public function violation_value_constraints($value, PasswordRequirements $constraint, array $violations = [])
+    public function violation_value_constraints(string $value, PasswordRequirements $constraint, array $violations = []): void
     {
         $this->value = $value;
         /** @var ConstraintViolationAssertion $constraintViolationAssertion */
@@ -97,6 +74,9 @@ final class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCas
 
         $this->validator->validate($value, $constraint);
 
+        /**
+         * @var array<int, mixed> $violation
+         */
         foreach ($violations as $i => $violation) {
             if ($i === 0) {
                 $constraintViolationAssertion = $this->buildViolation($violation[0])
@@ -116,7 +96,10 @@ final class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCas
         }
     }
 
-    public function provideValidConstraints()
+    /**
+     * @return iterable<int, array{0: string, 1: PasswordRequirements}>
+     */
+    public static function provideValid_value_constraintsCases(): iterable
     {
         return [
             ['test', new PasswordRequirements(['minLength' => 3])],
@@ -136,7 +119,10 @@ final class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCas
         ];
     }
 
-    public function provideViolationConstraints()
+    /**
+     * @return iterable<int, array{0: string, 1: PasswordRequirements, 2: array<array-key, mixed>}>
+     */
+    public static function provideViolation_value_constraintsCases(): iterable
     {
         $constraint = new PasswordRequirements();
 

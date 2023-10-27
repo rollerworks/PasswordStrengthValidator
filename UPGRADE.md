@@ -11,6 +11,8 @@ UPGRADE
 * The PwnedPassword validator was removed in favor of the Symfon
   [NotCompromisedPassword](https://symfony.com/doc/current/reference/constraints/NotCompromisedPassword.html) validator.
 
+* Support for Symfony 4 and 5 was removed, PHP 8.2 and Symfony 6.0 is now the minimum required version.
+
 ## Upgrade from 1.6 to 1.7
 
 * The blacklist validator was deprecated in favor of the [PasswordCommonList Validator](https://github.com/rollerworks/password-common-list).

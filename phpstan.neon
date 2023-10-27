@@ -1,15 +1,12 @@
 includes:
-    - /tools/.composer/vendor-bin/phpstan/vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
 
 parameters:
-    level: 5
+    level: 8
     paths:
         - ./src
+        - ./tests
 
-    ignoreErrors:
-        #- '#__construct\(\) does not call parent constructor from .+#'
-        #- '#Access to an undefined property Symfony\\Component\\Validator\\Constraint\:\:#'
-        - "#Casting to string something that's already string#"
-
-        # Tests
-        - '#Call to an undefined method Prophecy\\Prophecy\\ObjectProphecy::[a-zA-Z0-9_]+\(\)#'
+    #ignoreErrors:
