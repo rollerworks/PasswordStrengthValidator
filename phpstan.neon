@@ -12,5 +12,4 @@ parameters:
         - "#Casting to string something that's already string#"
 
         # Tests
-        - '#Parameter \#1 \$password of method Rollerworks\\Component\\PasswordStrength\\Blacklist\\[a-zA-Z]+\:\:isBlacklisted\(\) expects string#'
         - '#Call to an undefined method Prophecy\\Prophecy\\ObjectProphecy::[a-zA-Z0-9_]+\(\)#'

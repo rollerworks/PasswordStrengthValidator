@@ -48,40 +48,6 @@ Validates the passwords strength-level (weak, medium, strong etc).
 
 Validates the passwords using explicitly configured requirements (letters, caseDiff, numbers, requireSpecialCharacter).
 
-### [Password blacklisting](docs/blacklist.md) (deprecated)
-
-⚠️ **DEPRECATED**
-
-> This validator is deprecated in favor of the [PasswordCommonList Validator](https://github.com/rollerworks/password-common-list).
-> 
-> The PasswordCommonList validator contains a big list of commonly used passwords, many that are known to be insecure.
-> As updating the list of forbidden passwords is not something done regularly this is recommended over manually updating.
-> 
-> Alternatively the Symfony [NotCompromisedPassword] validator can be used for a more regularly updated list.
-
-There are times you want forbid (blacklist) a password from usage.
-
-Passwords are blacklisted using providers which can either be an array or
-(flat-file) database (which you can update regularly).
-
-With the default installation the following providers can be used:
-
-* Noop: Default provider, does nothing.
-
-* Array: Simple in memory blacklist provider (not recommended for big lists)
-
-* Sqlite: Provides the blacklist using a SQLite3 database file.
-
-* Pdo: Provides the blacklist using the PDO extension.
-
-### PwnedPassword (deprecated)
-
-⚠️ **This validator is deprecated in favor of the Symfony [NotCompromisedPassword] validator.**
-
-Validates that the requested password was not found in a trove of compromised passwords found at <https://haveibeenpwned.com/>.
-
-To enable this you must install the suggested package "guzzlehttp/psr7" as well as a HttpClient such as "php-http/guzzle6-adapter".
-
 ## Versioning
 
 For transparency and insight into the release cycle, and for striving
