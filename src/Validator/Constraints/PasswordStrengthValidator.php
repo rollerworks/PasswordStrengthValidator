@@ -13,7 +13,6 @@ namespace Rollerworks\Component\PasswordStrength\Validator\Constraints;
 
 use Symfony\Component\Translation\Loader\XliffFileLoader;
 use Symfony\Component\Translation\Translator;
-use Symfony\Component\Translation\TranslatorInterface as LegacyTranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -38,8 +37,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class PasswordStrengthValidator extends ConstraintValidator
 {
-    private $translator;
-    private static $levelToLabel = [
+    private TranslatorInterface $translator;
+
+    /**
+     * @var array<int, string>
+     */
+    private static array $levelToLabel = [
         1 => 'very_weak',
         2 => 'weak',
         3 => 'medium',
@@ -47,12 +50,8 @@ class PasswordStrengthValidator extends ConstraintValidator
         5 => 'very_strong',
     ];
 
-    public function __construct($translator = null)
+    public function __construct(TranslatorInterface $translator = null)
     {
-        if ($translator !== null && ! $translator instanceof LegacyTranslatorInterface && ! $translator instanceof TranslatorInterface) {
-            throw new \TypeError(sprintf('Argument 1 passed to %s() must be an instance of %s, %s given.', __METHOD__, TranslatorInterface::class, \is_object($translator) ? \get_class($translator) : \gettype($translator)));
-        }
-
         // If translator is missing create a new translator.
         // With the 'en' locale and 'validators' domain.
         if ($translator === null) {
@@ -64,22 +63,22 @@ class PasswordStrengthValidator extends ConstraintValidator
         $this->translator = $translator;
     }
 
-    /**
-     * @param string|null                 $password
-     * @param PasswordStrength|Constraint $constraint
-     */
-    public function validate($password, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
-        if ($password === null || $password === '') {
+        if ($value === null || $value === '') {
             return;
         }
 
-        if (! is_scalar($password) && ! (\is_object($password) && method_exists($password, '__toString'))) {
-            throw new UnexpectedTypeException($password, 'string');
+        if (! $constraint instanceof PasswordStrength) {
+            throw new UnexpectedTypeException($constraint, PasswordStrength::class);
         }
 
-        $password = (string) $password;
-        $passLength = mb_strlen($password);
+        if (! \is_scalar($value) && ! (\is_object($value) && method_exists($value, '__toString'))) {
+            throw new UnexpectedTypeException($value, 'string');
+        }
+
+        $value = (string) $value;
+        $passLength = mb_strlen($value);
 
         if ($passLength < $constraint->minLength) {
             $this->context->buildViolation($constraint->tooShortMessage)
@@ -93,9 +92,9 @@ class PasswordStrengthValidator extends ConstraintValidator
         $tips = [];
 
         if ($constraint->unicodeEquality) {
-            $passwordStrength = $this->calculateStrengthUnicode($password, $tips);
+            $passwordStrength = $this->calculateStrengthUnicode($value, $tips);
         } else {
-            $passwordStrength = $this->calculateStrength($password, $tips);
+            $passwordStrength = $this->calculateStrength($value, $tips);
         }
 
         if ($passLength > 12) {
@@ -122,15 +121,15 @@ class PasswordStrengthValidator extends ConstraintValidator
         }
     }
 
-    /**
-     * @internal
-     */
-    public function translateTips($tip)
+    private function translateTips(string $tip): string
     {
         return $this->translator->trans(/* @Ignore */ 'rollerworks_password.tip.' . $tip, [], 'validators');
     }
 
-    private function calculateStrength($password, &$tips)
+    /**
+     * @param array<int, string> $tips
+     */
+    private function calculateStrength(string $password, array &$tips): int
     {
         $passwordStrength = 0;
 
@@ -163,7 +162,10 @@ class PasswordStrengthValidator extends ConstraintValidator
         return $passwordStrength;
     }
 
-    private function calculateStrengthUnicode($password, &$tips)
+    /**
+     * @param array<int, string> $tips
+     */
+    private function calculateStrengthUnicode(string $password, array &$tips): int
     {
         $passwordStrength = 0;
 

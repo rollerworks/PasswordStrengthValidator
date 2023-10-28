@@ -11,42 +11,42 @@
 
 namespace Rollerworks\Component\PasswordStrength\Validator\Constraints;
 
-use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
+ *
  * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
  */
-#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
+#[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class PasswordRequirements extends Constraint
 {
-    public $tooShortMessage = 'Your password must be at least {{length}} characters long.';
-    public $missingLettersMessage = 'Your password must include at least one letter.';
-    public $requireCaseDiffMessage = 'Your password must include both upper and lower case letters.';
-    public $missingNumbersMessage = 'Your password must include at least one number.';
-    public $missingSpecialCharacterMessage = 'Your password must contain at least one special character.';
+    public string $tooShortMessage = 'Your password must be at least {{length}} characters long.';
+    public string $missingLettersMessage = 'Your password must include at least one letter.';
+    public string $requireCaseDiffMessage = 'Your password must include both upper and lower case letters.';
+    public string $missingNumbersMessage = 'Your password must include at least one number.';
+    public string $missingSpecialCharacterMessage = 'Your password must contain at least one special character.';
 
-    public $minLength = 6;
-    public $requireLetters = true;
-    public $requireCaseDiff = false;
-    public $requireNumbers = false;
-    public $requireSpecialCharacter = false;
+    public int $minLength = 6;
+    public bool $requireLetters = true;
+    public bool $requireCaseDiff = false;
+    public bool $requireNumbers = false;
+    public bool $requireSpecialCharacter = false;
 
     public function __construct(
-        $options = null,
-        ?array $groups = null,
-               $payload = null,
-        ?int $minLength = null,
-        ?bool $requireLetters = null,
-        ?bool $requireCaseDiff = null,
-        ?bool $requireNumbers = null,
-        ?bool $requireSpecialCharacter = null,
-        ?string $tooShortMessage = null,
-        ?string $missingLettersMessage = null,
-        ?string $requireCaseDiffMessage = null,
-        ?string $missingNumbersMessage = null,
-        ?string $missingSpecialCharacterMessage = null
+        mixed $options = null,
+        array $groups = null,
+        mixed $payload = null,
+        int $minLength = null,
+        bool $requireLetters = null,
+        bool $requireCaseDiff = null,
+        bool $requireNumbers = null,
+        bool $requireSpecialCharacter = null,
+        string $tooShortMessage = null,
+        string $missingLettersMessage = null,
+        string $requireCaseDiffMessage = null,
+        string $missingNumbersMessage = null,
+        string $missingSpecialCharacterMessage = null
     ) {
         parent::__construct($options ?? [], $groups, $payload);
 

@@ -11,27 +11,27 @@
 
 namespace Rollerworks\Component\PasswordStrength\Validator\Constraints;
 
-use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
+ *
  * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
  */
-#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
+#[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class PasswordStrength extends Constraint
 {
-    public $tooShortMessage = 'Your password must be at least {{length}} characters long.';
-    public $message = 'password_too_weak';
-    public $minLength = 6;
-    public $minStrength;
-    public $unicodeEquality = false;
+    public string $tooShortMessage = 'Your password must be at least {{length}} characters long.';
+    public string $message = 'password_too_weak';
+    public int $minLength = 6;
+    public int $minStrength;
+    public bool $unicodeEquality = false;
 
     public function __construct(
-        $options = null,
+        mixed $options = null,
         array $groups = null,
-              $payload = null,
-        ?int $minStrength = null,
+        mixed $payload = null,
+        int $minStrength = null,
         int $minLength = null,
         bool $unicodeEquality = null,
         string $message = null,
@@ -39,7 +39,7 @@ class PasswordStrength extends Constraint
     ) {
         $finalOptions = [];
 
-        if (is_array($options)) {
+        if (\is_array($options)) {
             $finalOptions = $options;
         } else {
             $finalOptions['minStrength'] = $options;
@@ -50,7 +50,7 @@ class PasswordStrength extends Constraint
             $finalOptions['minStrength'] = $minStrength;
         }
 
-        parent::__construct($finalOptions ?? [], $groups, $payload);
+        parent::__construct($finalOptions, $groups, $payload);
 
         $this->minLength = $minLength ?? $this->minLength;
         $this->unicodeEquality = $unicodeEquality ?? $this->unicodeEquality;
