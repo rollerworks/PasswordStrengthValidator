@@ -74,12 +74,6 @@
                 <source>rollerworks_password.tip.length</source>
                 <target>dlhšie heslo</target>
             </trans-unit>
-
-            <!-- P0wnedPassword -->
-            <trans-unit id="18">
-                <source>This password was found in a database of compromised passwords. It has been used {{ used }} times. For security purposes you must use something else.</source>
-                <target>Toto heslo bolo nájdené v databázi ohrozených hesiel. Bolo použité {{used}} krát. Z bezpečnostných dôvodov musíte použiť iné heslo.</target>
-            </trans-unit>
         </body>
     </file>
 </xliff>

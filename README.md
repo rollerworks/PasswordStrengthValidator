@@ -26,7 +26,6 @@ for you.
 ## Requirements
 
 You need at least PHP 5.6 or PHP 7.0, mbstring is recommended but not required.
-For the provided blacklist providers you may need SQLite3 or PDO compatible driver. 
 
 ## Basic Usage
 
@@ -77,7 +76,6 @@ please read the [Contributing Guidelines][3]. If you're submitting
 a pull request, please follow the guidelines in the [Submitting a Patch][4] section.
 
 [1]: https://github.com/rollerworks/PasswordStrengthBundle
-[NotCompromisedPassword]: https://symfony.com/doc/current/reference/constraints/NotCompromisedPassword.html
 [2]: https://getcomposer.org/doc/00-intro.md
 [3]: https://github.com/rollerworks/contributing
 [4]: https://contributing.readthedocs.org/en/latest/code/patches.html

@@ -9,7 +9,7 @@ UPGRADE
   validator or [PasswordCommonList Validator](https://github.com/rollerworks/password-common-list) instead.
 
 * The PwnedPassword validator was removed in favor of the Symfon
-  [NotCompromisedPassword](https://symfony.com/doc/current/reference/constraints/NotCompromisedPassword.html) validator
+  [NotCompromisedPassword](https://symfony.com/doc/current/reference/constraints/NotCompromisedPassword.html) validator.
 
 ## Upgrade from 1.6 to 1.7
 

@@ -74,12 +74,6 @@
                 <source>rollerworks_password.tip.length</source>
                 <target>文字数が足りてません。追加してください</target>
             </trans-unit>
-
-            <!-- P0wnedPassword -->
-            <trans-unit id="18">
-                <source>This password was found in a database of compromised passwords. It has been used {{ used }} times. For security purposes you must use something else.</source>
-                <target>このパスワードは、侵害されたパスワードのデータベースで見つかりました。 {{used}}回使用されています。セキュリティ上の理由から、別のものを使用する必要があります。</target>
-            </trans-unit>
         </body>
     </file>
 </xliff>
