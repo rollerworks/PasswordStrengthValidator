@@ -35,18 +35,18 @@ class PasswordRequirements extends Constraint
 
     public function __construct(
         mixed $options = null,
-        array $groups = null,
+        ?array $groups = null,
         mixed $payload = null,
-        int $minLength = null,
-        bool $requireLetters = null,
-        bool $requireCaseDiff = null,
-        bool $requireNumbers = null,
-        bool $requireSpecialCharacter = null,
-        string $tooShortMessage = null,
-        string $missingLettersMessage = null,
-        string $requireCaseDiffMessage = null,
-        string $missingNumbersMessage = null,
-        string $missingSpecialCharacterMessage = null
+        ?int $minLength = null,
+        ?bool $requireLetters = null,
+        ?bool $requireCaseDiff = null,
+        ?bool $requireNumbers = null,
+        ?bool $requireSpecialCharacter = null,
+        ?string $tooShortMessage = null,
+        ?string $missingLettersMessage = null,
+        ?string $requireCaseDiffMessage = null,
+        ?string $missingNumbersMessage = null,
+        ?string $missingSpecialCharacterMessage = null
     ) {
         parent::__construct($options ?? [], $groups, $payload);
 

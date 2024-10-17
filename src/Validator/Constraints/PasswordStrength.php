@@ -29,13 +29,13 @@ class PasswordStrength extends Constraint
 
     public function __construct(
         mixed $options = null,
-        array $groups = null,
+        ?array $groups = null,
         mixed $payload = null,
-        int $minStrength = null,
-        int $minLength = null,
-        bool $unicodeEquality = null,
-        string $message = null,
-        string $tooShortMessage = null
+        ?int $minStrength = null,
+        ?int $minLength = null,
+        ?bool $unicodeEquality = null,
+        ?string $message = null,
+        ?string $tooShortMessage = null
     ) {
         $finalOptions = [];
 
