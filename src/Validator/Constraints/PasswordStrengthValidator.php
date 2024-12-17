@@ -50,7 +50,7 @@ class PasswordStrengthValidator extends ConstraintValidator
         5 => 'very_strong',
     ];
 
-    public function __construct(TranslatorInterface $translator = null)
+    public function __construct(?TranslatorInterface $translator = null)
     {
         // If translator is missing create a new translator.
         // With the 'en' locale and 'validators' domain.
