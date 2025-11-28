@@ -25,7 +25,13 @@ for you.
 
 ## Requirements
 
-You need at least PHP PHP 8.2 and Symfony 6, mbstring is recommended but not required.
+You need at least PHP PHP 8.4 and Symfony 8, mbstring is recommended but not required.
+
+> [!NOTE]  
+> 
+> This package requires PHP 8.4 or higher and Symfony 8 or higher.
+> 
+> If you need support for older Symfony versions, use the [2.0 branch](https://github.com/rollerworks/PasswordStrengthValidator/tree/2.0).
 
 ## Basic Usage
 

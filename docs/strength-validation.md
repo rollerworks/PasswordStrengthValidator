@@ -34,9 +34,9 @@ constraint with the following options.
 | unicodeEquality | `bool`   | Consider characters from other scripts (unicode) as equal (default: `false`).           |
 |                 |          | When set to false `²` will seen as a special character rather then 2 in another script. |
 
-## Annotations
+## Attributes
 
-If you are using annotations for validation, include the constraints namespace:
+If you are using attributes for validation, include the constraints namespace:
 
 ```php
 use Rollerworks\Component\PasswordStrength\Validator\Constraints as RollerworksPassword;
@@ -45,8 +45,6 @@ use Rollerworks\Component\PasswordStrength\Validator\Constraints as RollerworksP
 and then add the PasswordStrength constraint to the relevant field:
 
 ```php
-/**
- * @RollerworksPassword\PasswordStrength(minLength=7, minStrength=3)
- */
+#[PasswordStrength(minLength: 7, minStrength: 3)]
 protected $password;
 ```
