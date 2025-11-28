@@ -1,23 +1,30 @@
 UPGRADE
 =======
 
-## Upgrade from 1.7 to 2.0
+## Upgrade from 2.x to 3.0
 
-* The blacklist validator was removed.
+* Support for Symfony 6 and 7 was removed, PHP 8.4 and Symfony 8.0 is now the minimum required version.
 
-  Use the [NotCompromisedPassword](https://symfony.com/doc/current/reference/constraints/NotCompromisedPassword.html)
-  validator or [PasswordCommonList Validator](https://github.com/rollerworks/password-common-list) instead.
+* The constraints constructor was changed to better support the new Symfony validator.
 
-* The PwnedPassword validator was removed in favor of the Symfon
-  [NotCompromisedPassword](https://symfony.com/doc/current/reference/constraints/NotCompromisedPassword.html) validator.
+    * The required options are now the first arguments, and must have a value.
+    * Passing options as an array is no longer supported, use named arguments instead.
 
-* Support for Symfony 4 and 5 was removed, PHP 8.2 and Symfony 6.0 is now the minimum required version.
+  ```diff
+  - new PasswordRequirements(['minLength' => 8]);
+  + new PasswordRequirements(minLength: 8);
+  ```
 
-## Upgrade from 1.6 to 1.7
+  ```diff
+  - new PasswordStrength([minStrength' => 4]);
+  + new PasswordStrength(minStrength: 4);
+  ```
 
-* The blacklist validator was deprecated in favor of the [PasswordCommonList Validator](https://github.com/rollerworks/password-common-list).
+* Support for annotation mapping was removed.
 
-## Upgrade from 1.3 to 1.4
-
-* The PwnedPassword validator is deprecated in favor of the Symfony [NotCompromisedPassword](https://symfony.com/doc/current/reference/constraints/NotCompromisedPassword.html) validator
-
+    ```diff
+    -/**
+    - * @RollerworksPassword\PasswordStrength(minLength=7)
+    - */
+    +#[PasswordStrength(minLength: 7)]
+    ```

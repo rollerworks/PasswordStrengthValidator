@@ -29,9 +29,9 @@ You can customize the validation error messages with the following:
 | missingNumbersMessage          | _'Your password must include at least one number.'_               |
 | missingSpecialCharacterMessage | _'Your password must contain at least one special character.'_    |
 
-## Annotations
+## Attributes
 
-If you are using annotations for validation, include the constraints namespace:
+If you are using attributes for validation, include the constraints namespace:
 
 ```php
 use Rollerworks\Component\PasswordStrength\Validator\Constraints as RollerworksPassword;
@@ -40,8 +40,6 @@ use Rollerworks\Component\PasswordStrength\Validator\Constraints as RollerworksP
 and then add the PasswordRequirements constraint to the relevant field:
 
 ```php
-/**
- * @RollerworksPassword\PasswordRequirements(requireLetters=true, requireNumbers=true, requireCaseDiff=true)
- */
+#[PasswordRequirements(requireLetters: true, requireNumbers: true, requireCaseDiff: true)]
 protected $password;
 ```
