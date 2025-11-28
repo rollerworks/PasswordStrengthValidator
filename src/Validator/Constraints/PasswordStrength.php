@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the RollerworksPasswordStrengthValidator package.
  *
@@ -13,58 +15,18 @@ namespace Rollerworks\Component\PasswordStrength\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
-/**
- * @Annotation
- *
- * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
- */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class PasswordStrength extends Constraint
 {
-    public string $tooShortMessage = 'Your password must be at least {{length}} characters long.';
-    public string $message = 'password_too_weak';
-    public int $minLength = 6;
-    public int $minStrength;
-    public bool $unicodeEquality = false;
-
     public function __construct(
-        mixed $options = null,
+        public int $minStrength = 6,
+        public ?int $minLength = null,
+        public bool $unicodeEquality = false,
+        public string $message = 'password_too_weak',
+        public string $tooShortMessage = 'Your password must be at least {{length}} characters long.',
         ?array $groups = null,
         mixed $payload = null,
-        ?int $minStrength = null,
-        ?int $minLength = null,
-        ?bool $unicodeEquality = null,
-        ?string $message = null,
-        ?string $tooShortMessage = null
     ) {
-        $finalOptions = [];
-
-        if (\is_array($options)) {
-            $finalOptions = $options;
-        } else {
-            $finalOptions['minStrength'] = $options;
-        }
-
-        // The minStrength option is required.
-        if ($minStrength !== null) {
-            $finalOptions['minStrength'] = $minStrength;
-        }
-
-        parent::__construct($finalOptions, $groups, $payload);
-
-        $this->minLength = $minLength ?? $this->minLength;
-        $this->unicodeEquality = $unicodeEquality ?? $this->unicodeEquality;
-        $this->message = $message ?? $this->message;
-        $this->tooShortMessage = $tooShortMessage ?? $this->tooShortMessage;
-    }
-
-    public function getDefaultOption(): string
-    {
-        return 'minStrength';
-    }
-
-    public function getRequiredOptions(): array
-    {
-        return ['minStrength'];
+        parent::__construct($groups, $payload);
     }
 }
