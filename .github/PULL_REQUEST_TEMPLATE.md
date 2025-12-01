@@ -1,6 +1,5 @@
 | Q             | A
 | ------------- | ---
-| Branch?       | main for features / 1.4 bug/translation fixes <!-- see below -->
 | Bug fix?      | yes/no
 | New feature?  | yes/no
 | BC breaks?    | yes/no
