@@ -19,19 +19,19 @@ use Symfony\Component\Validator\Constraint;
 class PasswordRequirements extends Constraint
 {
     public function __construct(
-        public string $tooShortMessage = 'Your password must be at least {{length}} characters long.',
-        public string $missingLettersMessage = 'Your password must include at least one letter.',
-        public string $requireCaseDiffMessage = 'Your password must include both upper and lower case letters.',
-        public string $missingNumbersMessage = 'Your password must include at least one number.',
-        public string $missingSpecialCharacterMessage = 'Your password must contain at least one special character.',
         public int $minLength = 6,
         public bool $requireLetters = true,
         public bool $requireCaseDiff = false,
         public bool $requireNumbers = false,
         public bool $requireSpecialCharacter = false,
+        public string $tooShortMessage = 'Your password must be at least {{length}} characters long.',
+        public string $missingLettersMessage = 'Your password must include at least one letter.',
+        public string $requireCaseDiffMessage = 'Your password must include both upper and lower case letters.',
+        public string $missingNumbersMessage = 'Your password must include at least one number.',
+        public string $missingSpecialCharacterMessage = 'Your password must contain at least one special character.',
         ?array $groups = null,
         mixed $payload = null,
     ) {
-        parent::__construct($groups, $payload);
+        parent::__construct(null, $groups, $payload);
     }
 }
