@@ -50,7 +50,7 @@ jobs:
 
             -
                 name: 'Check the code style'
-                run: 'make cs-full'
+                run: 'make cs'
 
     phpstan:
         name: 'PhpStan'
