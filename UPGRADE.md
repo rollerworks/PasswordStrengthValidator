@@ -3,7 +3,7 @@ UPGRADE
 
 ## Upgrade from 2.x to 3.0
 
-* Support for Symfony 6 and 7 was removed, PHP 8.4 and Symfony 8.0 is now the minimum required version.
+* Support for Symfony 6 was removed, PHP 8.4 and Symfony 7.4 is now the minimum required version.
 
 * The constraints constructor was changed to better support the new Symfony validator.
 
