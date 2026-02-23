@@ -3,9 +3,12 @@
 // See https://hupkit.github.io/hupkit/config.html
 
 return [
+    'schema_version' => 2,
     'main_branch' => 'main',
-    'branches' => [],
     'host' => 'github.com',
     'repository' => 'rollerworks/PasswordStrengthValidator',
-    'schema_version' => 2,
+    'branches' => [
+        '1.1' => false,
+        '1.4' => false,
+    ],
 ];
