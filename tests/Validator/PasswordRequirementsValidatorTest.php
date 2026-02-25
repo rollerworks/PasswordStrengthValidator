@@ -46,7 +46,7 @@ final class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCas
     }
 
     /**
-     * @dataProvider provideValid_value_constraintsCases
+     * @dataProvider provideValid_value_constraintsCasesLegacy
      *
      * @test
      */
@@ -57,6 +57,68 @@ final class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCas
         $this->validator->validate($value, $constraint);
 
         $this->assertNoViolation();
+    }
+
+    /**
+     * @return iterable<int, array{0: string, 1: PasswordRequirements}>
+     */
+    public static function provideValid_value_constraintsCasesLegacy(): iterable
+    {
+        return [
+            ['test', new PasswordRequirements(['minLength' => 3])],
+            ['1234567', new PasswordRequirements(['requireLetters' => false])],
+            ['1234567', new PasswordRequirements(['requireLetters' => false])],
+            ['aBcDez', new PasswordRequirements(['requireCaseDiff' => true])],
+            ['abcdef', new PasswordRequirements(['requireNumbers' => false])],
+            ['123456', new PasswordRequirements(['requireLetters' => false, 'requireNumbers' => true])],
+            ['１２３４５６７８９', new PasswordRequirements(['requireLetters' => false, 'requireNumbers' => true])],
+            ['abcd12345', new PasswordRequirements(['requireLetters' => true, 'requireNumbers' => true])],
+            ['１２３４abc５６７８９', new PasswordRequirements(['requireLetters' => true, 'requireNumbers' => true])],
+
+            ['®', new PasswordRequirements(['minLength' => 1, 'requireLetters' => false, 'requireSpecialCharacter' => true])],
+            ['»', new PasswordRequirements(['minLength' => 1, 'requireLetters' => false, 'requireSpecialCharacter' => true])],
+            ['<>', new PasswordRequirements(['minLength' => 1, 'requireLetters' => false, 'requireSpecialCharacter' => true])],
+            ['{}', new PasswordRequirements(['minLength' => 1, 'requireLetters' => false, 'requireSpecialCharacter' => true])],
+        ];
+    }
+
+    /**
+     * @dataProvider provideViolation_value_constraintsCases
+     *
+     * @test
+     *
+     * @group legacy
+     *
+     * @param array<int, array{0: string, 1: PasswordRequirements, 2: array<array-key, mixed>}> $violations
+     */
+    public function violation_value_constraints_legacy(string $value, PasswordRequirements $constraint, array $violations = []): void
+    {
+        $this->value = $value;
+        /** @var ConstraintViolationAssertion $constraintViolationAssertion */
+        $constraintViolationAssertion = null; // Shut-up PHPStan
+
+        $this->validator->validate($value, $constraint);
+
+        /**
+         * @var array<int, mixed> $violation
+         */
+        foreach ($violations as $i => $violation) {
+            if ($i === 0) {
+                $constraintViolationAssertion = $this->buildViolation($violation[0])
+                    ->setParameters($violation[1] ?? [])
+                    ->setInvalidValue($value)
+                ;
+            } else {
+                $constraintViolationAssertion = $constraintViolationAssertion->buildNextViolation($violation[0])
+                    ->setParameters($violation[1] ?? [])
+                    ->setInvalidValue($value)
+                ;
+            }
+
+            if ($i == \count($violations) - 1) {
+                $constraintViolationAssertion->assertRaised();
+            }
+        }
     }
 
     /**
@@ -97,6 +159,36 @@ final class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCas
     }
 
     /**
+     * @return iterable<int, array{0: string, 1: PasswordRequirements, 2: array<array-key, mixed>}>
+     */
+    public static function provideViolation_value_constraintsCases(): iterable
+    {
+        $constraint = new PasswordRequirements();
+
+        return [
+            ['１', new PasswordRequirements(minLength: 2, requireLetters: false), [
+                [$constraint->tooShortMessage, ['{{length}}' => 2]],
+            ]],
+            ['test', new PasswordRequirements(requireLetters: true), [
+                [$constraint->tooShortMessage, ['{{length}}' => $constraint->minLength]],
+            ]],
+            ['123456', new PasswordRequirements(requireLetters: true), [
+                [$constraint->missingLettersMessage],
+            ]],
+            ['abcdez', new PasswordRequirements(requireCaseDiff: true), [
+                [$constraint->requireCaseDiffMessage],
+            ]],
+            ['!@#$%^&*()-', new PasswordRequirements(requireLetters: true, requireNumbers: true), [
+                [$constraint->missingLettersMessage],
+                [$constraint->missingNumbersMessage],
+            ]],
+            ['aerfghy', new PasswordRequirements(requireLetters: false, requireSpecialCharacter: true), [
+                [$constraint->missingSpecialCharacterMessage],
+            ]],
+        ];
+    }
+
+    /**
      * @return iterable<int, array{0: string, 1: PasswordRequirements}>
      */
     public static function provideValid_value_constraintsCases(): iterable
@@ -116,36 +208,6 @@ final class PasswordRequirementsValidatorTest extends ConstraintValidatorTestCas
             ['»', new PasswordRequirements(['minLength' => 1, 'requireLetters' => false, 'requireSpecialCharacter' => true])],
             ['<>', new PasswordRequirements(['minLength' => 1, 'requireLetters' => false, 'requireSpecialCharacter' => true])],
             ['{}', new PasswordRequirements(['minLength' => 1, 'requireLetters' => false, 'requireSpecialCharacter' => true])],
-        ];
-    }
-
-    /**
-     * @return iterable<int, array{0: string, 1: PasswordRequirements, 2: array<array-key, mixed>}>
-     */
-    public static function provideViolation_value_constraintsCases(): iterable
-    {
-        $constraint = new PasswordRequirements();
-
-        return [
-            ['１', new PasswordRequirements(['minLength' => 2, 'requireLetters' => false]), [
-                [$constraint->tooShortMessage, ['{{length}}' => 2]],
-            ]],
-            ['test', new PasswordRequirements(['requireLetters' => true]), [
-                [$constraint->tooShortMessage, ['{{length}}' => $constraint->minLength]],
-            ]],
-            ['123456', new PasswordRequirements(['requireLetters' => true]), [
-                [$constraint->missingLettersMessage],
-            ]],
-            ['abcdez', new PasswordRequirements(['requireCaseDiff' => true]), [
-                [$constraint->requireCaseDiffMessage],
-            ]],
-            ['!@#$%^&*()-', new PasswordRequirements(['requireLetters' => true, 'requireNumbers' => true]), [
-                [$constraint->missingLettersMessage],
-                [$constraint->missingNumbersMessage],
-            ]],
-            ['aerfghy', new PasswordRequirements(['requireLetters' => false, 'requireSpecialCharacter' => true]), [
-                [$constraint->missingSpecialCharacterMessage],
-            ]],
         ];
     }
 }
