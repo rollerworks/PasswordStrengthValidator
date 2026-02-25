@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "php": ">=8.4",
+        "php": "^8.4",
         "symfony/config": "^7.4 || ^8.0",
         "symfony/polyfill-mbstring": "^1.5.0",
         "symfony/translation": "^7.4 || ^8.0",
