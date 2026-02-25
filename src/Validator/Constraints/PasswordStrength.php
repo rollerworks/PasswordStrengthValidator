@@ -15,12 +15,13 @@ use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
- *
  * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class PasswordStrength extends Constraint
 {
+    use ConstraintCompatTrait;
+
     public string $tooShortMessage = 'Your password must be at least {{length}} characters long.';
     public string $message = 'password_too_weak';
     public int $minLength = 6;
@@ -51,6 +52,7 @@ class PasswordStrength extends Constraint
         }
 
         parent::__construct($finalOptions, $groups, $payload);
+        $this->initOptions($finalOptions, $groups, $payload);
 
         $this->minLength = $minLength ?? $this->minLength;
         $this->unicodeEquality = $unicodeEquality ?? $this->unicodeEquality;

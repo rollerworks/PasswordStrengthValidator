@@ -22,8 +22,10 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
  * @internal
  *
  * @template-extends ConstraintValidatorTestCase<PasswordStrengthValidator>
+ *
+ * @group legacy
  */
-final class PasswordStrengthTest extends ConstraintValidatorTestCase
+final class PasswordStrengthLegacyTest extends ConstraintValidatorTestCase
 {
     /**
      * @var array<int, string>
@@ -39,6 +41,22 @@ final class PasswordStrengthTest extends ConstraintValidatorTestCase
     protected function createValidator(): ConstraintValidatorInterface
     {
         return new PasswordStrengthValidator(new Translator('en'));
+    }
+
+    /** @test */
+    public function constraints_options_are_properly_resolved(): void
+    {
+        // Default option
+        $constraint = new PasswordStrength(3);
+        self::assertEquals(3, $constraint->minStrength);
+
+        // By option
+        $constraint = new PasswordStrength(['minStrength' => 3]);
+        self::assertEquals(3, $constraint->minStrength);
+
+        // Specific argument
+        $constraint = new PasswordStrength(null, null, null, 3);
+        self::assertEquals(3, $constraint->minStrength);
     }
 
     /** @test */
@@ -81,7 +99,7 @@ final class PasswordStrengthTest extends ConstraintValidatorTestCase
     /** @test */
     public function short_password_will_not_pass(): void
     {
-        $constraint = new PasswordStrength(minStrength: 5, minLength: 6);
+        $constraint = new PasswordStrength(['minStrength' => 5, 'minLength' => 6]);
 
         $this->validator->validate('foo', $constraint);
 
@@ -98,7 +116,7 @@ final class PasswordStrengthTest extends ConstraintValidatorTestCase
     /** @test */
     public function short_password_in_multi_byte_will_not_pass(): void
     {
-        $constraint = new PasswordStrength(minStrength: 5, minLength: 7);
+        $constraint = new PasswordStrength(['minStrength' => 5, 'minLength' => 7]);
 
         $this->validator->validate('foöled', $constraint);
 
@@ -113,13 +131,13 @@ final class PasswordStrengthTest extends ConstraintValidatorTestCase
     }
 
     /**
-     * @test
-     *
      * @dataProvider provideWeak_passwords_will_not_passCases
+     *
+     * @test
      */
     public function weak_passwords_will_not_pass(int $minStrength, string $value, int $currentStrength, string $tips = ''): void
     {
-        $constraint = new PasswordStrength(minStrength: $minStrength, minLength: 6);
+        $constraint = new PasswordStrength(['minStrength' => $minStrength, 'minLength' => 6]);
 
         $this->validator->validate($value, $constraint);
 
@@ -174,7 +192,7 @@ final class PasswordStrengthTest extends ConstraintValidatorTestCase
      */
     public function weak_passwords_with_unicode_will_not_pass(int $minStrength, string $value, int $currentStrength, string $tips = ''): void
     {
-        $constraint = new PasswordStrength(minStrength: $minStrength, minLength: 6, unicodeEquality: true);
+        $constraint = new PasswordStrength(['minStrength' => $minStrength, 'minLength' => 6, 'unicodeEquality' => true]);
 
         $this->validator->validate($value, $constraint);
 
@@ -254,12 +272,20 @@ final class PasswordStrengthTest extends ConstraintValidatorTestCase
     }
 
     /** @test */
+    public function constraint_get_default_option(): void
+    {
+        $constraint = new PasswordStrength(5);
+
+        self::assertEquals(5, $constraint->minStrength);
+    }
+
+    /** @test */
     public function parameters_are_translated_when_translator_is_missing(): void
     {
         $this->validator = new PasswordStrengthValidator();
         $this->validator->initialize($this->context);
 
-        $constraint = new PasswordStrength(minStrength: 5, minLength: 6);
+        $constraint = new PasswordStrength(['minStrength' => 5, 'minLength' => 6]);
 
         $this->validator->validate('FD43f.!', $constraint);
 

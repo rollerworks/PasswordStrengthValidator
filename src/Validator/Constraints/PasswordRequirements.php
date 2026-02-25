@@ -15,12 +15,13 @@ use Symfony\Component\Validator\Constraint;
 
 /**
  * @Annotation
- *
  * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class PasswordRequirements extends Constraint
 {
+    use ConstraintCompatTrait;
+
     public string $tooShortMessage = 'Your password must be at least {{length}} characters long.';
     public string $missingLettersMessage = 'Your password must include at least one letter.';
     public string $requireCaseDiffMessage = 'Your password must include both upper and lower case letters.';
@@ -49,6 +50,7 @@ class PasswordRequirements extends Constraint
         ?string $missingSpecialCharacterMessage = null
     ) {
         parent::__construct($options ?? [], $groups, $payload);
+        $this->initOptions($options, $groups, $payload);
 
         $this->tooShortMessage = $tooShortMessage ?? $this->tooShortMessage;
         $this->missingLettersMessage = $missingLettersMessage ?? $this->missingLettersMessage;
