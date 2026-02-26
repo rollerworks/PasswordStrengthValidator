@@ -8,7 +8,9 @@ install:
 	composer install --no-progress --no-interaction --no-suggest --optimize-autoloader --prefer-dist --ansi
 
 test:
-	vendor/bin/simple-phpunit --verbose
+	vendor/bin/phpunit
+
+phpunit: test
 
 # Linting tools
 phpstan: ensure
