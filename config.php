@@ -10,5 +10,6 @@ return [
     'branches' => [
         '1.1' => false,
         '1.4' => false,
+        '1.7' => false,
     ],
 ];
