@@ -1,0 +1,16 @@
+name: CS
+
+on:
+    pull_request:
+
+permissions:
+    contents: read
+
+jobs:
+    call-inspector-bot:
+        name: InspectorBot
+        uses: rollerscapes/inspector-bot/.github/workflows/inspector-bot.yml@main
+        with:
+            package: RollerworksPasswordStrengthValidator
+            check_license: true
+

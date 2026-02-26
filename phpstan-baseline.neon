@@ -1,0 +1,37 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method Rollerworks\\Component\\PasswordStrength\\Validator\\Constraints\\PasswordRequirements\:\:initOptions\(\) has parameter \$groups with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Validator/Constraints/PasswordRequirements.php
+
+		-
+			message: '#^Method Rollerworks\\Component\\PasswordStrength\\Validator\\Constraints\\PasswordRequirements\:\:initOptions\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Validator/Constraints/PasswordRequirements.php
+
+		-
+			message: '#^Method Rollerworks\\Component\\PasswordStrength\\Validator\\Constraints\\PasswordStrength\:\:getRequiredOptions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Validator/Constraints/PasswordStrength.php
+
+		-
+			message: '#^Method Rollerworks\\Component\\PasswordStrength\\Validator\\Constraints\\PasswordStrength\:\:initOptions\(\) has parameter \$groups with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Validator/Constraints/PasswordStrength.php
+
+		-
+			message: '#^Method Rollerworks\\Component\\PasswordStrength\\Validator\\Constraints\\PasswordStrength\:\:initOptions\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Validator/Constraints/PasswordStrength.php
+
+		-
+			message: '#^PHPDoc tag @var with type Symfony\\Component\\Validator\\Test\\ConstraintViolationAssertion is not subtype of native type null\.$#'
+			identifier: varTag.nativeType
+			count: 2
+			path: tests/Validator/PasswordRequirementsValidatorTest.php

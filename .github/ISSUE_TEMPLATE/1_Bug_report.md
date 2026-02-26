@@ -7,6 +7,8 @@ assignees: ''
 
 ---
 
+**Version(s) affected**: x.y.z
+
 **Description**
 <!-- A clear and concise description of the problem. -->
 

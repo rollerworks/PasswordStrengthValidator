@@ -1,0 +1,13 @@
+{
+    "config": {
+        "cache-vcs-dir": "/dev/null",
+        "platform-check": false,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "symfony/flex": true
+        }
+    }
+}
